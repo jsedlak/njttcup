@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28407.52
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeTrialCup.Fns", "src\TimeTrialCup.Fns\TimeTrialCup.Fns.csproj", "{78731D16-6ECD-4E1A-AEA7-65CF8292A30E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestTimeSpan", "poc\TestTimeSpan\TestTimeSpan.csproj", "{D97DDC77-428F-44C0-A10F-97127AF01B6A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "POC", "POC", "{76743494-CBAA-4A56-9169-DD268CD4A4FF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{78731D16-6ECD-4E1A-AEA7-65CF8292A30E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78731D16-6ECD-4E1A-AEA7-65CF8292A30E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78731D16-6ECD-4E1A-AEA7-65CF8292A30E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78731D16-6ECD-4E1A-AEA7-65CF8292A30E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D97DDC77-428F-44C0-A10F-97127AF01B6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D97DDC77-428F-44C0-A10F-97127AF01B6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D97DDC77-428F-44C0-A10F-97127AF01B6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D97DDC77-428F-44C0-A10F-97127AF01B6A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D97DDC77-428F-44C0-A10F-97127AF01B6A} = {76743494-CBAA-4A56-9169-DD268CD4A4FF}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FD20FB30-DFAE-4E18-89EC-536456E6EB0D}
+	EndGlobalSection
+EndGlobal
