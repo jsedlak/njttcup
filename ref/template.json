@@ -1,0 +1,83 @@
+{
+    "name": "2018 Sandy Hook TT",
+    "course": "sandy-hook",
+    "dayOfEvent": "2018-03-31",
+    "categories": [
+        {
+            "name": "Men TT 4/5",
+            "results": []
+        },
+        {
+            "name": "Women TT 4/5",
+            "results": []
+        },
+        {
+            "name": "Junior Men 9-12",
+            "results": []
+        },
+        {
+            "name": "Junior Men 13-14",
+            "results": []
+        },
+        {
+            "name": "Junior Men 15-16",
+            "results": []
+        },
+        {
+            "name": "Junior Men 17-18",
+            "results": []
+        },
+        {
+            "name": "Junior Women 9-14",
+            "results": []
+        },
+        {
+            "name": "Junior Women 15-18",
+            "results": []
+        },
+        {
+            "name": "Masters Men 45+",
+            "results": []
+        },
+        {
+            "name": "Masters Men 50+",
+            "results": []
+        },
+        {
+            "name": "Masters Men 55+",
+            "results": []
+        },
+        {
+            "name": "Masters Men 60+",
+            "results": []
+        },
+        {
+            "name": "Masters Men 65+",
+            "results": []
+        },
+        {
+            "name": "Men Non-TT Cat 5",
+            "results": []
+        },
+        {
+            "name": "Women Non-TT Cat 5",
+            "results": []
+        },
+        {
+            "name": "Men Non-TT Open",
+            "results": []
+        },
+        {
+            "name": "Women Non-TT Open",
+            "results": []
+        },
+        {
+            "name": "Senior Men",
+            "results": []
+        },
+        {
+            "name": "Senior Women",
+            "results": []
+        }
+    ]
+}
