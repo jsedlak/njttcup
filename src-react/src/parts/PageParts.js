@@ -19,7 +19,7 @@ const NavItems = [
     { path: '/courses', title: 'Courses' },
     { path: '/rules', title: 'Rules' },
     { path: '/results', title: 'Results' },
-    { path: '/records', title: 'Records' }
+    { path: '/leaderboards', title: 'Leaderboards' }
 ]
 
 export class Menu extends React.Component {

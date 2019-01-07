@@ -8,6 +8,9 @@ namespace TimeTrialCup.Fns.Business
     {
         public RiderLeaderboard GetOrSetRider(string name, string team)
         {
+            if(name == null) { name = ""; }
+            if(team == null) { team = ""; }
+
             var find = Riders.FirstOrDefault(c => c.Name.Equals(name, StringComparison.OrdinalIgnoreCase) && c.Team.Equals(team, StringComparison.OrdinalIgnoreCase));
 
             if (find == null)

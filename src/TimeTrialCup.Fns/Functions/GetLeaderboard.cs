@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using System.Linq;
 using TimeTrialCup.Fns.Business;
 using TimeTrialCup.Fns.Extensions;
+using System;
 
 namespace TimeTrialCup.Fns.Functions
 {
@@ -34,32 +35,43 @@ namespace TimeTrialCup.Fns.Functions
 
             // loop through all the events starting in date order
             int eventCount = 1;
-            foreach(var eventResult in eventResults)
+            try
             {
-                foreach (var categoryResult in eventResult.Categories)
+                foreach (var eventResult in eventResults)
                 {
-                    var categoryLeaderboard = leaderboard.GetOrSetCategory(categoryResult.Name);
-
-                    foreach(var riderResult in categoryResult.Results)
+                    foreach (var categoryResult in eventResult.Categories)
                     {
-                        var riderLeaderboard = categoryLeaderboard.GetOrSetRider(riderResult.Name, riderResult.Team);
+                        var categoryLeaderboard = leaderboard.GetOrSetCategory(categoryResult.Name);
 
-                        // add zeros to bring this rider up to the current event count
-                        // e.g. if it's the 5th event and the rider has 2 scores, 5-1-2=2 zeros will be added (#-#-0-0-CURRENT)
-                        if(riderLeaderboard.Points.Count != eventCount - 1)
+                        foreach (var riderResult in categoryResult.Results)
                         {
-                            riderLeaderboard.Points.AddRange(Enumerable.Range(0, eventCount - 1 - riderLeaderboard.Points.Count).Select(x => 0));
+                            var riderLeaderboard = categoryLeaderboard.GetOrSetRider(riderResult.Name, riderResult.Team);
+
+                            // add zeros to bring this rider up to the current event count
+                            // e.g. if it's the 5th event and the rider has 2 scores, 5-1-2=2 zeros will be added (#-#-0-0-CURRENT)
+                            if (riderLeaderboard.Points.Count != eventCount - 1)
+                            {
+                                riderLeaderboard.Points.AddRange(Enumerable.Range(0, eventCount - 1 - riderLeaderboard.Points.Count).Select(x => 0));
+                            }
+
+                            riderLeaderboard.Points.Add(riderResult.Points);
+
+                            // build the total by subtracting the two lowest scores
+                            var (lowest, secondLowest) = riderLeaderboard.Points.Min2();
+                            riderLeaderboard.Total = riderLeaderboard.Points.Sum() - lowest - secondLowest;
                         }
-
-                        riderLeaderboard.Points.Add(riderResult.Points);
-
-                        // build the total by subtracting the two lowest scores
-                        var (lowest, secondLowest) = riderLeaderboard.Points.Min2();
-                        riderLeaderboard.Total = riderLeaderboard.Points.Sum() - lowest - secondLowest;
                     }
-                }
 
-                eventCount++;
+                    eventCount++;
+                }
+            }
+            catch(Exception ex)
+            {
+                return new BadRequestObjectResult(new
+                {
+                    ex.Message,
+                    ex.StackTrace
+                });
             }
 
             return new OkObjectResult(leaderboard);

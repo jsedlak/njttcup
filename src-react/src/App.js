@@ -5,6 +5,7 @@ import { BrowserRouter, Route } from 'react-router-dom';
 
 import {LandingPage} from './pages/LandingPage'
 import {RulesPage} from './pages/RulesPage'
+import {LeaderboardsPage} from './pages/LeaderboardsPage'
 
 class App extends Component {
     render() {
@@ -16,6 +17,7 @@ class App extends Component {
                 <div className="page">
                         <Route exact path="/" component={LandingPage} />
                         <Route path="/rules" component={RulesPage} />
+                        <Route path="/leaderboards" component={LeaderboardsPage} />
                 </div>
             </div>
             </BrowserRouter>
