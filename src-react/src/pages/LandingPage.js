@@ -2,6 +2,7 @@ import React from 'react';
 import { Header, Menu } from '../parts/PageParts';
 import './LandingPage.css'
 import CastelliLogo from '../svg/castelli-logo.svg'
+import NjbaLogo from '../svg/njba-logo.svg'
 
 export class LandingPage extends React.Component {
     render() {
@@ -30,6 +31,7 @@ export class LandingPage extends React.Component {
 
                     <div className="bg-red" style={{width:'100%', padding: '60px', margin: '0', display: 'flex', justifyContent: 'space-between'}}>
                         <h1 style={{width:'33%', color:'#fff'}}>THANK YOU<br/>TO OUR SPONSORS</h1>
+                        <img src={NjbaLogo} alt="NJBA Logo" style={{width: '33%'}} />
                         <img src={CastelliLogo} alt="Castelli Logo" style={{width: '33%'}} />
                     </div>
                 </div>
