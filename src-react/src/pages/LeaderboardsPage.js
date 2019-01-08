@@ -53,7 +53,7 @@ export class LeaderboardsPage extends React.Component {
                     <div>
                         <label>Leaderboard Year </label>
                         <select 
-                            style={{padding: '10px 15px', borderRadius: '30px'}}
+                            className="input-field"
                             value={this.state.selectedYear}
                             onChange={this.handleYearChanged}>
                             <option value="">Select a year to begin...</option>

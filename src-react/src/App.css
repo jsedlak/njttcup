@@ -1,3 +1,7 @@
+* {
+    box-sizing: border-box;
+}
+
 html,
 body {
   width: 100%;
@@ -10,7 +14,7 @@ body {
   --warning-border: #C7922F;
   background: var(--default);
 }
-
+h1,h2,h3,h4,h5,h6 { margin: 0; }
 a { text-decoration: none; }
 
 .app {
@@ -119,7 +123,7 @@ nav#Menu li.active>a {
 .document p { text-align: justify; line-height: 2em; }
 
 .table {
-    border: solid 1px #ccc;
+    border: solid 1px var(--default-border);
     border-collapse: collapse;
 }
 
@@ -129,7 +133,8 @@ nav#Menu li.active>a {
 }
 
 .table th {
-    background: #efefef;
+    background-color: var(--default-border);
+    text-align: left;
 }
 
 .table-data { 
@@ -138,11 +143,6 @@ nav#Menu li.active>a {
 
 .table-data td {
     font-size: 85%;
-}
-
-.table-data td:first-child,
-.table-data td:nth-child(2) {
-    width: 25%;
 }
 
 .table-data tbody tr:nth-child(odd) {
@@ -163,4 +163,66 @@ nav#Menu li.active>a {
 .message-warning {
     background: var(--warning);
     border-color: var(--warning-border);
+}
+
+label {
+    display: block;
+    margin: 0 0 5px;
+}
+
+select.input-field { 
+    padding: 10px 15px;
+    border-radius: 30px;
+    margin: 0 15px 0 0; 
+    border-color: #ccc;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.row .card-wrapper {
+    width: 33%;
+}
+
+.card {
+    margin: 15px;
+    border: solid 1px var(--default-border);
+    display: flex;
+    flex-flow: column;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.card-title {
+    background: var(--default-border);
+    padding: 15px;
+    text-align: center;
+}
+
+.card-img-top {
+    width: 100%;
+    height: auto;
+}
+
+.card-body {
+    padding: 15px 15px;
+    align-self: flex-start;
+}
+
+.card-body > * { margin: 0; }
+
+.card-footer {
+    margin: 15px;
+}
+
+.w-100 { width: 100%; }
+
+.btn-primary {
+    background: var(--blue);
+    border-color: var(--blue);
+    color: #efefef;
+    text-align: center;
 }

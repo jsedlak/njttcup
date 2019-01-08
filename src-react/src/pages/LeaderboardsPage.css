@@ -1,3 +1,8 @@
 .table-leaderboard td:last-child {
     font-weight: bold;
 }
+
+.table-leaderboard td:first-child,
+.table-leaderboard td:nth-child(2) {
+    width: 25%;
+}
