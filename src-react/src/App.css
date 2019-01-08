@@ -140,6 +140,11 @@ nav#Menu li.active>a {
     font-size: 85%;
 }
 
+.table-data td:first-child,
+.table-data td:nth-child(2) {
+    width: 25%;
+}
+
 .table-data tbody tr:nth-child(odd) {
     background: var(--default);
 }
