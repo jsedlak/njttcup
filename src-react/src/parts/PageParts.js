@@ -5,7 +5,7 @@ export class Header extends React.Component {
     render() {
         return (
             <header id="Header">
-                <img src={logo} />
+                <img alt="NJ Time Trial Cup series" src={logo} />
                 <div className="br"></div>
                 {this.props.children}
             </header>

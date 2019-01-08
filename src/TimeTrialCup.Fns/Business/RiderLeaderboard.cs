@@ -10,6 +10,8 @@ namespace TimeTrialCup.Fns.Business
 
         public int Total { get; set; }
 
+        public int RawTotal { get; set; }
+
         public List<int> Points { get; set; } = new List<int>();
     }
 

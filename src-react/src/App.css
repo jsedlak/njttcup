@@ -4,7 +4,11 @@ body {
   overflow-x: hidden;
   --red: #b01f26;
   --blue: #15204a;
-  background: #efefef;
+  --default: rgba(0, 0, 0, 0.025);;
+  --default-border: #efefef;
+  --warning: #FFD375;
+  --warning-border: #C7922F;
+  background: var(--default);
 }
 
 a { text-decoration: none; }
@@ -116,14 +120,42 @@ nav#Menu li.active>a {
 
 .table {
     border: solid 1px #ccc;
+    border-collapse: collapse;
 }
 
 .table th,
 .table td {
-    padding: 5px 15px;
+    padding: 10px 15px;
 }
 
 .table th {
     background: #efefef;
+}
 
+.table-data { 
+    width: 100%;
+}
+
+.table-data td {
+    font-size: 85%;
+}
+
+.table-data tbody tr:nth-child(odd) {
+    background: var(--default);
+}
+
+.table-cell-total {
+    font-weight: bold;
+}
+
+.message {
+    padding: 15px;
+    margin: 0 0 15px;
+    border: solid 2px var(--default-border);
+    background: var(--default);
+}
+
+.message-warning {
+    background: var(--warning);
+    border-color: var(--warning-border);
 }

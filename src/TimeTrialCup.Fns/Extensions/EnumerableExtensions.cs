@@ -28,7 +28,7 @@ namespace TimeTrialCup.Fns.Extensions
             foreach (var element in enumerable)
             {
                 var val = getValue(element);
-                if (val < first)
+                if (val <= first)
                 {
                     second = first;
                     first = val;

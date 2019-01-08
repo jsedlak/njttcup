@@ -9,6 +9,7 @@ using System.Linq;
 using TimeTrialCup.Fns.Business;
 using TimeTrialCup.Fns.Extensions;
 using System;
+using System.Collections.Generic;
 
 namespace TimeTrialCup.Fns.Functions
 {
@@ -35,6 +36,7 @@ namespace TimeTrialCup.Fns.Functions
 
             // loop through all the events starting in date order
             int eventCount = 1;
+            var ridersRefShortcut = new List<RiderLeaderboard>();
             try
             {
                 foreach (var eventResult in eventResults)
@@ -46,26 +48,53 @@ namespace TimeTrialCup.Fns.Functions
                         foreach (var riderResult in categoryResult.Results)
                         {
                             var riderLeaderboard = categoryLeaderboard.GetOrSetRider(riderResult.Name, riderResult.Team);
+                            ridersRefShortcut.Add(riderLeaderboard);
 
                             // add zeros to bring this rider up to the current event count
                             // e.g. if it's the 5th event and the rider has 2 scores, 5-1-2=2 zeros will be added (#-#-0-0-CURRENT)
                             if (riderLeaderboard.Points.Count != eventCount - 1)
                             {
-                                riderLeaderboard.Points.AddRange(Enumerable.Range(0, eventCount - 1 - riderLeaderboard.Points.Count).Select(x => 0));
+                                riderLeaderboard.Points.AddRange(Enumerable.Range(1, eventCount - 1 - riderLeaderboard.Points.Count).Select(x => 0));
                             }
 
                             riderLeaderboard.Points.Add(riderResult.Points);
 
-                            // build the total by subtracting the two lowest scores
-                            var (lowest, secondLowest) = riderLeaderboard.Points.Min2();
-                            riderLeaderboard.Total = riderLeaderboard.Points.Sum() - lowest - secondLowest;
+
                         }
                     }
 
                     eventCount++;
                 }
+
+                var maxCount = ridersRefShortcut.Max(rl => rl.Points.Count);
+                foreach (var riderLeaderboard in ridersRefShortcut)
+                {
+                    var riderPointsCount = riderLeaderboard.Points.Count;
+                    if (riderPointsCount < maxCount)
+                    {
+                        riderLeaderboard.Points.AddRange(
+                            Enumerable.Range(1, maxCount - riderPointsCount).Select(r => 0)
+                        );
+                    }
+
+                    // build the total by subtracting the two lowest scores
+                    var (lowest, secondLowest) = riderLeaderboard.Points.Min2();
+                    riderLeaderboard.Total = riderLeaderboard.Points.Sum() - lowest - secondLowest;
+
+                    riderLeaderboard.RawTotal = Math.Max(riderLeaderboard.Points.Sum(), 0);
+                    riderLeaderboard.Total = Math.Max(riderLeaderboard.Total, 0);
+                }
+
+                foreach (var eventResult in eventResults)
+                {
+                    foreach (var categoryResult in eventResult.Categories)
+                    {
+                        var categoryLeaderboard = leaderboard.GetOrSetCategory(categoryResult.Name);
+                        categoryLeaderboard.Riders.Sort(new RiderComparer());
+                    }
+                }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return new BadRequestObjectResult(new
                 {
@@ -78,4 +107,11 @@ namespace TimeTrialCup.Fns.Functions
         }
     }
 
+    public class RiderComparer : IComparer<RiderLeaderboard>
+    {
+        public int Compare(RiderLeaderboard x, RiderLeaderboard y)
+        {
+            return y.Total - x.Total;
+        }
+    }
 }

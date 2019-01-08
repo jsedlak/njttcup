@@ -11,7 +11,11 @@ export class LandingPage extends React.Component {
                 </div>
 
                 <div style={{position:'relative'}}>
-                    <img src="/images/hero.png" style={{display: 'block', width: '100%', height: 'auto'}} />
+                    <img 
+                        alt="man riding time trial bike"
+                        src="/images/hero.png" 
+                        style={{display: 'block', width: '100%', height: 'auto'}} 
+                    />
 
                     <div className="text-inverse text-center text-large" style={{position:'absolute', right: '10%', top: '30%'}}>
                         <strong style={{textTransform: 'uppercase'}}>GOT WHAT IT TAKES?</strong>
@@ -19,7 +23,7 @@ export class LandingPage extends React.Component {
                         NJ State Championships<br/>
                         40KM Individual Time Trial<br/>
                         9 June 2019<br/>
-                        <a className="btn btn-inverse" href="#">Register Now</a>
+                        <a className="btn btn-inverse" href="https://www.bikereg.com">Register Now</a>
                     </div>
                 </div>
             </div>

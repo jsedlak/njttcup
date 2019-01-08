@@ -12,7 +12,7 @@ class App extends Component {
         return (
             <BrowserRouter>
             <div className="app">
-                <img src={triangle} className="triangle" />
+                <img alt="geometric background" src={triangle} className="triangle" />
 
                 <div className="page">
                         <Route exact path="/" component={LandingPage} />
