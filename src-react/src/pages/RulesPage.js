@@ -1,5 +1,6 @@
 import React from 'react';
 import { Header, Menu } from '../parts/PageParts';
+import './RulesPage.css'
 
 export class RulesPage extends React.Component {
     render() {
@@ -58,8 +59,16 @@ export class RulesPage extends React.Component {
 
                     <h3>Section II. Non-TT Bike Categories</h3>
                     <p>In addition to the above TT Bike Categories scored for the TT Cup, additional Non-TT Bike Categories are included. For both Men and Women, one or more Non-TT Bike Categories are provided. The "Open" Category consisting of Category 1/2/3/4/5 Riders and "Cat 5" Category consisting of Category 5 riders.</p>
-                    <h4>Bike Qualifications to race in a Non-TT Bike Category</h4>
-                    <p>Officials reserve the right to make judgements on the eligibiltiy of new or otherwise unknown equipement during each event. Should there be a question, the Rider will be asked to remove the equipment and/or replace with legal equipment. Failing to do so will result in disqualification from participation in the TT Cup.</p>
+                    <h4>Included Categories</h4>
+                    <ul>
+                        <li>Non-TT Men Cat 5</li>
+                        <li>Non-TT Men Open</li>
+                        <li>Non-TT Women Cat 5</li>
+                        <li>Non-TT Women Open</li>
+                    </ul>
+
+                    <h4>Qualifications to race in a Non-TT Bike Category</h4>
+                    <p>Officials reserve the right to make judgements on the eligibiltiy of new or otherwise unknown equipement during each event. Should there be a question, the Rider will be asked to remove the equipment and/or replace with legal equipment. Failing to do so will result in disqualification from receiving any TT Cup points for that event (riders' position will not be accounted for during cup scoring).</p>
                     <ul>
                         <li>No TT Bikes Allowed</li>
                         <li>No forward extending bars or aerodynamic extensions including but not limited to ski bars, U-bars, tri-bars, bullhorns, or oversized computer mounts.</li>
