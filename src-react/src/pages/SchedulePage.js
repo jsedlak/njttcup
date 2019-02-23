@@ -35,7 +35,7 @@ export class SchedulePage extends React.Component {
                 <Header>
                     <Menu />
                 </Header>
-                
+
                 <div className="document">
                 <h1>Schedule</h1>
                 <p>Below is the schedule for <strong>{THE_YEAR}</strong>. For updates &amp; cancellations, please follow us on the <a href="https://www.facebook.com/groups/454823674652201/">NJ Time Trial Cup Cycling Series</a> Facebook group.</p>
@@ -46,11 +46,11 @@ export class SchedulePage extends React.Component {
                             <th>No.</th>
                             <th>Date</th>
                             <th>Course</th>
-                            <th>Subcourse</th>
-                            <th>Distance</th>
-                            <th>Type</th>
-                            <th>Registration</th>
-                            <th>Results</th>
+                            <th className="hide-phone">Subcourse</th>
+                            <th className="hide-phone">Distance</th>
+                            <th className="hide-phone">Type</th>
+                            <th className="hide-phone">Registration</th>
+                            <th className="hide-phone">Results</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -62,15 +62,15 @@ export class SchedulePage extends React.Component {
                                     <td>
                                         <a href={`/courses/${event.courseId}`}>{event.course.name}</a>
                                     </td>
-                                    <td></td>
-                                    <td>{event.course.distance}<br/><small>(+{event.course.elevation})</small></td>
-                                    <td>{event.course.type}</td>
-                                    <td>
+                                    <td className="hide-phone"></td>
+                                    <td className="hide-phone">{event.course.distance}<br/><small>(+{event.course.elevation})</small></td>
+                                    <td className="hide-phone">{event.course.type}</td>
+                                    <td className="hide-phone">
                                         {event.registration.length>0 &&
                                             <a href={event.registration}>Link</a>
                                         }
                                     </td>
-                                    <td>
+                                    <td className="hide-phone">
                                         {event.results.length>0 &&
                                             <a href={event.results}>Link</a>
                                         }

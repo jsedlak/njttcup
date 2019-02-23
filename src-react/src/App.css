@@ -15,7 +15,7 @@ body {
   background: var(--default);
 }
 h1,h2,h3,h4,h5,h6 { margin: 0; }
-a { text-decoration: none; }
+a { text-decoration: none; color: var(--blue); }
 
 .app {
     z-index: 0;
@@ -193,7 +193,6 @@ select.input-field {
     border: solid 1px var(--default-border);
     display: flex;
     flex-flow: column;
-    border-radius: 4px;
     overflow: hidden;
 }
 
@@ -226,4 +225,29 @@ select.input-field {
     border-color: var(--blue);
     color: #efefef;
     text-align: center;
+}
+
+@media all and (max-width: 600px) {
+
+    .page {
+        background: var(--blue);
+    }
+
+    .row .card-wrapper { width: 100%; }
+
+    .hide-phone {
+        display: none !important;
+    }
+
+    .block-phone {
+        display: block !important;
+        text-align: center;
+        width: 100%;
+    }
+
+    .block-phone > * {
+        text-align: center;
+        width: 100% !important;
+        margin: 15px 0;
+    }
 }
