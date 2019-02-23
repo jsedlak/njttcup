@@ -23,10 +23,11 @@ a { text-decoration: none; }
 
 .triangle {
     position: fixed;
-    top: 120px;
+    top: 0px;
     z-index: 0;
-    width: 100%;
+    width: 160%;
     height: auto;
+    left: -200px;
 }
 
 .page {

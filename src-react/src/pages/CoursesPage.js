@@ -7,10 +7,9 @@ export class CoursesPage extends React.Component {
     render() {
         return (
             <div>
-                <Header />
-                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <Header>
                     <Menu />
-                </div>
+                </Header>
                 <div className="document">
                     <div className="row">
                     {Courses.map((course, courseIndex) => { 

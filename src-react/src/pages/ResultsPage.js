@@ -49,10 +49,9 @@ export class ResultsPage extends React.Component {
     render() {
         return (
             <div>
-                <Header />
-                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <Header>
                     <Menu />
-                </div>
+                </Header>
                 <div className="document document-data">
                     <div>
                         <label>Select a year and an event to see the results...</label>

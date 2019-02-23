@@ -12,7 +12,7 @@ namespace TimeTrialCup.Fns.Functions
     {
         [FunctionName("get_years")]
         public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "years")] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "years")] HttpRequest req,
             ILogger log,
             ExecutionContext context)
         {

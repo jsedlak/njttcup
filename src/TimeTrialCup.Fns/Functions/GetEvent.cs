@@ -13,7 +13,7 @@ namespace TimeTrialCup.Fns.Functions
     {
         [FunctionName("get_event")]
         public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "years/{year}/events/{name}")] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "years/{year}/events/{name}")] HttpRequest req,
             int year,
             string name,
             ILogger log,

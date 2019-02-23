@@ -1,4 +1,4 @@
-var api = 'http://localhost:7071/api/';
+var api = 'https://api.njttcup.com/api/';
 export class Fabric {
     getYears = () => {
         return fetch(api + 'years')

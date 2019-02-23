@@ -17,7 +17,7 @@ namespace TimeTrialCup.Fns.Functions
     {
         [FunctionName("get_leaderboard")]
         public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "years/{year}/leaderboard")] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "years/{year}/leaderboard")] HttpRequest req,
             int year,
             ILogger log,
             ExecutionContext context)

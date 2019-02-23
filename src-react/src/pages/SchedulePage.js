@@ -32,10 +32,10 @@ export class SchedulePage extends React.Component {
     render() {
         return (
             <div>
-                <Header />
-                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <Header>
                     <Menu />
-                </div>
+                </Header>
+                
                 <div className="document">
                 <h1>Schedule</h1>
                 <p>Below is the schedule for <strong>{THE_YEAR}</strong>. For updates &amp; cancellations, please follow us on the <a href="https://www.facebook.com/groups/454823674652201/">NJ Time Trial Cup Cycling Series</a> Facebook group.</p>
