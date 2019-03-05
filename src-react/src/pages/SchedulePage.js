@@ -46,7 +46,7 @@ export class SchedulePage extends React.Component {
                             <th>No.</th>
                             <th>Date</th>
                             <th>Course</th>
-                            <th className="hide-phone">Subcourse</th>
+                            {/* <th className="hide-phone">Subcourse</th> */}
                             <th className="hide-phone">Distance</th>
                             <th className="hide-phone">Type</th>
                             <th className="hide-phone">Registration</th>
@@ -62,7 +62,7 @@ export class SchedulePage extends React.Component {
                                     <td>
                                         <a href={`/courses/${event.courseId}`}>{event.course.name}</a>
                                     </td>
-                                    <td className="hide-phone"></td>
+                                    {/* <td className="hide-phone"></td> */}
                                     <td className="hide-phone">{event.course.distance}<br/><small>(+{event.course.elevation})</small></td>
                                     <td className="hide-phone">{event.course.type}</td>
                                     <td className="hide-phone">

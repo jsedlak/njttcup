@@ -13,21 +13,21 @@ export const Schedules = [
                 date: '4/7/2019',
                 promoter: 'Team Somerset',
                 courseId: 'cape-may',
-                registration: '',
+                registration: 'https://www.bikereg.com/cape-may-time-trial',
                 results: ''
             },
             {
                 date: '4/13/2019',
                 promoter: 'Team Somerset',
                 courseId: 'allamuchy',
-                registration: '',
+                registration: 'https://www.bikereg.com/allamuchy-time-trial0',
                 results: ''
             },
             {
                 date: '4/27/2019',
                 promoter: '',
                 courseId: 'high-point',
-                registration: '',
+                registration: 'https://www.bikereg.com/high-point-hill-climb0',
                 results: ''
             },
             {
@@ -48,7 +48,7 @@ export const Schedules = [
                 date: '5/18/2019',
                 promoter: 'Team Somerset',
                 courseId: 'somerset-circuit',
-                registration: '',
+                registration: 'https://www.bikereg.com/somerset-circuit-time-trial',
                 results: ''
             },
             {

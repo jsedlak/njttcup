@@ -47,26 +47,27 @@ export class LeaderboardsPage extends React.Component {
                 </Header>
 
                 <div className="document document-data" style={{overflowX: 'scroll'}}>
-                    <div className="message message-warning">
+                    {/* <div className="message message-warning">
                         <strong>Beta Feature</strong> - the data for this feature for years prior to 2019 have not been fully vetted and should be considered unofficial.
-                    </div>
-                    <div>
-                        <label>Leaderboard Year </label>
-                        <select 
-                            className="input-field"
-                            value={this.state.selectedYear}
-                            onChange={this.handleYearChanged}>
-                            <option value="">Select a year to begin...</option>
-                            {this.state.years.map((year) =>
-                                <option key={year} value={year}>{year}</option>
-                            )}
-                        </select>
+                    </div> */}
+                    <div className="results-header">
+                        <div class="results-filters">
+                            <select 
+                                className="input-field"
+                                value={this.state.selectedYear}
+                                onChange={this.handleYearChanged}>
+                                <option value="">Select a year to begin...</option>
+                                {this.state.years.map((year) =>
+                                    <option key={year} value={year}>{year}</option>
+                                )}
+                            </select>
+                        </div>
                     </div>
                     {this.state.leaderboard && (
                         <div>
                             {this.state.leaderboard.categories.map((category, categoryIndex) =>
-                                <div key={categoryIndex} className="panel panel-collapsible">
-                                    <h2>{category.name}</h2>
+                                <div key={categoryIndex} className="panel panel-collapsible panel-results">
+                                    <h2 className="panel-title">{category.name}</h2>
                                     <table className="table table-data table-leaderboard">
                                         <thead>
                                             <tr>

@@ -21,7 +21,7 @@ export class CoursesPage extends React.Component {
                                 <div className="card-title">{course.name}</div>
                                 <img 
                                     src={`https://ridewithgps.com/routes/full/${defaultCourse.rideWithGps}.png`} 
-                                    className="card-img-top"
+                                    className="card-img-top hide-phone"
                                     alt={course.name}
                                 />
                                 <div className="card-body">

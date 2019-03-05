@@ -6,7 +6,9 @@ html,
 body {
   width: 100%;
   overflow-x: hidden;
+  color: #3d3d3d;
   --red: #b01f26;
+  --dark-red: #661217;
   --blue: #15204a;
   --default: rgba(0, 0, 0, 0.025);;
   --default-border: #efefef;
@@ -14,8 +16,11 @@ body {
   --warning-border: #C7922F;
   background: var(--default);
 }
-h1,h2,h3,h4,h5,h6 { margin: 0; }
-a { text-decoration: none; color: var(--blue); }
+
+h1,h2,h3,h4,h5,h6 { margin: 0; font-weight: normal; color: #000; }
+
+a { text-decoration: none; color: var(--red); }
+a:hover { color: var(--dark-red); text-decoration: underline; }
 
 .app {
     z-index: 0;
@@ -43,6 +48,8 @@ header#Header {
   flex-flow: row wrap;
 }
 
+header#Header img { width: 100%; max-width: 400px; }
+
 header#Header .br { width: 100%; }
 
 header#Header div[role="banner"] img { 
@@ -63,6 +70,8 @@ nav#Menu li {
     padding: 0;
 }
 
+
+
 nav#Menu a {
     display: block;
     color: #fff;
@@ -71,24 +80,30 @@ nav#Menu a {
     margin: 5px;
 }
 
+nav#Menu li:hover,
+nav#Menu li.active {
+    background: #fff;
+    transform: skewX(-40deg);
+}
+
 nav#Menu li:hover>a,
 nav#Menu li.active>a {
     color: var(--blue);
-    background: #fff;
-    border-radius: 60px;
+    transform: skew(40deg);
 }
 
 .btn {
     display: inline-block;
     padding: 8px 15px 10px;
-    border: solid 1px var(--blue);
-    border-radius: 60px;
+    border: solid 2px var(--blue);
+    border-radius: 0px;
     color: var(--blue);
     transition: all ease-in-out 0.25s;
     margin: 15px 0;
+    
 }
 .btn:hover {
-    border-color: #fff;
+    border-color: var(--blue);
     background: #fff;
     color: var(--blue);
 }
@@ -115,6 +130,15 @@ nav#Menu li.active>a {
     padding: 60px;
     background: #fff;
     box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.5);
+}
+
+.document h1,
+.document h2, 
+.document h3,
+.document h4,
+.document h5,
+.document h6 {
+    margin-bottom: 10px;
 }
 
 .document.document-data {
@@ -171,10 +195,10 @@ label {
     margin: 0 0 5px;
 }
 
-select.input-field { 
+.input-field { 
     padding: 10px 15px;
-    border-radius: 30px;
-    margin: 0 15px 0 0; 
+    border-radius: 0px;
+    margin: 0 0 15px; 
     border-color: #ccc;
 }
 
@@ -209,13 +233,15 @@ select.input-field {
 
 .card-body {
     padding: 15px 15px;
+    flex-grow: 1;
     align-self: flex-start;
 }
 
 .card-body > * { margin: 0; }
 
 .card-footer {
-    margin: 15px;
+    margin: 0px;
+    padding: 0 15px;
 }
 
 .w-100 { width: 100%; }
