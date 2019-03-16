@@ -6,7 +6,7 @@ export const Schedules = [
                 date: '3/30/2019',
                 promoter: 'Highland Park Hermes Cycling Club & Rutgers University Cycling Team',
                 courseId: 'sandy-hook',
-                registration: '',
+                registration: 'https://www.bikereg.com/sandy-hook-time-trial-the-prologue-to-your-season',
                 results: ''
             },
             {
@@ -34,7 +34,7 @@ export const Schedules = [
                 date: '5/5/2019',
                 promoter: 'NJBA',
                 courseId: 'chatsworth',
-                registration: '',
+                registration: 'https://www.bikereg.com/chatsworth',
                 results: ''
             },
             {
