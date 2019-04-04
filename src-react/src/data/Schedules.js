@@ -41,7 +41,7 @@ export const Schedules = [
                 date: '5/11/2019',
                 promoter: 'Peddler\'s Shop Cycling Club',
                 courseId: 'oldmans',
-                registration: '',
+                registration: 'https://www.pscycles.com/articles/2019-event-oldmans-township-tt-pg1676.htm',
                 results: ''
             },
             {

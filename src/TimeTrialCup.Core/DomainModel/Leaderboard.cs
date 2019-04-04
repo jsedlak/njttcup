@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System;
 using System.Linq;
+using Newtonsoft.Json;
 
-namespace TimeTrialCup.Fns.Business
+namespace TimeTrialCup.DomainModel
 {
     public class Leaderboard
     {
@@ -19,6 +20,7 @@ namespace TimeTrialCup.Fns.Business
             return find;
         }
 
+        [JsonProperty("categories")]
         public List<CategoryLeaderboard> Categories { get; set; } = new List<CategoryLeaderboard>();
     }
 

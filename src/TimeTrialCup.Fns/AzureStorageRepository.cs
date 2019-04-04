@@ -6,7 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.WindowsAzure.Storage.Blob;
 using System.Linq;
 using System.Collections.Generic;
-using TimeTrialCup.Fns.Business;
+using TimeTrialCup.DomainModel;
 
 namespace TimeTrialCup.Fns
 {

@@ -1,0 +1,86 @@
+﻿<Page
+    x:Class="TimeTrialCup.WinApp.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:TimeTrialCup.WinApp"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:domainmodel="using:TimeTrialCup.DomainModel"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Page.Resources>
+        <DataTemplate x:Key="CategoryTemplate" x:DataType="domainmodel:CategoryResult">
+            <TreeViewItem ItemsSource="{x:Bind Results}" Content="{x:Bind Name}" />
+        </DataTemplate>
+
+        <DataTemplate x:Key="RiderTemplate" x:DataType="domainmodel:RiderResult">
+            <!--<TreeViewItem Content="{x:Bind Name}" />-->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                <TextBlock Width="48" Text="{x:Bind Place}" />
+                <TextBlock Width="48" Text="{x:Bind Points}" />
+                <TextBlock Text="{x:Bind Name}" />
+                <TextBlock Text=" [" />
+                <TextBlock Text="{x:Bind Team}" />
+                <TextBlock Text="]" />
+                <TextBlock Text=" (" />
+                <TextBlock Text="{x:Bind Time}" />
+                <TextBlock Text=")" />
+            </StackPanel>
+        </DataTemplate>
+        
+        <local:ResultsTemplateSelector 
+            x:Key="ResultsTemplateSelector" 
+            CategoryTemplate="{StaticResource CategoryTemplate}"
+            RiderTemplate="{StaticResource RiderTemplate}"
+        />
+
+        <local:TimeConverter x:Key="TimeConverter" />
+    </Page.Resources>
+
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <CommandBar Grid.Row="0" DefaultLabelPosition="Right">
+            <AppBarButton Label="Push to Site" IsEnabled="False" Icon="Upload" />
+            <AppBarButton Label="Save JSON" Icon="SaveLocal" AllowFocusOnInteraction="True" >
+                <AppBarButton.Flyout>
+                    <Flyout>
+                        <StackPanel Orientation="Vertical" Padding="15">
+                            <TextBlock>Name</TextBlock>
+                            <TextBox Text="{Binding Path=Name, Mode=TwoWay}" Margin="0,5,0,15" />
+                            
+                            <TextBlock>Course</TextBlock>
+                            <TextBox Text="{Binding Path=Course, Mode=TwoWay}" Margin="0,5,0,15" />
+
+                            <TextBlock>Sub-Course</TextBlock>
+                            <TextBox Text="{Binding Path=SubCourse, Mode=TwoWay}" Margin="0,5,0,15" />
+
+                            <TextBlock>USAC Permit #</TextBlock>
+                            <TextBox Text="{Binding Path=UsacPermit, Mode=TwoWay}" Margin="0,5,0,15" />
+
+                            <TextBlock>Day Of Event</TextBlock>
+                            <DatePicker Date="{Binding Path=DayOfEvent, Mode=TwoWay, Converter={StaticResource TimeConverter}}" Margin="0,5,0,15" />
+
+                            <Button Content="Save" Click="SaveFileClicked" HorizontalAlignment="Stretch" Margin="0,15" />
+                        </StackPanel>
+                    </Flyout>
+                </AppBarButton.Flyout>
+            </AppBarButton>
+            <AppBarButton Label="Open CSV" Click="OpenFileClicked" Icon="OpenFile" />
+        </CommandBar>
+
+        <Grid Grid.Row="1">
+            <TreeView 
+                HorizontalAlignment="Stretch" 
+                VerticalAlignment="Stretch" 
+                Grid.Column="0"
+                ItemsSource="{Binding Path=Results}"
+                ItemTemplateSelector="{StaticResource ResultsTemplateSelector}"
+            />
+        </Grid>
+    </Grid>
+</Page>

@@ -5,7 +5,7 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
-using TimeTrialCup.Fns.Business;
+using TimeTrialCup.DomainModel;
 
 namespace TimeTrialCup.Fns.Functions
 {

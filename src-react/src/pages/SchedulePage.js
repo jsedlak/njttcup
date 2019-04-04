@@ -65,14 +65,14 @@ export class SchedulePage extends React.Component {
                                     {/* <td className="hide-phone"></td> */}
                                     <td className="hide-phone">{event.course.distance}<br/><small>(+{event.course.elevation})</small></td>
                                     <td className="hide-phone">{event.course.type}</td>
-                                    <td className="hide-phone">
+                                    <td>
                                         {event.registration.length>0 &&
-                                            <a href={event.registration}>Link</a>
+                                            <a className="btn btn-primary" href={event.registration}>Register</a>
                                         }
                                     </td>
                                     <td className="hide-phone">
                                         {event.results.length>0 &&
-                                            <a href={event.results}>Link</a>
+                                            <a className="btn" href={event.results}>Link</a>
                                         }
                                     </td>
                                 </tr>

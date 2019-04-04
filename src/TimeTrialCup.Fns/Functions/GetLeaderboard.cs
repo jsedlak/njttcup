@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
 using System.Linq;
-using TimeTrialCup.Fns.Business;
+using TimeTrialCup.DomainModel;
 using TimeTrialCup.Fns.Extensions;
 using System;
 using System.Collections.Generic;

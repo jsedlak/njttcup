@@ -277,3 +277,7 @@ label {
         margin: 15px 0;
     }
 }
+
+.document li {
+    line-height: 2rem;
+}
