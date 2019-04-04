@@ -1,6 +1,7 @@
 import React from 'react';
 import { Fabric } from '../Fabric'
 import { Header, Menu } from '../parts/PageParts';
+import 'whatwg-fetch'; 
 import './Results.css';
 
 const fabric = new Fabric();
@@ -101,8 +102,13 @@ export class ResultsPage extends React.Component {
                         <h2>{this.state.event.name}</h2>
 
                         {this.state.event.categories.map((cat, catIndex) => 
-                        <div className="panel panel-collapsible panel-results" key={catIndex}>
-                            <h2 className="panel-title">{cat.name}</h2>
+                        <div className={`panel panel-collapsible panel-results ${this.state['active' + catIndex] ? '' : 'active'}`} key={catIndex}>
+                            <h2 onClick={() => {
+                                        var isActive = this.state['active' + catIndex];
+                                        var newState = {};
+                                        newState['active' + catIndex] = !isActive;
+                                        this.setState(newState);
+                                    }} className="panel-title">{cat.name}</h2>
                             <table className="table table-data">
                                 <thead>
                                     <tr>

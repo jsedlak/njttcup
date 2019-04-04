@@ -10,17 +10,17 @@ body {
   --red: #b01f26;
   --dark-red: #661217;
   --blue: #15204a;
-  --default: rgba(0, 0, 0, 0.025);;
+  --default: rgba(0, 0, 0, 0.025);
   --default-border: #efefef;
   --warning: #FFD375;
   --warning-border: #C7922F;
-  background: var(--default);
+  background: rgba(0, 0, 0, 0.025);
 }
 
 h1,h2,h3,h4,h5,h6 { margin: 0; font-weight: normal; color: #000; }
 
-a { text-decoration: none; color: var(--red); }
-a:hover { color: var(--dark-red); text-decoration: underline; }
+a { text-decoration: none; color: #b01f26; }
+a:hover { color: #661217; text-decoration: underline; }
 
 .app {
     z-index: 0;
@@ -41,7 +41,7 @@ a:hover { color: var(--dark-red); text-decoration: underline; }
 }
 
 header#Header {
-  background: var(--red);
+  background: #b01f26;
   display: flex;
   padding: 30px;
   justify-content: center;
@@ -88,30 +88,30 @@ nav#Menu li.active {
 
 nav#Menu li:hover>a,
 nav#Menu li.active>a {
-    color: var(--blue);
+    color: #15204a;
     transform: skew(40deg);
 }
 
 .btn {
     display: inline-block;
     padding: 8px 15px 10px;
-    border: solid 2px var(--blue);
+    border: solid 2px #15204a;
     border-radius: 0px;
-    color: var(--blue);
+    color: #15204a;
     transition: all ease-in-out 0.25s;
     margin: 15px 0;
     
 }
 .btn:hover {
-    border-color: var(--blue);
+    border-color: #15204a;
     background: #fff;
-    color: var(--blue);
+    color: #15204a;
 }
 
 .btn.btn-inverse {
     background: #fff;
     border-color: #fff;
-    color: var(--blue);
+    color: #15204a;
 }
 
 .text-inverse {
@@ -148,7 +148,7 @@ nav#Menu li.active>a {
 .document p { text-align: justify; line-height: 2em; }
 
 .table {
-    border: solid 1px var(--default-border);
+    border: solid 1px #efefef;
     border-collapse: collapse;
 }
 
@@ -158,7 +158,7 @@ nav#Menu li.active>a {
 }
 
 .table th {
-    background-color: var(--default-border);
+    background-color: #efefef;
     text-align: left;
 }
 
@@ -171,7 +171,7 @@ nav#Menu li.active>a {
 }
 
 .table-data tbody tr:nth-child(odd) {
-    background: var(--default);
+    background: rgba(0, 0, 0, 0.025);
 }
 
 .table-cell-total {
@@ -181,13 +181,13 @@ nav#Menu li.active>a {
 .message {
     padding: 15px;
     margin: 0 0 15px;
-    border: solid 2px var(--default-border);
-    background: var(--default);
+    border: solid 2px #efefef;
+    background: rgba(0, 0, 0, 0.025);
 }
 
 .message-warning {
-    background: var(--warning);
-    border-color: var(--warning-border);
+    background: #FFD375;
+    border-color: #C7922F;
 }
 
 label {
@@ -214,14 +214,14 @@ label {
 
 .card {
     margin: 15px;
-    border: solid 1px var(--default-border);
+    border: solid 1px #efefef;
     display: flex;
     flex-flow: column;
     overflow: hidden;
 }
 
 .card-title {
-    background: var(--default-border);
+    background: #efefef;
     padding: 15px;
     text-align: center;
 }
@@ -247,8 +247,8 @@ label {
 .w-100 { width: 100%; }
 
 .btn-primary {
-    background: var(--blue);
-    border-color: var(--blue);
+    background: #15204a;
+    border-color: #15204a;
     color: #efefef;
     text-align: center;
 }
@@ -256,7 +256,7 @@ label {
 @media all and (max-width: 600px) {
 
     .page {
-        background: var(--blue);
+        background: #15204a;
     }
 
     .row .card-wrapper { width: 100%; }

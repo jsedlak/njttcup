@@ -186,10 +186,21 @@ namespace TimeTrialCup.WinApp
 
                 var textInfo = CultureInfo.CurrentCulture.TextInfo;
                 var name = textInfo.ToTitleCase(splitData[2].ToLower()) + " " + textInfo.ToTitleCase(splitData[3].ToLower());
-                var selectedTeam = _teams.FirstOrDefault(team => 
-                    Fastenshtein.Levenshtein.Distance(splitData[7], team) <= 3 || 
-                    team.ToLower().Replace("'", "").Contains(splitData[7].ToLower().Replace("'", ""))
-                );
+
+                string selectedTeam;
+
+                // grab the team, if one is listed
+                if(string.IsNullOrWhiteSpace(splitData[7]))
+                {
+                    selectedTeam = string.Empty;
+                }
+                else
+                {
+                    selectedTeam = _teams.FirstOrDefault(team =>
+                        Fastenshtein.Levenshtein.Distance(splitData[7], team) <= 3 ||
+                        team.ToLower().Replace("'", "").Contains(splitData[7].ToLower().Replace("'", ""))
+                    );
+                }
 
                 var points = 21 - riderPlacing;
 

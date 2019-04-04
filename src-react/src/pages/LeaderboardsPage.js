@@ -2,6 +2,7 @@ import React from 'react';
 import { Header, Menu } from '../parts/PageParts';
 import Toggle from 'react-toggle';
 import { Fabric } from '../Fabric'
+import 'whatwg-fetch'; 
 import './LeaderboardsPage.css';
 
 const fabric = new Fabric();
