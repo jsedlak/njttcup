@@ -30,7 +30,8 @@
 }
 
 .panel-results .panel-title {
-    background: #efefef;
+    background: var(--blue);
+    color: #fff;
     /* text-align: center; */
     margin: 0;;
     padding: 15px;

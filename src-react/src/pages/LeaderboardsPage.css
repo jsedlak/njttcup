@@ -6,3 +6,8 @@
 .table-leaderboard td:nth-child(2) {
     width: 25%;
 }
+
+.table-leaderboard tr.hidden {
+    display: none;
+}
+

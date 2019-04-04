@@ -1,6 +1,6 @@
 import React from 'react';
 import { Header, Menu } from '../parts/PageParts';
-
+import Toggle from 'react-toggle';
 import { Fabric } from '../Fabric'
 import './LeaderboardsPage.css';
 
@@ -12,7 +12,8 @@ export class LeaderboardsPage extends React.Component {
 
         this.state = {
             leaderboard: null,
-            years: [2018]
+            years: [2018],
+            showZeros: false
         };
     }
 
@@ -61,13 +62,26 @@ export class LeaderboardsPage extends React.Component {
                                     <option key={year} value={year}>{year}</option>
                                 )}
                             </select>
+                            <label style={{fontSize: '0.9rem', marginLeft: '15px', marginRight: '5px', alignSelf:'center'}}>Include Zeros:</label>
+                            <div style={{alignSelf:'center'}}>
+                                <Toggle
+                                    style={{alignSelf:'center'}}
+                                    checked={this.state.showZeros}
+                                    onChange={(event) => this.setState({ showZeros: event.target.checked })}
+                                 />
+                            </div>
                         </div>
                     </div>
                     {this.state.leaderboard && (
                         <div>
                             {this.state.leaderboard.categories.map((category, categoryIndex) =>
-                                <div key={categoryIndex} className="panel panel-collapsible panel-results">
-                                    <h2 className="panel-title">{category.name}</h2>
+                                <div key={categoryIndex} className={`panel panel-collapsible panel-results ${this.state['active' + categoryIndex] ? '' : 'active'}`}>
+                                    <h2 onClick={() => {
+                                        var isActive = this.state['active' + categoryIndex];
+                                        var newState = {};
+                                        newState['active' + categoryIndex] = !isActive;
+                                        this.setState(newState);
+                                    }} className="panel-title">{category.name}</h2>
                                     <table className="table table-data table-leaderboard">
                                         <thead>
                                             <tr>
@@ -81,8 +95,8 @@ export class LeaderboardsPage extends React.Component {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                        {category.riders.filter(rider => rider.total > 0).map((rider, riderIndex) =>
-                                            <tr key={riderIndex}>
+                                        {category.riders.filter(rider => rider.total >= 0).map((rider, riderIndex) =>
+                                            <tr key={riderIndex} className={`${!this.state.showZeros && rider.total == 0 ? 'hidden' : ''}`}>
                                                 <td>{rider.name}</td>
                                                 <td>{rider.team}</td>
                                                 {rider.points.map((points, pointsIndex) =>
