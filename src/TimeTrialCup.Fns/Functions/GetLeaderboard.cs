@@ -37,6 +37,7 @@ namespace TimeTrialCup.Fns.Functions
             // loop through all the events starting in date order
             int eventCount = 1;
             var ridersRefShortcut = new List<RiderLeaderboard>();
+
             try
             {
                 foreach (var eventResult in eventResults)
@@ -58,8 +59,6 @@ namespace TimeTrialCup.Fns.Functions
                             }
 
                             riderLeaderboard.Points.Add(riderResult.Points);
-
-
                         }
                     }
 
@@ -77,12 +76,21 @@ namespace TimeTrialCup.Fns.Functions
                         );
                     }
 
-                    // build the total by subtracting the two lowest scores
-                    var (lowest, secondLowest) = riderLeaderboard.Points.Min2();
-                    riderLeaderboard.Total = riderLeaderboard.Points.Sum() - lowest - secondLowest;
+                    // if we're less than 3 races in, there are no drops...
+                    if (eventResults.Count() < 3)
+                    {
+                        riderLeaderboard.RawTotal = riderLeaderboard.Points.Sum();
+                        riderLeaderboard.Total = riderLeaderboard.Points.Sum();
+                    }
+                    else
+                    {
+                        // build the total by subtracting the two lowest scores
+                        var (lowest, secondLowest) = riderLeaderboard.Points.Min2();
+                        riderLeaderboard.Total = riderLeaderboard.Points.Sum() - lowest - secondLowest;
 
-                    riderLeaderboard.RawTotal = Math.Max(riderLeaderboard.Points.Sum(), 0);
-                    riderLeaderboard.Total = Math.Max(riderLeaderboard.Total, 0);
+                        riderLeaderboard.RawTotal = Math.Max(riderLeaderboard.Points.Sum(), 0);
+                        riderLeaderboard.Total = Math.Max(riderLeaderboard.Total, 0);
+                    }
                 }
 
                 foreach (var eventResult in eventResults)

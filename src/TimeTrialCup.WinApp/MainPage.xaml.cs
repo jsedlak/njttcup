@@ -179,8 +179,10 @@ namespace TimeTrialCup.WinApp
                 var splitData = line.Split(',');
 
                 // check for DNF/DNS
-                if (!int.TryParse(splitData[0], out int riderPlacing))
+                if (!int.TryParse(splitData[0], out int riderPlacing) || 
+                    new[] {"DNS", "DNF", "DNP", "DQ", "DSQ", ""}.Any(m => m.Equals(splitData[6], StringComparison.OrdinalIgnoreCase)))
                 {
+                    Trace.WriteLine($"Rider categorized as DNP: {line}");
                     continue;
                 }
 
