@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:domainmodel="using:TimeTrialCup.DomainModel"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
@@ -74,13 +75,35 @@
         </CommandBar>
 
         <Grid Grid.Row="1">
-            <TreeView 
-                HorizontalAlignment="Stretch" 
-                VerticalAlignment="Stretch" 
-                Grid.Column="0"
-                ItemsSource="{Binding Path=Results}"
-                ItemTemplateSelector="{StaticResource ResultsTemplateSelector}"
-            />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="500" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <TreeView 
+                    HorizontalAlignment="Stretch" 
+                    VerticalAlignment="Stretch" 
+                    Grid.Column="0"
+                    Grid.RowSpan="2"
+                    ItemsSource="{Binding Path=Results}"
+                    ItemTemplateSelector="{StaticResource ResultsTemplateSelector}"
+                />
+
+                <ScrollViewer Grid.Column="1" Grid.Row="0" Margin="5,5,5,5">
+                    <TextBox x:Name="TextLog" FontFamily="Hack" FontSize="12" AcceptsReturn="True" />
+                </ScrollViewer>
+
+                <ScrollViewer Grid.Column="1" Grid.Row="1" Margin="5,5,5,5">
+                    <TextBox x:Name="TeamNames" FontFamily="Hack" AcceptsReturn="True" FontSize="12" />
+                </ScrollViewer>
+            </Grid>
+            
         </Grid>
     </Grid>
 </Page>

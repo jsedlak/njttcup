@@ -48,14 +48,17 @@ namespace TimeTrialCup.Fns.Functions
 
                         foreach (var riderResult in categoryResult.Results)
                         {
-                            var riderLeaderboard = categoryLeaderboard.GetOrSetRider(riderResult.Name, riderResult.Team);
+                            var riderLeaderboard = categoryLeaderboard.GetOrSetRider(riderResult.Name, riderResult.Team, riderResult.License);
                             ridersRefShortcut.Add(riderLeaderboard);
 
                             // add zeros to bring this rider up to the current event count
                             // e.g. if it's the 5th event and the rider has 2 scores, 5-1-2=2 zeros will be added (#-#-0-0-CURRENT)
-                            if (riderLeaderboard.Points.Count != eventCount - 1)
+                            var missingCount = eventCount - 1 - riderLeaderboard.Points.Count;
+                            if (missingCount > 0)
                             {
-                                riderLeaderboard.Points.AddRange(Enumerable.Range(1, eventCount - 1 - riderLeaderboard.Points.Count).Select(x => 0));
+                                riderLeaderboard.Points.AddRange(
+                                    Enumerable.Range(1, missingCount).Select(x => 0)
+                                );
                             }
 
                             riderLeaderboard.Points.Add(riderResult.Points);

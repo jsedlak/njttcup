@@ -71,5 +71,7 @@ namespace TimeTrialCup.WinApp.ViewModels
         public ObservableCollection<CategoryResult> Results { get; set; } = new ObservableCollection<CategoryResult>();
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public string Log { get; set; } = "";
     }
 }

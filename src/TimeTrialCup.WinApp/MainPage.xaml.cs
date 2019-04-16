@@ -33,7 +33,7 @@ namespace TimeTrialCup.WinApp
     public sealed partial class MainPage : Page
     {
         private readonly ProcessedResultsViewModel _dataContext;
-        private readonly List<string> _teams = new List<string>();
+        private IEnumerable<string> _teams;
 
         public MainPage()
         {
@@ -49,20 +49,17 @@ namespace TimeTrialCup.WinApp
         {
             using (var reader = new StreamReader(this.GetType().Assembly.GetManifestResourceStream("TimeTrialCup.WinApp.Resources.RegisteredTeams.txt")))
             {
-                while(!reader.EndOfStream)
-                {
-                    _teams.Add(reader.ReadLine());
-                }
+                TeamNames.Text = reader.ReadToEnd();
             }
         }
 
         private async void SaveFileClicked(object sender, RoutedEventArgs e)
         {
-            // FlyoutBase.ShowAttachedFlyout((FrameworkElement)sender);
             var picker = new FileSavePicker
             {
                 SuggestedStartLocation = PickerLocationId.Downloads
             };
+
             picker.FileTypeChoices.Add("JSON File", new[] { ".json" });
 
             var fileToSaveTo = await picker.PickSaveFileAsync();
@@ -87,7 +84,7 @@ namespace TimeTrialCup.WinApp
                 await writer.WriteAsync(JsonConvert.SerializeObject(finalResult));
             }
 
-            Trace.WriteLine("Saved!");
+            await new ContentDialog() { Title = "Saved", PrimaryButtonText = "Okay" }.ShowAsync();
         }
 
         private async void OpenFileClicked(object sender, RoutedEventArgs e)
@@ -127,10 +124,13 @@ namespace TimeTrialCup.WinApp
 
         public async Task ProcessFileAsync(StorageFile file)
         {
+            // load team names
+            var badTeams = "";
+            _teams = TeamNames.Text.Split(new string[] { "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries);
+
+            // reset the data context
             _dataContext.Results.Clear();
-
-            Trace.WriteLine($"Opened {file.Name}");
-
+            _dataContext.Log = $"Opened {file.Name}\n";
             _dataContext.Name = file.Name;
             _dataContext.Course = "";
             _dataContext.SubCourse = "";
@@ -182,7 +182,7 @@ namespace TimeTrialCup.WinApp
                 if (!int.TryParse(splitData[0], out int riderPlacing) || 
                     new[] {"DNS", "DNF", "DNP", "DQ", "DSQ", ""}.Any(m => m.Equals(splitData[6], StringComparison.OrdinalIgnoreCase)))
                 {
-                    Trace.WriteLine($"Rider categorized as DNP: {line}");
+                    _dataContext.Log += $"Rider categorized as DNP: {line}\n";
                     continue;
                 }
 
@@ -208,6 +208,14 @@ namespace TimeTrialCup.WinApp
 
                 if(string.IsNullOrWhiteSpace(selectedTeam))
                 {
+                    _dataContext.Log += $"Rider ineligible for points: {splitData[2]} {splitData[3]} - {splitData[7]}\n";
+
+                    // add the team for logging if it isnt empty
+                    if (!string.IsNullOrWhiteSpace(splitData[7]))
+                    {
+                        badTeams += splitData[7] + "\n";
+                    }
+
                     selectedTeam = splitData[7];
                     points = 0;
                 }
@@ -223,6 +231,9 @@ namespace TimeTrialCup.WinApp
                     Team = selectedTeam
                 });
             }
+
+            _dataContext.Log += "## BAD TEAMS ##\n" + badTeams;
+            TextLog.Text = _dataContext.Log;
         }
 
         private string GlobalizeRiderTime(string input)
@@ -233,7 +244,7 @@ namespace TimeTrialCup.WinApp
             // and parse the rider's time
             if (!TimeSpan.TryParseExact(input, timeSpanFormat, CultureInfo.CurrentCulture, out TimeSpan riderTime))
             {
-                Trace.WriteLine($"CANNOT PARSE TIME: {input} against format {timeSpanFormat}");
+                _dataContext.Log += $"CANNOT PARSE TIME: {input} against format {timeSpanFormat}\n";
                 return "";
             }
 

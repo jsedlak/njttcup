@@ -17,6 +17,9 @@ namespace TimeTrialCup.DomainModel
         [JsonProperty("rawTotal")]
         public int RawTotal { get; set; }
 
+        [JsonProperty("license")]
+        public string License { get; set; }
+
         [JsonProperty("points")]
         public List<int> Points { get; set; } = new List<int>();
     }
