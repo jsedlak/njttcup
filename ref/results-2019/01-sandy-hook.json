@@ -1314,6 +1314,19 @@
                     "time": "00:00:28:17.080"
                 }
             ]
+        },
+        {
+            "name": "Junior Women 9-14",
+            "results": [
+                {
+                    "place": 1,
+                    "points": 20,
+                    "name": "Lindsay Zatuchney",
+                    "license": "0",
+                    "team": "Cycle Craft/Bulldogs",
+                    "time": "00:00:50:24.100"
+                }
+            ]
         }
     ]
 }

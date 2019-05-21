@@ -152,7 +152,7 @@ namespace TimeTrialCup.WinApp
                 {
                     if (currentCategory != null)
                     {
-                        _dataContext.Results.Add(currentCategory);
+                        
                         currentCategory = null;
                     }
 
@@ -167,6 +167,8 @@ namespace TimeTrialCup.WinApp
                         Name = line,
                         Results = new List<RiderResult>()
                     };
+
+                    _dataContext.Results.Add(currentCategory);
 
                     continue;
                 }

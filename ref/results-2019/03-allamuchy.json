@@ -1183,6 +1183,27 @@
                     "time": "00:00:29:02.530"
                 }
             ]
+        },
+        {
+            "name": "Junior Women 9-14",
+            "results": [
+                {
+                    "place": 1,
+                    "points": 20,
+                    "name": "Jillian Halm",
+                    "license": "565171",
+                    "team": "QCW Cycling p.b. Cadence cyclin",
+                    "time": "00:00:28:55.130"
+                },
+                {
+                    "place": 2,
+                    "points": 19,
+                    "name": "Hannah Halm",
+                    "license": "567394",
+                    "team": "QCW Cycling p.b Cadence cycling",
+                    "time": "00:00:30:49.380"
+                }
+            ]
         }
     ]
 }
