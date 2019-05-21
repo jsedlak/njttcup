@@ -47,6 +47,7 @@
 
         <CommandBar Grid.Row="0" DefaultLabelPosition="Right">
             <AppBarButton Label="Push to Site" IsEnabled="False" Icon="Upload" />
+            <AppBarToggleButton x:Name="AutoJuniorButton" Label="Auto Junior" IsChecked="True" Icon="Account" />
             <AppBarButton Label="Save JSON" Icon="SaveLocal" AllowFocusOnInteraction="True" >
                 <AppBarButton.Flyout>
                     <Flyout>

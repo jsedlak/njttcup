@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using Newtonsoft.Json;
+using System.Diagnostics;
 
 namespace TimeTrialCup.DomainModel
 {
@@ -9,31 +10,39 @@ namespace TimeTrialCup.DomainModel
     {
         public RiderLeaderboard GetOrSetRider(string name, string team, string license = null)
         {
-            if(name == null) { name = ""; }
-            if(team == null) { team = ""; }
-
-            // find by name
-            var find = Riders.FirstOrDefault(c => c.Name.Equals(name, StringComparison.OrdinalIgnoreCase) && c.Team.Equals(team, StringComparison.OrdinalIgnoreCase));
-
-            // find by license if null
-            if(find == null && !string.IsNullOrWhiteSpace(license) && license != "0")
+            try
             {
-                find = Riders.FirstOrDefault(c => c.License.Equals(license, StringComparison.OrdinalIgnoreCase));
-            }
+                if (name == null) { name = ""; }
+                if (team == null) { team = ""; }
 
-            if (find == null)
-            {
-                find = new RiderLeaderboard
+                // find by name
+                var find = Riders.FirstOrDefault(c => c.Name.Equals(name, StringComparison.OrdinalIgnoreCase) && !string.IsNullOrWhiteSpace(c.Team) && c.Team.Equals(team, StringComparison.OrdinalIgnoreCase));
+
+                // find by license if null
+                if (find == null && !string.IsNullOrWhiteSpace(license) && license != "0")
                 {
-                    Name = name,
-                    Team = team,
-                    License = license
-                };
+                    find = Riders.FirstOrDefault(c => !string.IsNullOrWhiteSpace(c.License) && c.License.Equals(license, StringComparison.OrdinalIgnoreCase));
+                }
 
-                Riders.Add(find);
+                if (find == null)
+                {
+                    find = new RiderLeaderboard
+                    {
+                        Name = name,
+                        Team = team,
+                        License = license
+                    };
+
+                    Riders.Add(find);
+                }
+
+                return find;
             }
-
-            return find;
+            catch(Exception ex)
+            {
+                // Trace.TraceError(ex.Message, ex.StackTrace);
+                return null;
+            }
         }
 
         [JsonProperty("name")]

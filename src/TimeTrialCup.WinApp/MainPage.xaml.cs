@@ -16,6 +16,7 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.Storage.Pickers;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -124,6 +125,9 @@ namespace TimeTrialCup.WinApp
 
         public async Task ProcessFileAsync(StorageFile file)
         {
+            var appView = ApplicationView.GetForCurrentView();
+            appView.Title = file.Name;
+
             // load team names
             var badTeams = "";
             _teams = TeamNames.Text.Split(new string[] { "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries);
@@ -166,6 +170,9 @@ namespace TimeTrialCup.WinApp
 
                     continue;
                 }
+
+                // detect junior
+                var isJuniorCategory = AutoJuniorButton.IsChecked.GetValueOrDefault() && currentCategory.Name.ToLower().Contains("junior");
 
                 // column headers?
                 if (line.StartsWith("Place"))
@@ -217,7 +224,11 @@ namespace TimeTrialCup.WinApp
                     }
 
                     selectedTeam = splitData[7];
-                    points = 0;
+
+                    if (!isJuniorCategory)
+                    {
+                        points = 0;
+                    }
                 }
 
                 // add the result
@@ -254,22 +265,24 @@ namespace TimeTrialCup.WinApp
         private string GetTimeSpanFormat(string input)
         {
             var data = input.Split(new string[] { ":", "." }, StringSplitOptions.RemoveEmptyEntries);
+            var dhmsSplit = input.Split(new string[] { ":" }, StringSplitOptions.RemoveEmptyEntries).Length;
+            var hasSubSecond = input.Contains(".");
 
             var result = new StringBuilder();
 
-            if(data.Length > 4)
+            if(dhmsSplit >= 4)
             {
                 result.Append("dd\\:");
             }
 
-            if(data.Length > 3)
+            if(dhmsSplit >= 3)
             {
                 result.Append("hh\\:");
             }
 
             result.Append("mm\\:ss");
 
-            if (input.IndexOf(".") >= 0)
+            if (hasSubSecond)
             {
                 result.Append("\\.");
                 var fCount = "";

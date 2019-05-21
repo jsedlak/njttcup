@@ -10,6 +10,7 @@ using TimeTrialCup.DomainModel;
 using TimeTrialCup.Fns.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace TimeTrialCup.Fns.Functions
 {
@@ -49,6 +50,13 @@ namespace TimeTrialCup.Fns.Functions
                         foreach (var riderResult in categoryResult.Results)
                         {
                             var riderLeaderboard = categoryLeaderboard.GetOrSetRider(riderResult.Name, riderResult.Team, riderResult.License);
+
+                            //if(riderLeaderboard == null)
+                            //{
+                            //    //Trace.TraceError($"Couldn't get leaderboard for {eventResult.Name} - {categoryResult.Name} - {riderResult.Name}");
+                            //    //continue;
+                            //}
+
                             ridersRefShortcut.Add(riderLeaderboard);
 
                             // add zeros to bring this rider up to the current event count
