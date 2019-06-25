@@ -1,0 +1,121 @@
+﻿[
+    {
+        "name": "Men Non-TT Cat 5",
+        "aliases": [
+            "time trial men cat5 non tt bike"
+        ]
+    },
+    {
+        "name": "Men TT Cat 4/5",
+        "aliases": [
+            "time trial men cat4/5 open",
+            "time trial men cat 4/5 open"
+        ]
+    },
+    {
+        "name": "Men Non-TT Open",
+        "aliases": [
+            "time trial men cat 1/2/3/4/5 non tt bike",
+            "time trial men cat1/2/3/4/5 non tt bike"
+        ]
+    },
+    {
+        "name": "Senior Men",
+        "aliases": [
+            "time trial men cat1/2/3/4/5 open"
+        ]
+    },
+    {
+        "name": "Junior Men 9-12",
+        "aliases": [
+            "time trial men juniors 9-12"
+        ]
+    },
+    {
+        "name": "Junior Men 13-14",
+        "aliases": [
+            "time trial men juniors 13-14"
+        ]
+    },
+    {
+        "name": "Junior Men 15-16",
+        "aliases": [
+            "time trial men juniors 15-16"
+        ]
+    },
+    {
+        "name": "Junior Men 17-18",
+        "aliases": [
+            "time trial men juniors 17-18"
+        ]
+    },
+    {
+        "name": "Masters Men 45+",
+        "aliases": [
+            "time trial men masters 45-99"
+        ]
+    },
+    {
+        "name": "Masters Men 50+",
+        "aliases": [
+            "time trial men masters 50-99"
+        ]
+    },
+    {
+        "name": "Masters Men 55+",
+        "aliases": [
+            "time trial men masters 55-99"
+        ]
+    },
+    {
+        "name": "Masters Men 60+",
+        "aliases": [
+            "time trial men masters 60-99"
+        ]
+    },
+    {
+        "name": "Masters Men 65+",
+        "aliases": [
+            "time trial men masters 65-99"
+        ]
+    },
+    {
+        "name": "Women Non-TT Cat 5",
+        "aliases": [
+            "time trial women cat5 non tt bike"
+        ]
+    },
+    {
+        "name": "Women TT Cat 4/5",
+        "aliases": [
+            "time trial women cat4/5 open",
+            "time trial women cat 4/5 open"
+        ]
+    },
+    {
+        "name": "Women Non-TT Open",
+        "aliases": [
+            "time trial women cat1/2/3/4/5 non tt bike",
+            "time trial women cat 1/2/3/4/5 non tt bike"
+        ]
+    },
+    {
+        "name": "Senior Women",
+        "aliases": [
+            "time trial women cat1/2/3/4/5 open",
+            "time trial women cat 1/2/3/4/5 open"
+        ]
+    },
+    {
+        "name": "Junior Women 9-14",
+        "aliases": [
+            "time trial women juniors 9-14"
+        ]
+    },
+    {
+        "name": "Junior Women 15-18",
+        "aliases": [
+            "time trial women juniors 15-18"
+        ]
+    }
+]

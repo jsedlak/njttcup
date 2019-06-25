@@ -261,7 +261,7 @@
                 },
                 {
                     "place": 3,
-                    "points": 0,
+                    "points": 18,
                     "name": "Daryl Southwood",
                     "license": "551844",
                     "team": "Team Stages",
@@ -434,7 +434,7 @@
                     "points": 20,
                     "name": "Joe Klosinski",
                     "license": "547052",
-                    "team": "Rothman Institute Cycling Team",
+                    "team": "The Performance Lab p/b Caffeinated Cyclist",
                     "time": "00:00:26:43.200"
                 },
                 {
@@ -1066,7 +1066,7 @@
             ]
         },
         {
-            "name": "Women Non-TT Cat 4/5",
+            "name": "Women Non-TT Cat 5",
             "results": [
                 {
                     "place": 1,

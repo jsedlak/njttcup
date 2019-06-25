@@ -11,6 +11,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
 using TimeTrialCup.DomainModel;
+using TimeTrialCup.WinApp.DataModel;
 using TimeTrialCup.WinApp.ViewModels;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -51,6 +52,14 @@ namespace TimeTrialCup.WinApp
             using (var reader = new StreamReader(this.GetType().Assembly.GetManifestResourceStream("TimeTrialCup.WinApp.Resources.RegisteredTeams.txt")))
             {
                 TeamNames.Text = reader.ReadToEnd();
+            }
+        }
+
+        private async Task<IEnumerable<ReferenceCategory>> GetReferenceCategories()
+        {
+            using (var reader = new StreamReader(GetType().Assembly.GetManifestResourceStream("TimeTrialCup.WinApp.Resources.Categories.json")))
+            {
+                return JsonConvert.DeserializeObject<IEnumerable<ReferenceCategory>>(await reader.ReadToEndAsync());
             }
         }
 
@@ -132,6 +141,9 @@ namespace TimeTrialCup.WinApp
             var badTeams = "";
             _teams = TeamNames.Text.Split(new string[] { "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries);
 
+            // get categories
+            var referenceCats = await GetReferenceCategories();
+
             // reset the data context
             _dataContext.Results.Clear();
             _dataContext.Log = $"Opened {file.Name}\n";
@@ -162,9 +174,14 @@ namespace TimeTrialCup.WinApp
                 // table header
                 if (currentCategory == null)
                 {
+                    var found = referenceCats.FirstOrDefault(m => m.Aliases.Any(alias => line.ToLower().Contains(alias.ToLower())));
+                    var categoryName = found == null ? line : found.Name;
+
+                    _dataContext.Log += $"Starting Category: {categoryName}";
+
                     currentCategory = new CategoryResult
                     {
-                        Name = line,
+                        Name = categoryName,
                         Results = new List<RiderResult>()
                     };
 
