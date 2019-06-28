@@ -296,7 +296,12 @@ namespace TimeTrialCup.WinApp
 
             if(dhmsSplit >= 3)
             {
-                result.Append("hh\\:");
+                var hourPattern = "";
+                for(var i = 0; i < data[dhmsSplit - 3].Length; i++)
+                {
+                    hourPattern += "h";
+                }
+                result.Append(hourPattern + "\\:");
             }
 
             result.Append("mm\\:ss");
