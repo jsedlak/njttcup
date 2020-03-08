@@ -1,5 +1,80 @@
 export const Schedules = [
     {
+        year: 2020,
+        schedule: [
+            {
+                date: '3/28/2020',
+                promoter: '',
+                courseId: 'sandy-hook',
+                registration: '',
+                results: ''
+            },
+            {
+                date: '4/5/2020',
+                promoter: 'Team Somerset',
+                courseId: 'cape-may',
+                registration: 'https://www.bikereg.com/cape-may-time-trial',
+                results: ''
+            },
+            {
+                date: '4/18/2020',
+                promoter: 'Team Somerset',
+                courseId: 'allamuchy',
+                registration: 'https://www.bikereg.com/allamuchy-time-trial0',
+                results: ''
+            },
+            {
+                date: '5/3/2020',
+                promoter: 'BM Velo',
+                courseId: 'chatsworth',
+                registration: '',
+                results: ''
+            },
+            {
+                date: '5/9/2020',
+                promoter: 'Skylands Cycling',
+                courseId: 'high-point',
+                registration: '',
+                results: ''
+            },
+            {
+                date: '5/16/2020',
+                promoter: 'Team Somerset',
+                courseId: 'somerset-circuit',
+                registration: 'https://www.bikereg.com/somerset-circuit-time-trial',
+                results: ''
+            },
+            {
+                date: '5/24/2020',
+                promoter: 'BM Velo',
+                courseId: 'kingwood',
+                registration: '',
+                results: ''
+            },
+            {
+                date: '6/13/2020',
+                promoter: 'Jim Ludovici',
+                courseId: 'rt29',
+                registration: '',
+                results: ''
+            },
+            {
+                date: '6/20/2020',
+                promoter: 'Watts Up Cycling',
+                courseId: 'silvermine',
+                registration: '',
+                results: ''
+            },
+            {
+                date: '7/19/2020',
+                promoter: 'Team Somerset',
+                courseId: 'flanders',
+                registration: '',
+                results: ''
+            }
+        ]
+    },
+    {
         year: 2019,
         schedule: [
             {

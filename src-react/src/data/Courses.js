@@ -21,6 +21,27 @@ export const Courses = [
         ]
     },
     {
+        id: 'rt29',
+        name: 'Route 29 TT',
+        image: '',
+        promoter: 'Jim Ludovici',
+        type: 'Point to Point',
+        distance: '10.0mi',
+        elevation: '257ft',
+        description: 'The standard for data collection. A simple point-to-point down the Delaware River.',
+        fullDescription: '',
+        parkingInfo: 'Park up top at the rink.',
+        notes: 'Stay off the roadway while in line.',
+        subcourses: [
+            {
+                name: 'Default',
+                rideWithGps: '27160037',
+                youtube: 'qm6bny3EqyQ',
+                isDefault: true
+            }
+        ]
+    },
+    {
         id: 'cape-may',
         name: 'Steve Reed Memorial (Cape May) TT',
         image: '',

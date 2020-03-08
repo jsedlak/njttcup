@@ -60,7 +60,7 @@ export class SchedulePage extends React.Component {
                                     <td>{eventIndex+1}</td>
                                     <td>{event.date}</td>
                                     <td>
-                                        <a href={`/courses/${event.courseId}`}>{event.course.name}</a>
+                                        <a href={`/courses/${event.courseId}`}>{event.course.name}<br/>{event.promoter}</a>
                                     </td>
                                     {/* <td className="hide-phone"></td> */}
                                     <td className="hide-phone">{event.course.distance}<br/><small>(+{event.course.elevation})</small></td>

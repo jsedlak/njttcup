@@ -1,7 +1,7 @@
 import React from 'react';
 import { Header, Menu } from '../parts/PageParts';
 import './LandingPage.css'
-import CastelliLogo from '../svg/castelli-logo.svg'
+import PactimoLogo from '../svg/pactimo.svg'
 import NjbaLogo from '../svg/njba-logo.svg'
 
 export class LandingPage extends React.Component {
@@ -27,16 +27,15 @@ export class LandingPage extends React.Component {
                             <br/>
                             NJ State Championships<br/>
                             <span class="hide-phone">40KM Individual Time Trial<br/></span>
-                            5 May 2019<br/>
+                            3 May 2020<br/>
                             {/* <a className="btn btn-inverse" href="https://www.bikereg.com">Register Now</a> */}
                         </div>
                     </div>
                 </div>
 
-                <div className="block-phone bg-red" style={{width:'100%', padding: '60px', margin: '0', display: 'flex', justifyContent: 'space-between'}}>
-                        <h1 style={{width:'33%', color:'#fff'}}>THANK YOU<br/>TO OUR SPONSORS</h1>
-                        <img src={NjbaLogo} alt="NJBA Logo" style={{width: '33%'}} />
-                        <img src={CastelliLogo} alt="Castelli Logo" style={{width: '33%'}} />
+                <div className="block-phone bg-red" style={{width:'100%', padding: '60px', margin: '0', display: 'flex', justifyContent: 'center'}}>
+                        <img src={NjbaLogo} alt="NJBA Logo" style={{width: '25%', margin: '0 30px'}} />
+                        <img src={PactimoLogo} alt="Pactimo Logo" style={{width: '25%', margin: '0 30px'}} />
                     </div>
             </div>
         )
