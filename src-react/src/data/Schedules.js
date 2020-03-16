@@ -39,7 +39,8 @@ export const Schedules = [
                 promoter: 'Skylands Cycling',
                 courseId: 'high-point',
                 registration: '',
-                results: ''
+                results: '',
+                status: 'tentative'
             },
             {
                 date: '5/16/2020',
