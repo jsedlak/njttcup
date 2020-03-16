@@ -2,6 +2,7 @@ import React from 'react';
 import { Header, Menu } from '../parts/PageParts';
 import {Courses} from '../data/Courses';
 import {Schedules} from '../data/Schedules';
+import './SchedulePage.css';
 
 const THE_YEAR = new Date().getFullYear();
 
@@ -40,7 +41,7 @@ export class SchedulePage extends React.Component {
                 <h1>Schedule</h1>
                 <p>Below is the schedule for <strong>{THE_YEAR}</strong>. For updates &amp; cancellations, please follow us on the <a href="https://www.facebook.com/groups/454823674652201/">NJ Time Trial Cup Cycling Series</a> Facebook group.</p>
 
-                <table className="table table-data">
+                <table className="table table-data table-schedule">
                     <thead>
                         <tr>
                             <th>No.</th>
@@ -56,10 +57,11 @@ export class SchedulePage extends React.Component {
                     <tbody>
                         {this.state.schedule.map((event, eventIndex) => {
                             return (
-                                <tr key={event.date}>
+                                <tr key={event.date} data-status={event.status}>
                                     <td>{eventIndex+1}</td>
                                     <td>{event.date}</td>
                                     <td>
+                                        {event.status && <span className={`tag tag-status tag-status-${event.status}`}>{event.status}</span>}
                                         <a href={`/courses/${event.courseId}`}>{event.course.name}<br/>{event.promoter}</a>
                                     </td>
                                     {/* <td className="hide-phone"></td> */}

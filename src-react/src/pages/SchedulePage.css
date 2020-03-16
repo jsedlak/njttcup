@@ -1,0 +1,36 @@
+tr[data-status="cancelled"] {
+    background: rgba(255, 0, 0, 0.15) !important;
+}
+
+tr[data-status="cancelled"] td a {
+    text-decoration: line-through;
+}
+
+tr[data-status="cancelled"] td .btn {
+    display: none;
+}
+
+tr[data-status="tentative"] {
+    background: rgba(242, 190, 34, 0.15) !important;
+}
+
+.tag.tag-status {
+    display: block;
+    background: #2d2d2d;
+    color: #fff;
+    padding: 5px;
+    border-radius: 4px;
+    margin-right: 5px;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.tag.tag-status.tag-status-cancelled {
+    background: #F20505;
+}
+
+.tag.tag-status.tag-status-tentative {
+    background: #F2E635;
+    color: #2d2d2d;
+}

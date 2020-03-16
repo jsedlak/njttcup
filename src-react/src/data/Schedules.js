@@ -7,28 +7,32 @@ export const Schedules = [
                 promoter: '',
                 courseId: 'sandy-hook',
                 registration: '',
-                results: ''
+                results: '',
+                status: 'cancelled'
             },
             {
                 date: '4/5/2020',
                 promoter: 'Team Somerset',
                 courseId: 'cape-may',
                 registration: 'https://www.bikereg.com/cape-may-time-trial',
-                results: ''
+                results: '',
+                status: 'cancelled'
             },
             {
                 date: '4/18/2020',
                 promoter: 'Team Somerset',
                 courseId: 'allamuchy',
                 registration: 'https://www.bikereg.com/allamuchy-time-trial0',
-                results: ''
+                results: '',
+                status: 'cancelled'
             },
             {
                 date: '5/3/2020',
                 promoter: 'BM Velo',
                 courseId: 'chatsworth',
                 registration: '',
-                results: ''
+                results: '',
+                status: 'tentative'
             },
             {
                 date: '5/9/2020',
@@ -63,7 +67,8 @@ export const Schedules = [
                 promoter: 'Watts Up Cycling',
                 courseId: 'silvermine',
                 registration: '',
-                results: ''
+                results: '',
+                status: 'tentative'
             },
             {
                 date: '7/19/2020',
