@@ -1,0 +1,3 @@
+[submodule "petl"]
+	path = petl
+	url = git@github.com:jsedlak/petl.git

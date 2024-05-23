@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents a physical location
 /// </summary>
-public sealed class Address
+public sealed record Address
 {
     /// <summary>
     /// Gets or Sets the street address (Address 1)
