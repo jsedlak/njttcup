@@ -2,8 +2,14 @@
 
 namespace CupKeeper.Domains.Membership.Model;
 
+/// <summary>
+/// Represents a logged in user within the application
+/// </summary>
 public sealed class Member : IAggregateRoot
 {
+    /// <summary>
+    /// Gets or Sets the unique identifier of the member
+    /// </summary>
     public Guid Id { get; set; } = Guid.NewGuid();
 
     /// <summary>
