@@ -20,5 +20,5 @@ public sealed class EventResult
     /// <summary>
     /// Gets or Sets a list of change requests against the data
     /// </summary>
-    public IEnumerable<ResultChangeRequest> ResultChangeRequests { get; set; } = Enumerable.Empty<ResultChangeRequest>(); }
+    public IEnumerable<ResultChangeRequest> ResultChangeRequests { get; set; } = Enumerable.Empty<ResultChangeRequest>();
 }
