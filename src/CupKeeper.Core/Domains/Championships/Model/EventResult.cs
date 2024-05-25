@@ -13,6 +13,11 @@ public sealed class EventResult
     public Guid Id { get; set; } = Guid.NewGuid();
 
     /// <summary>
+    /// Gets or Sets when the event actually occurred
+    /// </summary>
+    public DateTimeOffset EventDate { get; set; }
+
+    /// <summary>
     /// Gets or Sets a list of category results
     /// </summary>
     public IEnumerable<CategoryResult> Categories { get; set; } = Enumerable.Empty<CategoryResult>();
