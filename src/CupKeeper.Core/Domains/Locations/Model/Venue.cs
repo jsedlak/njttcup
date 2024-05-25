@@ -1,4 +1,4 @@
-﻿using CupKeeper.Cqrs;
+﻿using Petl.EventSourcing;
 
 namespace CupKeeper.Domains.Locations.Model;
 
