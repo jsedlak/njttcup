@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CupKeeper.Domains.Locations
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Petl.EventSourcing.Orleans", "petl\src\Petl.EventSourcing.Orleans\Petl.EventSourcing.Orleans.csproj", "{97948B3E-F2F6-4700-8D33-CCD84A4043AF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CupKeeper.Domains.Championships", "src\CupKeeper.Domains.Championships\CupKeeper.Domains.Championships.csproj", "{93EDD8D1-A6AA-4F1A-93E1-B012C174D480}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +59,10 @@ Global
 		{97948B3E-F2F6-4700-8D33-CCD84A4043AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{97948B3E-F2F6-4700-8D33-CCD84A4043AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{97948B3E-F2F6-4700-8D33-CCD84A4043AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93EDD8D1-A6AA-4F1A-93E1-B012C174D480}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93EDD8D1-A6AA-4F1A-93E1-B012C174D480}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93EDD8D1-A6AA-4F1A-93E1-B012C174D480}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93EDD8D1-A6AA-4F1A-93E1-B012C174D480}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -68,6 +74,7 @@ Global
 		{F68687A4-1573-43FB-8634-DD07839C10CC} = {6C449D72-FAB1-4FFC-BA78-8D558F85DC39}
 		{C4EE70CE-4AEF-47FD-82EE-E3DC40A23C3F} = {3B37C7EA-1289-4E95-A9A3-FB7AA9AD2C40}
 		{97948B3E-F2F6-4700-8D33-CCD84A4043AF} = {6C449D72-FAB1-4FFC-BA78-8D558F85DC39}
+		{93EDD8D1-A6AA-4F1A-93E1-B012C174D480} = {3B37C7EA-1289-4E95-A9A3-FB7AA9AD2C40}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BECA1B91-2140-483C-B02F-018C20755A89}
