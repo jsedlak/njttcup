@@ -15,7 +15,9 @@ public sealed class CourseRouteDataSetEvent : AggregateEvent
 
     public Guid CourseId { get; set; }
 
-    public string RouteLink { get; set; } = null!;
+    public string? RouteLink { get; set; } = null!;
 
-    public string RideWithGpsId { get; set; } = null!;
+    public string? RideWithGpsId { get; set; } = null!;
+
+    public double Mileage { get; set; }
 }

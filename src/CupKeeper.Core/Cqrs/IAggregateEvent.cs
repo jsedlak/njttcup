@@ -1,8 +1,6 @@
-﻿using Petl;
+﻿namespace CupKeeper.Cqrs;
 
-namespace CupKeeper.Cqrs;
-
-public interface IAggregateEvent : IResponse
+public interface IAggregateEvent
 {
     Guid AggregateId { get; set; }
 

@@ -39,4 +39,9 @@ public sealed class Course
     /// Gets or Sets the start address for the course (if different than the venue)
     /// </summary>
     public Address? Address { get; set; }
+    
+    /// <summary>
+    /// Gets or Sets whether this course is deleted and ready for permanent removal
+    /// </summary>
+    public bool IsDeleted { get; set; }
 }

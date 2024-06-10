@@ -6,18 +6,25 @@ using System.Threading.Tasks;
 
 namespace CupKeeper.Cqrs;
 
+[GenerateSerializer]
 public abstract class AggregateEvent : IAggregateEvent
 {
-    public AggregateEvent() { }
+    protected AggregateEvent() { }
 
-    public AggregateEvent(Guid aggregateId) : this(aggregateId, DateTimeOffset.UtcNow) { }
-    public AggregateEvent(Guid aggregateId, DateTimeOffset timestamp)
+    protected AggregateEvent(Guid aggregateId) 
+        : this(aggregateId, DateTimeOffset.UtcNow)
+    {
+    }
+
+    protected AggregateEvent(Guid aggregateId, DateTimeOffset timestamp)
     {
         AggregateId = aggregateId;
         Timestamp = timestamp;
     }
 
+    [Id(0)]
     public Guid AggregateId { get; set; }
 
+    [Id(1)]
     public DateTimeOffset Timestamp { get; set; } = DateTimeOffset.UtcNow;
 }

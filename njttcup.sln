@@ -19,7 +19,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5. Testing", "5. Testing", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CupKeeper.Tests", "src\CupKeeper.Tests\CupKeeper.Tests.csproj", "{8ECA97D0-460B-4A42-8F48-8D80E2C5B14B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Petl.Core", "petl\src\Petl.Core\Petl.Core.csproj", "{808DB3FF-E5C1-4207-A5EC-9EFDF9CCDC69}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Petl.EventSourcing", "petl\src\Petl.EventSourcing\Petl.EventSourcing.csproj", "{6519A78F-49D0-4727-A499-C780A914E0B6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Petl.EventSourcing.Providers.MongoDb", "petl\src\Petl.EventSourcing.Providers.MongoDb\Petl.EventSourcing.Providers.MongoDb.csproj", "{F68687A4-1573-43FB-8634-DD07839C10CC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CupKeeper.Domains.Locations.Orleans", "src\CupKeeper.Domains.Locations.Orleans\CupKeeper.Domains.Locations.Orleans.csproj", "{C4EE70CE-4AEF-47FD-82EE-E3DC40A23C3F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Petl.EventSourcing.Orleans", "petl\src\Petl.EventSourcing.Orleans\Petl.EventSourcing.Orleans.csproj", "{97948B3E-F2F6-4700-8D33-CCD84A4043AF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +41,22 @@ Global
 		{8ECA97D0-460B-4A42-8F48-8D80E2C5B14B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8ECA97D0-460B-4A42-8F48-8D80E2C5B14B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8ECA97D0-460B-4A42-8F48-8D80E2C5B14B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{808DB3FF-E5C1-4207-A5EC-9EFDF9CCDC69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{808DB3FF-E5C1-4207-A5EC-9EFDF9CCDC69}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{808DB3FF-E5C1-4207-A5EC-9EFDF9CCDC69}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{808DB3FF-E5C1-4207-A5EC-9EFDF9CCDC69}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6519A78F-49D0-4727-A499-C780A914E0B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6519A78F-49D0-4727-A499-C780A914E0B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6519A78F-49D0-4727-A499-C780A914E0B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6519A78F-49D0-4727-A499-C780A914E0B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F68687A4-1573-43FB-8634-DD07839C10CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F68687A4-1573-43FB-8634-DD07839C10CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F68687A4-1573-43FB-8634-DD07839C10CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F68687A4-1573-43FB-8634-DD07839C10CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4EE70CE-4AEF-47FD-82EE-E3DC40A23C3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4EE70CE-4AEF-47FD-82EE-E3DC40A23C3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4EE70CE-4AEF-47FD-82EE-E3DC40A23C3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4EE70CE-4AEF-47FD-82EE-E3DC40A23C3F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97948B3E-F2F6-4700-8D33-CCD84A4043AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97948B3E-F2F6-4700-8D33-CCD84A4043AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97948B3E-F2F6-4700-8D33-CCD84A4043AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97948B3E-F2F6-4700-8D33-CCD84A4043AF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -46,7 +64,10 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{CB9C0157-EDC8-49C8-BB78-20B32CC94F96} = {82C1018B-1870-43C6-BCB2-38AF5A6DB610}
 		{8ECA97D0-460B-4A42-8F48-8D80E2C5B14B} = {CFAC031F-A142-4E60-8F66-D5463D141B36}
-		{808DB3FF-E5C1-4207-A5EC-9EFDF9CCDC69} = {6C449D72-FAB1-4FFC-BA78-8D558F85DC39}
+		{6519A78F-49D0-4727-A499-C780A914E0B6} = {6C449D72-FAB1-4FFC-BA78-8D558F85DC39}
+		{F68687A4-1573-43FB-8634-DD07839C10CC} = {6C449D72-FAB1-4FFC-BA78-8D558F85DC39}
+		{C4EE70CE-4AEF-47FD-82EE-E3DC40A23C3F} = {3B37C7EA-1289-4E95-A9A3-FB7AA9AD2C40}
+		{97948B3E-F2F6-4700-8D33-CCD84A4043AF} = {6C449D72-FAB1-4FFC-BA78-8D558F85DC39}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BECA1B91-2140-483C-B02F-018C20755A89}

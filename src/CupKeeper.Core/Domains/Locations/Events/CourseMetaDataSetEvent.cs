@@ -2,13 +2,13 @@
 
 namespace CupKeeper.Domains.Locations.Events;
 
-public sealed class CourseNameSetEvent : AggregateEvent
+public sealed class CourseMetaDataSetEvent : AggregateEvent
 {
-    public CourseNameSetEvent()
+    public CourseMetaDataSetEvent()
     {
     }
 
-    public CourseNameSetEvent(Guid aggregateId) 
+    public CourseMetaDataSetEvent(Guid aggregateId) 
         : base(aggregateId)
     {
     }
@@ -16,4 +16,6 @@ public sealed class CourseNameSetEvent : AggregateEvent
     public Guid CourseId { get; set; }
 
     public string Name { get; set; } = null!;
+
+    public string? Description { get; set; }
 }
