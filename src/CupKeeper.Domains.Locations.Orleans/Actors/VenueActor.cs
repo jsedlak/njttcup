@@ -1,12 +1,11 @@
 using CupKeeper.Cqrs;
-using CupKeeper.Domains.Locations.Actors;
 using CupKeeper.Domains.Locations.Commands;
 using CupKeeper.Domains.Locations.Events;
 using CupKeeper.Domains.Locations.Model;
 using Orleans.Runtime;
 using Petl.EventSourcing;
 
-namespace CupKeeper.Domains.Locations.Orleans.Actors;
+namespace CupKeeper.Domains.Locations.Actors;
 
 public class VenueActor : EventSourcedGrain<Venue, AggregateEvent>, IVenueActor
 {

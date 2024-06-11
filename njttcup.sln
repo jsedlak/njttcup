@@ -27,7 +27,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CupKeeper.Domains.Locations
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Petl.EventSourcing.Orleans", "petl\src\Petl.EventSourcing.Orleans\Petl.EventSourcing.Orleans.csproj", "{97948B3E-F2F6-4700-8D33-CCD84A4043AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CupKeeper.Domains.Championships", "src\CupKeeper.Domains.Championships\CupKeeper.Domains.Championships.csproj", "{93EDD8D1-A6AA-4F1A-93E1-B012C174D480}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CupKeeper.Domains.Championships.Orleans", "src\CupKeeper.Domains.Championships.Orleans\CupKeeper.Domains.Championships.Orleans.csproj", "{93EDD8D1-A6AA-4F1A-93E1-B012C174D480}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CupKeeper.OrleansHost", "src\CupKeeper.OrleansHost\CupKeeper.OrleansHost.csproj", "{AD125408-713D-4B44-A5A9-822002757A8B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3D2E8A89-3C0B-49B7-9860-F1280B36C642}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yml = docker-compose.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +70,10 @@ Global
 		{93EDD8D1-A6AA-4F1A-93E1-B012C174D480}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{93EDD8D1-A6AA-4F1A-93E1-B012C174D480}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{93EDD8D1-A6AA-4F1A-93E1-B012C174D480}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD125408-713D-4B44-A5A9-822002757A8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD125408-713D-4B44-A5A9-822002757A8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD125408-713D-4B44-A5A9-822002757A8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD125408-713D-4B44-A5A9-822002757A8B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -75,6 +86,7 @@ Global
 		{C4EE70CE-4AEF-47FD-82EE-E3DC40A23C3F} = {3B37C7EA-1289-4E95-A9A3-FB7AA9AD2C40}
 		{97948B3E-F2F6-4700-8D33-CCD84A4043AF} = {6C449D72-FAB1-4FFC-BA78-8D558F85DC39}
 		{93EDD8D1-A6AA-4F1A-93E1-B012C174D480} = {3B37C7EA-1289-4E95-A9A3-FB7AA9AD2C40}
+		{AD125408-713D-4B44-A5A9-822002757A8B} = {4EC54C70-7C2C-44D1-B2B3-EAE0697BD0B2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BECA1B91-2140-483C-B02F-018C20755A89}

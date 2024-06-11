@@ -5,5 +5,10 @@
 /// </summary>
 public abstract class ExistingVenueCommandBase
 {
+    protected ExistingVenueCommandBase(Guid venueId)
+    {
+        VenueId = venueId;
+    }
+    
     public Guid VenueId { get; set; }
 }

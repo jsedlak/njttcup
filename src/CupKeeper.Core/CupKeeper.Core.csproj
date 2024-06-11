@@ -8,11 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\petl\src\Petl.Core\Petl.Core.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Data\" />
     <Folder Include="Domains\Locations\CommandHandlers\" />
     <Folder Include="Domains\Locations\ServiceModel\" />
   </ItemGroup>

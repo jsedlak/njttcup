@@ -20,10 +20,15 @@ public sealed class Leaderboard : IAggregateRoot
     /// <summary>
     /// Gets or Sets the list of result identifiers that make up this leaderboard
     /// </summary>
-    public IEnumerable<Guid> EventResultIds { get; set; } = Enumerable.Empty<Guid>();
+    public IEnumerable<Guid> EventResultIds { get; set; } = [];
 
     /// <summary>
     /// Gets or Sets the list of category leaderboards that form the master leaderboard
     /// </summary>
-    public IEnumerable<CategoryLeaderboard> Categories { get; set; } = Enumerable.Empty<CategoryLeaderboard>();
+    public IEnumerable<CategoryLeaderboard> Categories { get; set; } = [];
+
+    /// <summary>
+    /// Gets or Sets whether the leaderboard is deleted and is ready to be permanently removes
+    /// </summary>
+    public bool IsDeleted { get; set; }
 }

@@ -56,4 +56,9 @@ public sealed class ScheduledEvent : IAggregateRoot
     /// Gets or Sets the set of results for the event
     /// </summary>
     public EventResult? Results { get; set; }
+    
+    /// <summary>
+    /// Gets or Sets whether the event is deleted and is ready to be permanently removes
+    /// </summary>
+    public bool IsDeleted { get; set; }
 }
