@@ -9,4 +9,6 @@ public sealed class CategoryResultRemovedEvent : AggregateEvent
     {
         
     }
+
+    public Guid CategoryResultId { get; set; }
 }

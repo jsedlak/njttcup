@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MongoDB.Driver;
+using Orleans.Storage;
 using Petl.EventSourcing;
 using Petl.EventSourcing.Providers;
 
@@ -21,6 +22,8 @@ await Host.CreateDefaultBuilder(args)
                 services.AddOrleansEventSerializer();
                 services.AddMongoEventSourcing("njttcup");
             })
+            .AddMemoryStreams("StreamProvider")
+            .AddMemoryGrainStorage("PubSubStore")
             .UseLocalhostClustering();
     })
     .RunConsoleAsync();

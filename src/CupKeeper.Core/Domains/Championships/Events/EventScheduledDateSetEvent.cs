@@ -9,4 +9,6 @@ public sealed class EventScheduledDateSetEvent : AggregateEvent
     {
         
     }
+
+    public DateTimeOffset? ScheduledDate { get; set; }
 }

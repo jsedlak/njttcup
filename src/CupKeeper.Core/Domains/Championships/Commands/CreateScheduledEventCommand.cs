@@ -13,7 +13,7 @@ public sealed class CreateScheduledEventCommand
     public Guid CourseId { get; set; }
 
     [Id(3)]
-    public DateTimeOffset ScheduledDate { get; set; }
+    public DateTimeOffset? ScheduledDate { get; set; }
 
     [Id(4)]
     public string? RegistrationLink { get; set; }

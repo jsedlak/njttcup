@@ -9,4 +9,8 @@ public sealed class CategoryResultNameSetEvent : AggregateEvent
     {
         
     }
+
+    public Guid CategoryResultId { get; set; }
+    
+    public string Name { get; set; }
 }

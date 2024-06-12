@@ -9,4 +9,10 @@ public sealed class RiderResultMovedEvent : AggregateEvent
     {
         
     }
+    
+    public Guid SourceCategoryResultId { get; set; }
+
+    public Guid RiderResultId { get; set; }
+
+    public Guid TargetCategoryResultId { get; set; }
 }

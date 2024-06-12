@@ -9,4 +9,6 @@ public sealed class EventNameSetEvent : AggregateEvent
     {
         
     }
+
+    public string Name { get; set; } = null!;
 }

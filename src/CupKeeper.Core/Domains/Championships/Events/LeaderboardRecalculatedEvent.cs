@@ -9,4 +9,6 @@ public sealed class LeaderboardRecalculatedEvent : AggregateEvent
     {
         
     }
+    
+    public int Year { get; set; }
 }

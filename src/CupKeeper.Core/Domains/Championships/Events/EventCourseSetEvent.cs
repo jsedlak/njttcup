@@ -9,4 +9,8 @@ public sealed class EventCourseSetEvent : AggregateEvent
     {
         
     }
+
+    public Guid VenueId { get; set; }
+    
+    public Guid CourseId { get; set; }
 }

@@ -9,4 +9,6 @@ public sealed class EventRegistrationLinkSetEvent : AggregateEvent
     {
         
     }
+
+    public string? RegistrationLink { get; set; }
 }

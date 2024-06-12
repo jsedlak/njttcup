@@ -30,12 +30,12 @@ public sealed class ScheduledEvent : IAggregateRoot
     /// <summary>
     /// Gets or Sets when the event is scheduled to occur
     /// </summary>
-    public DateTimeOffset ScheduledDate { get; set; }
+    public DateTimeOffset? ScheduledDate { get; set; }
 
     /// <summary>
     /// Gets or Sets when the event actually occurred
     /// </summary>
-    public DateTimeOffset ActualDate { get; set; }
+    public DateTimeOffset? ActualDate { get; set; }
 
     /// <summary>
     /// Gets or Sets the link to register for the event

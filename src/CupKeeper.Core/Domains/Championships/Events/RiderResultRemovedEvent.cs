@@ -9,4 +9,8 @@ public sealed class RiderResultRemovedEvent : AggregateEvent
     {
         
     }
+
+    public Guid RiderResultId { get; set; }
+    
+    public Guid CategoryResultId { get; set; }
 }

@@ -9,5 +9,5 @@ public sealed class SetEventScheduledDateCommand : ExistingScheduledEventCommand
     }
     
     [Id(0)]
-    public DateTimeOffset ScheduledDate { get; set; }
+    public DateTimeOffset? ScheduledDate { get; set; }
 }

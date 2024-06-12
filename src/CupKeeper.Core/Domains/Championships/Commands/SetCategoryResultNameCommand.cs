@@ -10,4 +10,6 @@ public sealed class SetCategoryResultNameCommand : ExistingScheduledEventCommand
     
     [Id(0)]
     public string Name { get; set; } = null!;
+
+    public Guid CategoryResultId { get; set; }
 }

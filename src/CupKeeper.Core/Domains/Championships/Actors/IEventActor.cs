@@ -16,9 +16,9 @@ public interface IEventActor : IGrainWithGuidKey
 
     Task<CommandResult> SetRegistration(SetEventRegistrationLinkCommand command);
 
-    Task<SetEventScheduledDateCommand> SetDate(SetEventScheduledDateCommand command);
+    Task<CommandResult> SetDate(SetEventScheduledDateCommand command);
 
-    Task<SetEventUsacDataCommand> SetUsacData(SetEventUsacDataCommand command);
+    Task<CommandResult> SetUsacData(SetEventUsacDataCommand command);
     #endregion
     
     #region Results Management

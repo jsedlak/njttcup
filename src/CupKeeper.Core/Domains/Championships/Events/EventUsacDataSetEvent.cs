@@ -9,4 +9,8 @@ public sealed class EventUsacDataSetEvent : AggregateEvent
     {
         
     }
+
+    public string? UsacResultsLink { get; set; }
+    
+    public string? UsacPermitNumber { get; set; }
 }
