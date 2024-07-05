@@ -72,11 +72,12 @@ public class EventActor : EventSourcedGrain<ScheduledEvent, AggregateEvent>, IEv
         return Task.FromResult(CommandResult.Success());
     }
 
-    public Task<CommandResult> SetDate(SetEventScheduledDateCommand command)
+    public Task<CommandResult> SetDates(SetEventDatesCommand command)
     {
-        Raise(new EventScheduledDateSetEvent(command.ScheduledEventId)
+        Raise(new EventDatesSetEvent(command.ScheduledEventId)
         {
-            ScheduledDate = command.ScheduledDate 
+            ScheduledDate = command.ScheduledDate,
+            ActualDate = command.ActualDate
         });
         
         return Task.FromResult(CommandResult.Success());
@@ -171,7 +172,7 @@ public class EventActor : EventSourcedGrain<ScheduledEvent, AggregateEvent>, IEv
         await WaitForConfirmation();
 
         // calculate the year into a grain identifier
-        var year = State.ActualDate!.Value.Year;
+        var year = State.ActualDate?.Year ?? State.ScheduledDate?.Year ?? DateTimeOffset.Now.Year;
         var yearAsGrainId = year.ToString().ToGuid();
         
         // recalculate that year's leaderboard
