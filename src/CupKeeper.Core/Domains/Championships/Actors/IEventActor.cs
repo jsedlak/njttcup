@@ -37,4 +37,10 @@ public interface IEventActor : IGrainWithGuidKey
     Task<CommandResult> PublishResults(PublishEventResultsCommand command);
 
     #endregion
+
+    #region Ingestion / Parsing
+
+    ValueTask<bool> StartResultsLoad();
+
+    #endregion
 }

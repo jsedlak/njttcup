@@ -1,7 +1,9 @@
 using CupKeeper.Cqrs;
 using CupKeeper.Domains.Championships.Commands;
+using CupKeeper.Domains.Championships.Commands.EventResults;
 using CupKeeper.Domains.Championships.Events;
 using CupKeeper.Domains.Championships.Model;
+using Microsoft.Extensions.DependencyInjection;
 using Orleans.Runtime;
 using Petl.EventSourcing;
 
@@ -10,6 +12,7 @@ namespace CupKeeper.Domains.Championships.Actors;
 public class EventActor : EventSourcedGrain<ScheduledEvent, AggregateEvent>, IEventActor
 {
     private readonly IGrainFactory _grainFactory;
+    private IDisposable? _resultsLoadTimer;
     
     public EventActor(IGrainFactory grainFactory)
     {
@@ -183,5 +186,61 @@ public class EventActor : EventSourcedGrain<ScheduledEvent, AggregateEvent>, IEv
         });
         
         return CommandResult.Success();
+    }
+
+    public async ValueTask<bool> StartResultsLoad()
+    {
+        if (State.UsacPermitNumber is null)
+        {
+            // TODO: Log warning
+            return false;
+        }
+
+        if (_resultsLoadTimer is not null)
+        {
+            // TODO: Log warning
+            return false;
+        }
+
+        var resultsGrainId = State.UsacPermitNumber!;
+        var resultsLoaderGrain = _grainFactory.GetGrain<IEventResultsActor>(resultsGrainId);
+        
+        var internalResult  = await resultsLoaderGrain.StartLoad(new LoadResultsCommand());
+
+        if (!internalResult)
+        {
+            return false;
+        }
+        
+        _resultsLoadTimer = RegisterTimer(
+            CheckResultsLoad,
+            new { }, 
+            TimeSpan.FromSeconds(5), 
+            TimeSpan.FromSeconds(5)
+        );
+
+        return true;
+    }
+
+    private async Task CheckResultsLoad(object task)
+    {
+        var resultsGrainId = State.UsacPermitNumber!;
+        var resultsLoaderGrain = _grainFactory.GetGrain<IEventResultsActor>(resultsGrainId);
+
+        var completed = await resultsLoaderGrain.CheckStatus();
+
+        if (!completed)
+        {
+            return;
+        }
+        
+        // TODO: Do something with the results
+        var results = await resultsLoaderGrain.GetResults();
+
+        if (_resultsLoadTimer is not null)
+        {
+            _resultsLoadTimer.Dispose();
+            _resultsLoadTimer = null;
+        }
     }
 }
