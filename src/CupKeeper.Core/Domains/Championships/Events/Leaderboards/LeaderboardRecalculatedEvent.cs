@@ -1,7 +1,8 @@
 using CupKeeper.Cqrs;
 
-namespace CupKeeper.Domains.Championships.Events;
+namespace CupKeeper.Domains.Championships.Events.Leaderboards;
 
+[GenerateSerializer]
 public sealed class LeaderboardRecalculatedEvent : AggregateEvent
 {
     public LeaderboardRecalculatedEvent(Guid leaderboardId)
@@ -10,5 +11,6 @@ public sealed class LeaderboardRecalculatedEvent : AggregateEvent
         
     }
     
+    [Id(0)]
     public int Year { get; set; }
 }

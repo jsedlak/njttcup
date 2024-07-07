@@ -1,9 +1,8 @@
 using CupKeeper.Cqrs;
 using CupKeeper.Domains.Championships.Commands;
 using CupKeeper.Domains.Championships.Commands.EventResults;
-using CupKeeper.Domains.Championships.Events;
+using CupKeeper.Domains.Championships.Events.ScheduledEvents;
 using CupKeeper.Domains.Championships.Model;
-using Microsoft.Extensions.DependencyInjection;
 using Orleans.Runtime;
 using Petl.EventSourcing;
 
@@ -19,9 +18,9 @@ public class EventActor : EventSourcedGrain<ScheduledEvent, AggregateEvent>, IEv
         _grainFactory = grainFactory;
     }
     
-    public Task<CommandResult> Create(CreateScheduledEventCommand command)
+    public async Task<CommandResult> Create(CreateScheduledEventCommand command)
     {
-        Raise(new ScheduledEventCreatedEvent(this.GetGrainId().GetGuidKey())
+        await Raise(new ScheduledEventCreatedEvent(this.GetGrainId().GetGuidKey())
         {
             Name = command.Name,
             VenueId = command.VenueId,
@@ -29,108 +28,107 @@ public class EventActor : EventSourcedGrain<ScheduledEvent, AggregateEvent>, IEv
             ScheduledDate = command.ScheduledDate,
             RegistrationLink = command.RegistrationLink,
             UsacResultsLink = command.UsacResultsLink,
-            UsacPermitNubmer = command.UsacPermitNumber
+            UsacPermitNumber = command.UsacPermitNumber
         });
 
-        return Task.FromResult(
-            CommandResult.Success()
-        );
+        return CommandResult.Success();
     }
 
-    public Task<CommandResult> Delete(DeleteScheduledEventCommand command)
+    public async Task<CommandResult> Delete(DeleteScheduledEventCommand command)
     {
-        Raise(new ScheduledEventDeletedEvent(command.ScheduledEventId));
+        await Raise(new ScheduledEventDeletedEvent(command.ScheduledEventId));
 
-        return Task.FromResult(CommandResult.Success());
+        return CommandResult.Success();
     }
 
-    public Task<CommandResult> SetName(SetEventNameCommand command)
+    public async Task<CommandResult> SetName(SetEventNameCommand command)
     {
-        Raise(new EventNameSetEvent(command.ScheduledEventId)
+        await Raise(new EventNameSetEvent(command.ScheduledEventId)
         {
             Name = command.Name
         });
         
-        return Task.FromResult(CommandResult.Success());
+        return CommandResult.Success();
     }
 
-    public Task<CommandResult> SetCourse(SetEventCourseCommand command)
+    public async Task<CommandResult> SetCourse(SetEventCourseCommand command)
     {
-        Raise(new EventCourseSetEvent(command.ScheduledEventId)
+        await Raise(new EventCourseSetEvent(command.ScheduledEventId)
         {
             VenueId = command.VenueId,
             CourseId = command.CourseId
         });
         
-        return Task.FromResult(CommandResult.Success());
+        return CommandResult.Success();
     }
 
-    public Task<CommandResult> SetRegistration(SetEventRegistrationLinkCommand command)
+    public async Task<CommandResult> SetRegistration(SetEventRegistrationLinkCommand command)
     {
-        Raise(new EventRegistrationLinkSetEvent(command.ScheduledEventId)
+        await Raise(new EventRegistrationLinkSetEvent(command.ScheduledEventId)
         {
             RegistrationLink = command.RegistrationLink
         });
         
-        return Task.FromResult(CommandResult.Success());
+        return CommandResult.Success();
     }
 
-    public Task<CommandResult> SetDates(SetEventDatesCommand command)
+    public async Task<CommandResult> SetDates(SetEventDatesCommand command)
     {
-        Raise(new EventDatesSetEvent(command.ScheduledEventId)
+        await Raise(new EventDatesSetEvent(command.ScheduledEventId)
         {
             ScheduledDate = command.ScheduledDate,
             ActualDate = command.ActualDate
         });
         
-        return Task.FromResult(CommandResult.Success());
+        return CommandResult.Success();
     }
 
-    public Task<CommandResult> SetUsacData(SetEventUsacDataCommand command)
+    public async Task<CommandResult> SetUsacData(SetEventUsacDataCommand command)
     {
-        Raise(new EventUsacDataSetEvent(command.ScheduledEventId)
+        await Raise(new EventUsacDataSetEvent(command.ScheduledEventId)
         {
             UsacResultsLink = command.UsacResultsLink,
             UsacPermitNumber = command.UsacPermitNumber
         });
         
-        return Task.FromResult(CommandResult.Success());
+        return CommandResult.Success();
     }
 
-    public Task<CommandResult> AddCategory(AddCategoryResultCommand command)
+    public async Task<CommandResult> AddCategory(AddCategoryResultCommand command)
     {
-        Raise(new CategoryResultAddedEvent(command.ScheduledEventId)
+        await Raise(new CategoryResultAddedEvent(command.ScheduledEventId)
         {
              Name = command.Name,
              Order = command.Order
         });
         
-        return Task.FromResult(CommandResult.Success());
+        return CommandResult.Success();
     }
 
-    public Task<CommandResult> RemoveCategory(RemoveCategoryResultCommand command)
+    public async Task<CommandResult> RemoveCategory(RemoveCategoryResultCommand command)
     {
-        Raise(new CategoryResultRemovedEvent(command.ScheduledEventId)
+        await Raise(new CategoryResultRemovedEvent(command.ScheduledEventId)
         {   
             CategoryResultId = command.CategoryResultId
         });
         
-        return Task.FromResult(CommandResult.Success());
+        return CommandResult.Success();
     }
 
-    public Task<CommandResult> SetCategoryName(SetCategoryResultNameCommand command)
+    public async Task<CommandResult> SetCategoryName(SetCategoryResultNameCommand command)
     {
-        Raise(new CategoryResultNameSetEvent(command.ScheduledEventId)
+        await Raise(new CategoryResultNameSetEvent(command.ScheduledEventId)
         {
             CategoryResultId = command.CategoryResultId,
             Name = command.Name
         });
-        return Task.FromResult(CommandResult.Success());
+        
+        return CommandResult.Success();
     }
 
-    public Task<CommandResult> AddRider(AddRiderResultCommand command)
+    public async Task<CommandResult> AddRider(AddRiderResultCommand command)
     {
-        Raise(new RiderResultAddedEvent(command.ScheduledEventId)
+        await Raise(new RiderResultAddedEvent(command.ScheduledEventId)
         {
              CategoryResultId = command.CategoryResultId,
              RiderId = command.RiderId,
@@ -142,35 +140,35 @@ public class EventActor : EventSourcedGrain<ScheduledEvent, AggregateEvent>, IEv
              Points = command.Points
         });
         
-        return Task.FromResult(CommandResult.Success());
+        return CommandResult.Success();
     }
 
-    public Task<CommandResult> MoveRider(MoveRiderResultCommand command)
+    public async Task<CommandResult> MoveRider(MoveRiderResultCommand command)
     {
-        Raise(new RiderResultMovedEvent(command.ScheduledEventId)
+        await Raise(new RiderResultMovedEvent(command.ScheduledEventId)
         {
             SourceCategoryResultId = command.SourceCategoryResultId,
             RiderResultId = command.RiderResultId,
             TargetCategoryResultId = command.TargetCategoryResultId
         });
         
-        return Task.FromResult(CommandResult.Success());
+        return CommandResult.Success();
     }
 
-    public Task<CommandResult> RemoveRider(RemoveRiderResultCommand command)
+    public async Task<CommandResult> RemoveRider(RemoveRiderResultCommand command)
     {
-        Raise(new RiderResultRemovedEvent(command.ScheduledEventId)
+        await Raise(new RiderResultRemovedEvent(command.ScheduledEventId)
         {
             CategoryResultId = command.CategoryResultId,
             RiderResultId = command.RiderResultId
         });
         
-        return Task.FromResult(CommandResult.Success());
+        return CommandResult.Success();
     }
 
     public async Task<CommandResult> PublishResults(PublishEventResultsCommand command)
     {
-        Raise(new EventResultsPublishedEvent(command.ScheduledEventId));
+        await Raise(new EventResultsPublishedEvent(command.ScheduledEventId));
 
         await WaitForConfirmation();
 

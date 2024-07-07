@@ -1,7 +1,8 @@
 using CupKeeper.Cqrs;
 
-namespace CupKeeper.Domains.Championships.Events;
+namespace CupKeeper.Domains.Championships.Events.ScheduledEvents;
 
+[GenerateSerializer]
 public sealed class EventRegistrationLinkSetEvent : AggregateEvent
 {
     public EventRegistrationLinkSetEvent(Guid scheduledEventId)
@@ -10,5 +11,6 @@ public sealed class EventRegistrationLinkSetEvent : AggregateEvent
         
     }
 
+    [Id(0)]
     public string? RegistrationLink { get; set; }
 }

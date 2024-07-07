@@ -1,7 +1,8 @@
 using CupKeeper.Cqrs;
 
-namespace CupKeeper.Domains.Championships.Events;
+namespace CupKeeper.Domains.Championships.Events.ScheduledEvents;
 
+[GenerateSerializer]
 public sealed class RiderResultMovedEvent : AggregateEvent
 {
     public RiderResultMovedEvent(Guid scheduledEventId)
@@ -10,9 +11,12 @@ public sealed class RiderResultMovedEvent : AggregateEvent
         
     }
     
+    [Id(0)]
     public Guid SourceCategoryResultId { get; set; }
 
+    [Id(1)]
     public Guid RiderResultId { get; set; }
 
+    [Id(2)]
     public Guid TargetCategoryResultId { get; set; }
 }

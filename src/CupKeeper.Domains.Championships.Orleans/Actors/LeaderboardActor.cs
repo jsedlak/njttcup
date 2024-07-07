@@ -1,6 +1,6 @@
 using CupKeeper.Cqrs;
 using CupKeeper.Domains.Championships.Commands;
-using CupKeeper.Domains.Championships.Events;
+using CupKeeper.Domains.Championships.Events.Leaderboards;
 using CupKeeper.Domains.Championships.Model;
 using Microsoft.Extensions.Logging;
 using Orleans.Runtime;
