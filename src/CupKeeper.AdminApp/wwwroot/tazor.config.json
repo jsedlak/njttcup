@@ -1,0 +1,15 @@
+{
+  "tazor": {
+    "themes": [
+      {
+        "name": "tazor-default",
+        "path": "themes/tazor.theme.json",
+        "isDefault": true
+      },
+      {
+        "name": "mars",
+        "path": "themes/mars.theme.json"
+      }
+    ]
+  }
+}

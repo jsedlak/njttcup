@@ -1,3 +1,6 @@
 [submodule "petl"]
 	path = petl
 	url = git@github.com:jsedlak/petl.git
+[submodule "tazor"]
+	path = tazor
+	url = https://github.com/jsedlak/tazor
