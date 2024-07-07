@@ -3,7 +3,7 @@ using CupKeeper.Cqrs;
 namespace CupKeeper.Domains.Championships.Events.ScheduledEvents;
 
 [GenerateSerializer]
-public sealed class RiderResultRemovedEvent : AggregateEvent
+public sealed class RiderResultRemovedEvent : ScheduledEventBaseEvent
 {
     public RiderResultRemovedEvent(Guid scheduledEventId)
         : base(scheduledEventId)
