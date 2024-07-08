@@ -22,7 +22,7 @@ public sealed class RiderResult
     /// Gets or Sets the amount of points awarded
     /// </summary>
     [Id(2)]
-    public int Points { get; set; }
+    public int? Points { get; set; }
 
     /// <summary>
     /// Gets or Sets the rider identifier
@@ -40,7 +40,7 @@ public sealed class RiderResult
     /// Gets or Sets the elapsed time the rider took on course
     /// </summary>
     [Id(5)]
-    public double Time { get; set; }
+    public double? Time { get; set; }
 
     /// <summary>
     /// Gets or Sets whether the result should be excluded from points tallying

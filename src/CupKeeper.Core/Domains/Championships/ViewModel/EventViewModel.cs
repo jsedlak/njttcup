@@ -29,4 +29,6 @@ public class EventViewModel
     public string? UsacPermitNumber { get; set; }
 
     public IEnumerable<CategoryResult> Results { get; set; } = [];
+
+    public bool IsDeleted { get; set; } = false;
 }

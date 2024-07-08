@@ -4,20 +4,50 @@ using CupKeeper.Domains.Championships.Commands.EventResults;
 using CupKeeper.Domains.Championships.Events.ScheduledEvents;
 using CupKeeper.Domains.Championships.Model;
 using Orleans.Runtime;
+using Orleans.Streams;
 using Petl.EventSourcing;
 
 namespace CupKeeper.Domains.Championships.Actors;
 
-public class EventActor : EventSourcedGrain<ScheduledEvent, AggregateEvent>, IEventActor
+public class EventActor : EventSourcedGrain<ScheduledEvent, ScheduledEventBaseEvent>, IEventActor
 {
     private readonly IGrainFactory _grainFactory;
+    
     private IDisposable? _resultsLoadTimer;
+    private IAsyncStream<ScheduledEventBaseEvent>? _eventStream;
     
     public EventActor(IGrainFactory grainFactory)
     {
         _grainFactory = grainFactory;
     }
-    
+
+    public override async Task OnActivateAsync(CancellationToken cancellationToken)
+    {
+        await base.OnActivateAsync(cancellationToken);
+        
+        var streamProvider = this.GetStreamProvider("StreamProvider");
+        
+        var myId = this.GetGrainId().GetGuidKey();
+        var streamId = StreamId.Create(ActorConstants.ScheduledEvent_EventStreamName, myId);
+        
+        // grab a ref to the stream using the stream id
+        _eventStream = streamProvider.GetStream<ScheduledEventBaseEvent>(streamId);
+    }
+
+    protected override async Task Raise(ScheduledEventBaseEvent @event)
+    {
+        await base.Raise(@event);
+        await _eventStream!.OnNextAsync(@event);
+    }
+
+    protected override async Task Raise(IEnumerable<ScheduledEventBaseEvent> events)
+    {
+        var eventBatch = events as ScheduledEventBaseEvent[] ?? events.ToArray();
+        
+        await base.Raise(eventBatch);
+        await _eventStream!.OnNextBatchAsync(eventBatch);
+    }
+
     public async Task<CommandResult> Create(CreateScheduledEventCommand command)
     {
         await Raise(new ScheduledEventCreatedEvent(this.GetGrainId().GetGuidKey())
@@ -132,7 +162,7 @@ public class EventActor : EventSourcedGrain<ScheduledEvent, AggregateEvent>, IEv
         {
              CategoryResultId = command.CategoryResultId,
              RiderId = command.RiderId,
-             Position = command.Position,
+             Place = command.Position,
              Team = command.Team,
              LicenseNumber = command.LicenseNumber,
              UsacCategory = command.UsacCategory,

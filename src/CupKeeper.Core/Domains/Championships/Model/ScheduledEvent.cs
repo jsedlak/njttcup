@@ -67,13 +67,19 @@ public sealed class ScheduledEvent : IAggregateRoot
     /// Gets or Sets the set of results for the event
     /// </summary>
     [Id(9)]
-    public EventResult? Results { get; set; } = new();
+    public EventResult Results { get; set; } = new();
     
     /// <summary>
     /// Gets or Sets whether the event is deleted and is ready to be permanently removes
     /// </summary>
     [Id(10)]
     public bool IsDeleted { get; set; }
+    
+    /// <summary>
+    /// Gets or Sets whether the event results have been published to the leaderboard yet
+    /// </summary>
+    [Id(11)]
+    public bool IsPublished { get; set; }
     
     #region Event Management Events
 
@@ -123,39 +129,47 @@ public sealed class ScheduledEvent : IAggregateRoot
     #endregion
 
     #region Results
-    public void Apply(EventResultsCreatedEvent @event)
-    {
-        // TODO: What do here?
-    }
-
     public void Apply(EventResultsLoadedEvent @event)
     {
-        if (Results is null)
-        {
-            return;
-        }
-        
         Results.Categories = @event.Categories;
     }
 
     public void Apply(EventResultsPublishedEvent @event)
     {
-        
+        IsPublished = true;
     }
 
     public void Apply(RiderResultAddedEvent @event)
     {
-        
+        var category = Results.Categories.First(m => m.Id == @event.CategoryResultId);
+        var result = new RiderResult
+        {
+            Points = @event.Points,
+            Place = @event.Place,
+            Time = @event.Time,
+            RiderId = @event.RiderId,
+            TeamName = @event.Team,
+        };
+
+        category.Riders = [..category.Riders, result];
     }
 
     public void Apply(RiderResultMovedEvent @event)
     {
+        var sourceCategory = Results.Categories.First(m => m.Id == @event.SourceCategoryResultId);
+        var targetCategory = Results.Categories.First(m => m.Id == @event.TargetCategoryResultId);
+
+        var rider = sourceCategory.Riders.First(m => m.Id == @event.RiderResultId);
         
+        sourceCategory.Riders = [..sourceCategory.Riders.Where(m => m.Id != @event.RiderResultId)];
+        targetCategory.Riders = [..targetCategory.Riders, rider];
     }
 
     public void Apply(RiderResultRemovedEvent @event)
     {
-        
+        var category = Results.Categories.First(m => m.Id == @event.CategoryResultId);
+
+        category.Riders = [..category.Riders.Where(m => m.Id != @event.RiderResultId)];
     }
     #endregion
 }

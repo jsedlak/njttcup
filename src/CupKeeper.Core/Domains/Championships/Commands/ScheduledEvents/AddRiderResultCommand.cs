@@ -27,8 +27,8 @@ public sealed class AddRiderResultCommand : ExistingScheduledEventCommandBase
     public string? UsacCategory { get; set; }
 
     [Id(6)]
-    public string? Time { get; set; }
+    public double? Time { get; set; }
 
     [Id(7)]
-    public string? Points { get; set; }
+    public int? Points { get; set; }
 }

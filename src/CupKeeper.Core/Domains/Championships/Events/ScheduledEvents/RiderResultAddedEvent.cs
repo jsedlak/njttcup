@@ -18,7 +18,7 @@ public sealed class RiderResultAddedEvent : ScheduledEventBaseEvent
     public Guid RiderId { get; set; }
 
     [Id(2)]
-    public int Position { get; set; }
+    public int Place { get; set; }
 
     [Id(3)]
     public string? Team { get; set; }
@@ -30,8 +30,8 @@ public sealed class RiderResultAddedEvent : ScheduledEventBaseEvent
     public string? UsacCategory { get; set; }
     
     [Id(6)]
-    public string? Time { get; set; }
+    public double? Time { get; set; }
 
     [Id(7)]
-    public string? Points { get; set; }
+    public int? Points { get; set; }
 }
