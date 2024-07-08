@@ -25,6 +25,7 @@
       <ProjectReference Include="..\..\petl\src\Petl.EventSourcing\Petl.EventSourcing.csproj" />
       <ProjectReference Include="..\CupKeeper.Core\CupKeeper.Core.csproj" />
       <ProjectReference Include="..\CupKeeper.Domains.Championships.Orleans\CupKeeper.Domains.Championships.Orleans.csproj" />
+      <ProjectReference Include="..\CupKeeper.Domains.Championships.Services.Mongo\CupKeeper.Domains.Championships.Services.Mongo.csproj" />
       <ProjectReference Include="..\CupKeeper.Domains.Locations.Orleans\CupKeeper.Domains.Locations.Orleans.csproj" />
     </ItemGroup>
 

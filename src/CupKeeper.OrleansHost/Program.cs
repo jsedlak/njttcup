@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using CupKeeper.Domains.Championships.ServiceModel;
+using CupKeeper.Domains.Championships.Services;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MongoDB.Driver;
 using Petl.EventSourcing;
@@ -16,6 +18,10 @@ await Host.CreateDefaultBuilder(args)
                 services.AddScoped<IMongoClient, MongoClient>(sp => new MongoClient(
                     MongoClientSettings.FromConnectionString("mongodb://localadmin:thisisapassword@localhost:27017/")
                 ));
+
+                // our custom services
+                services.AddSingleton<IRiderLocatorService, InMemoryRiderLocatorService>();
+                services.AddScoped<IEventViewRepository, MongoEventViewRepository>();
                 
                 // Adds support for the EventSourcedGrain, using mongodb
                 services.AddOrleansEventSerializer();

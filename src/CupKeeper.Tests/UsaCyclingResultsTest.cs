@@ -1,7 +1,5 @@
 using CupKeeper.Domains.Championships.ServiceModel;
-using CupKeeper.Domains.Championships.Services;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 
 namespace CupKeeper.Tests;
 
@@ -11,10 +9,7 @@ public class UsaCyclingResultsTest
     [Test]
     public async Task CanLoadUsacResults()
     {
-        var provider = new ServiceCollection()
-            .AddLogging(builder => builder.AddDebug())
-            .AddScoped<IResultsLoader, UsaCyclingWebResultsLoader>()
-            .BuildServiceProvider();
+        var provider = TestInitializer.BuildServiceProvider();
 
         var loader = provider.GetRequiredService<IResultsLoader>();
 
@@ -24,5 +19,7 @@ public class UsaCyclingResultsTest
         Assert.That(results.Categories, Is.Not.Null);
         Assert.That(results.Categories, Is.Not.Empty);
         Assert.That(results.Categories, Has.Length.EqualTo(19));
+        
+        Assert.Pass();
     }
 }

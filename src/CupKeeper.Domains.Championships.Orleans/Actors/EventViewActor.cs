@@ -3,20 +3,21 @@ using CupKeeper.Domains.Championships.ServiceModel;
 using Microsoft.Extensions.Logging;
 using Orleans.Runtime;
 using Orleans.Streams;
+using Orleans.Streams.Core;
 
 namespace CupKeeper.Domains.Championships.Actors;
 
 [ImplicitStreamSubscription(ActorConstants.ScheduledEvent_EventStreamName)]
-public class EventViewActor : Grain, IGrainWithGuidKey
+public class EventViewActor : Grain, IGrainWithGuidKey, IStreamSubscriptionObserver, IAsyncObserver<ScheduledEventBaseEvent>
 {
     private readonly ILogger<EventViewActor> _logger;
-    private readonly IEventViewWriteRepository _writeRepository;
-    private StreamSubscriptionHandle<ScheduledEventBaseEvent>? _subscriptionHandle;
+    private readonly IEventViewRepository _viewRepository;
+    // private StreamSubscriptionHandle<ScheduledEventBaseEvent>? _subscriptionHandle;
     
-    public EventViewActor(ILogger<EventViewActor> logger, IEventViewWriteRepository writeRepository)
+    public EventViewActor(ILogger<EventViewActor> logger, IEventViewRepository viewRepository)
     {
         _logger = logger;
-        _writeRepository = writeRepository;
+        _viewRepository = viewRepository;
     }
     
     #region Activation / Deactivation
@@ -24,20 +25,20 @@ public class EventViewActor : Grain, IGrainWithGuidKey
     {
         await base.OnActivateAsync(cancellationToken);
 
-        IStreamProvider streamProvider = this.GetStreamProvider("StreamProvider"); // ServiceProvider.GetRequiredService<IStreamProvider>();
-
-        var streamId = StreamId.Create(ActorConstants.ScheduledEvent_EventStreamName, this.GetPrimaryKey());
-        IAsyncStream<ScheduledEventBaseEvent> stream = streamProvider.GetStream<ScheduledEventBaseEvent>(streamId);
-
-        _subscriptionHandle = await stream.SubscribeAsync(OnNextAsync);
+        // IStreamProvider streamProvider = this.GetStreamProvider("StreamProvider");
+        //
+        // var streamId = StreamId.Create(ActorConstants.ScheduledEvent_EventStreamName, this.GetPrimaryKey());
+        // IAsyncStream<ScheduledEventBaseEvent> stream = streamProvider.GetStream<ScheduledEventBaseEvent>(streamId);
+        //
+        // _subscriptionHandle = await stream.SubscribeAsync(OnNextAsync);
     }
 
     public override async Task OnDeactivateAsync(DeactivationReason reason, CancellationToken cancellationToken)
     {
-        if (_subscriptionHandle is not null)
-        {
-            await _subscriptionHandle.UnsubscribeAsync();
-        }
+        // if (_subscriptionHandle is not null)
+        // {
+        //     await _subscriptionHandle.UnsubscribeAsync();
+        // }
 
         await base.OnDeactivateAsync(reason, cancellationToken);
     }
@@ -63,11 +64,49 @@ public class EventViewActor : Grain, IGrainWithGuidKey
         }
     }
     #endregion
+    
+    #region Implicit Subscription Management
+    public async Task OnSubscribed(IStreamSubscriptionHandleFactory handleFactory)
+    {
+        var handle = handleFactory.Create<ScheduledEventBaseEvent>();
+        await handle.ResumeAsync(this);
+    }
+    
+    public async Task OnNextAsync(ScheduledEventBaseEvent item, StreamSequenceToken? token = null)
+    {
+        _logger.LogInformation("OnNextAsync");
+        
+        _logger.LogInformation($"Captured event: {item.GetType().Name}");
+
+        try
+        {
+            dynamic o = this;
+            dynamic e = item;
+            await o.Handle(e);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, $"Could not handle event {item.GetType().Name}");
+        }
+    }
+
+    public Task OnCompletedAsync()
+    {
+        _logger.LogInformation("OnCompletedAsync");
+        return Task.CompletedTask;
+    }
+
+    public Task OnErrorAsync(Exception ex)
+    {
+        _logger.LogInformation("OnErrorAsync");
+        return Task.CompletedTask;
+    }
+    #endregion
 
     #region View Model: Creation / Deletion
     private async Task Handle(ScheduledEventCreatedEvent ev)
     {
-        var existing = await _writeRepository.GetAsync(ev.AggregateId) ?? new();
+        var existing = await _viewRepository.GetAsync(ev.AggregateId) ?? new();
 
         existing.Name = ev.Name;
         existing.Id = ev.AggregateId;
@@ -78,12 +117,12 @@ public class EventViewActor : Grain, IGrainWithGuidKey
         existing.UsacResultsLink = ev.UsacResultsLink;
         existing.UsacPermitNumber = ev.UsacPermitNumber;
 
-        await _writeRepository.UpsertAsync(existing);
+        await _viewRepository.UpsertAsync(existing);
     }
 
     private async Task Handle(ScheduledEventDeletedEvent ev)
     {
-        var existing = await _writeRepository.GetAsync(ev.AggregateId);
+        var existing = await _viewRepository.GetAsync(ev.AggregateId);
 
         if (existing is null)
         {
@@ -92,12 +131,12 @@ public class EventViewActor : Grain, IGrainWithGuidKey
 
         existing.IsDeleted = true;
 
-        await _writeRepository.UpsertAsync(existing);
+        await _viewRepository.UpsertAsync(existing);
     }
 
     private async Task Handle(ScheduledEventRestoredEvent ev)
     {
-        var existing = await _writeRepository.GetAsync(ev.AggregateId);
+        var existing = await _viewRepository.GetAsync(ev.AggregateId);
 
         if (existing is null)
         {
@@ -106,7 +145,7 @@ public class EventViewActor : Grain, IGrainWithGuidKey
 
         existing.IsDeleted = false;
 
-        await _writeRepository.UpsertAsync(existing);
+        await _viewRepository.UpsertAsync(existing);
     }
     #endregion
 

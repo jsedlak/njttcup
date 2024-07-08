@@ -2,12 +2,11 @@ using CupKeeper.Domains.Championships.ViewModel;
 
 namespace CupKeeper.Domains.Championships.ServiceModel;
 
-public interface IEventViewWriteRepository
+public interface IEventViewRepository
 {
     Task<EventViewModel?> GetAsync(Guid id);
     
-    Task UpsertAsync<EventViewModel>(EventViewModel viewModel);
+    Task UpsertAsync(EventViewModel viewModel);
 
     Task DeleteAsync(Guid id);
-
 }

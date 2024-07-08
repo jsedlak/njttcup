@@ -3,6 +3,7 @@
 /// <summary>
 /// Represents the base class for commands that require an existing venue
 /// </summary>
+[GenerateSerializer]
 public abstract class ExistingVenueCommandBase
 {
     protected ExistingVenueCommandBase(Guid venueId)
@@ -10,5 +11,6 @@ public abstract class ExistingVenueCommandBase
         VenueId = venueId;
     }
     
+    [Id(0)]
     public Guid VenueId { get; set; }
 }
