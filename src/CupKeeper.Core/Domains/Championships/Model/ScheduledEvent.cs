@@ -82,7 +82,6 @@ public sealed class ScheduledEvent : IAggregateRoot
     public bool IsPublished { get; set; }
     
     #region Event Management Events
-
     public void Apply(ScheduledEventCreatedEvent @event)
     {
         Name = @event.Name;

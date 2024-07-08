@@ -16,7 +16,7 @@ public sealed class RiderResult
     /// Gets or Sets the placing
     /// </summary>
     [Id(1)]
-    public int Place { get; set; }
+    public int? Place { get; set; }
 
     /// <summary>
     /// Gets or Sets the amount of points awarded

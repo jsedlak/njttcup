@@ -3,6 +3,7 @@ using CupKeeper.Domains.Championships.Commands;
 using CupKeeper.Domains.Championships.Commands.EventResults;
 using CupKeeper.Domains.Championships.Events.ScheduledEvents;
 using CupKeeper.Domains.Championships.Model;
+using CupKeeper.Domains.Championships.ServiceModel;
 using Orleans.Runtime;
 using Orleans.Streams;
 using Petl.EventSourcing;
@@ -12,13 +13,15 @@ namespace CupKeeper.Domains.Championships.Actors;
 public class EventActor : EventSourcedGrain<ScheduledEvent, ScheduledEventBaseEvent>, IEventActor
 {
     private readonly IGrainFactory _grainFactory;
+    private readonly IRiderLocatorService _riderLocatorService;
     
     private IDisposable? _resultsLoadTimer;
     private IAsyncStream<ScheduledEventBaseEvent>? _eventStream;
     
-    public EventActor(IGrainFactory grainFactory)
+    public EventActor(IGrainFactory grainFactory, IRiderLocatorService riderLocatorService)
     {
         _grainFactory = grainFactory;
+        _riderLocatorService = riderLocatorService;
     }
 
     public override async Task OnActivateAsync(CancellationToken cancellationToken)
@@ -264,6 +267,53 @@ public class EventActor : EventSourcedGrain<ScheduledEvent, ScheduledEventBaseEv
         
         // TODO: Do something with the results
         var results = await resultsLoaderGrain.GetResults();
+
+        if (results is null)
+        {
+            // TODO: DO SOMETHING
+            return;
+        }
+
+        var categories = new List<CategoryResult>();
+        foreach (var parsedCategory in results.Categories)
+        {
+            var cat = new CategoryResult
+            {
+                Name = parsedCategory.Name
+            };
+
+            foreach (var parsedRider in parsedCategory.Results)
+            {
+                // formalize / search / get the well-known rider
+                var rider = await _riderLocatorService.GetAsync(
+                    parsedRider.Name, 
+                    parsedRider.Team,
+                    parsedRider.License
+                );
+
+                var isExcluded = int.TryParse(parsedRider.Place, out int riderPlacing);
+
+                var riderResult = new RiderResult
+                {
+                    TeamName = rider.TeamName,
+                    RiderId = rider.Id,
+                    Place = isExcluded ? null : riderPlacing,
+                    Points = 0,
+                    Time = isExcluded ? null : parsedRider.Time,
+                    ExcludeFromPoints = isExcluded,
+                    ExclusionReason = isExcluded ? parsedRider.Place : null
+                };
+
+                cat.Riders = [..cat.Riders, riderResult];
+            }
+
+            categories.Add(cat);
+        }
+
+        await Raise(new EventResultsLoadedEvent(this.GetGrainId().GetGuidKey())
+        {
+            Categories = categories
+        });
 
         if (_resultsLoadTimer is not null)
         {

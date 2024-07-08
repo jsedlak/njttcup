@@ -5,5 +5,5 @@ namespace CupKeeper.Domains.Championships.ServiceModel;
 
 public interface IRiderLocatorService
 {
-    Task<Rider> GetAsync(string name, string teamName, string license);
+    Task<Rider> GetAsync(string name, string? teamName, string? license);
 }
