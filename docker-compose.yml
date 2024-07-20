@@ -1,4 +1,28 @@
 ﻿services:
+  mongo:
+    image: mongo
+    restart: always
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: localadmin
+      MONGO_INITDB_ROOT_PASSWORD: thisisapassword
+  cupkeeper.adminapp:
+    image: cupkeeper.adminapp
+    restart: always
+    ports:
+      - 8000:80
+    build:
+      context: .
+      dockerfile: src/CupKeeper.AdminApp/Dockerfile
+  cupkeeper.adminapi:
+    image: cupkeeper.adminapi
+    restart: always
+    ports:
+      - 8001:8080
+    build:
+      context: .
+      dockerfile: src/CupKeeper.AdminApi/Dockerfile
   cupkeeper.orleanshost:
     image: cupkeeper.orleanshost
     build:

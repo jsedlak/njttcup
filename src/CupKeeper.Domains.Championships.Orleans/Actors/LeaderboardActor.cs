@@ -34,6 +34,13 @@ public class LeaderboardActor : EventSourcedGrain<Leaderboard, AggregateEvent>, 
         return Task.FromResult(CommandResult.Success());
     }
 
+    public Task<CommandResult> Undelete(UndeleteLeaderboardCommand command)
+    {
+        Raise(new LeaderboardUndeletedEvent(command.LeaderboardId));
+
+        return Task.FromResult(CommandResult.Success());
+    }
+
     public Task<CommandResult> Recalculate(RecalculateLeaderboardCommand command)
     {
         _logger.LogInformation($"Initiating recalculation of the leaderboard for year {command.Year}");
@@ -43,6 +50,20 @@ public class LeaderboardActor : EventSourcedGrain<Leaderboard, AggregateEvent>, 
             Year = command.Year
         });
         
+        return Task.FromResult(CommandResult.Success());
+    }
+
+    public Task<CommandResult> Publish(PublishLeaderboardCommand command)
+    {
+        Raise(new LeaderboardPublishedEvent(this.GetGrainId().GetGuidKey()));
+
+        return Task.FromResult(CommandResult.Success());
+    }
+
+    public Task<CommandResult> Unpublish(UnpublishLeaderboardCommand command)
+    {
+        Raise(new LeaderboardUnpublishedEvent(this.GetGrainId().GetGuidKey()));
+
         return Task.FromResult(CommandResult.Success());
     }
 }

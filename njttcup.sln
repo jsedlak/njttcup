@@ -56,6 +56,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CupKeeper.Domains.Champions
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CupKeeper.OrleansClient", "src\CupKeeper.OrleansClient\CupKeeper.OrleansClient.csproj", "{F7B960C2-8BBD-428C-8AB9-C3295F0E391F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CupKeeper.AdminApi", "src\CupKeeper.AdminApi\CupKeeper.AdminApi.csproj", "{6AF5CF8E-22DF-40C9-9D9D-338F34CA2DB0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -134,6 +136,10 @@ Global
 		{F7B960C2-8BBD-428C-8AB9-C3295F0E391F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F7B960C2-8BBD-428C-8AB9-C3295F0E391F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F7B960C2-8BBD-428C-8AB9-C3295F0E391F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6AF5CF8E-22DF-40C9-9D9D-338F34CA2DB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6AF5CF8E-22DF-40C9-9D9D-338F34CA2DB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6AF5CF8E-22DF-40C9-9D9D-338F34CA2DB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6AF5CF8E-22DF-40C9-9D9D-338F34CA2DB0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -157,6 +163,7 @@ Global
 		{FC86CA88-684D-4273-A031-765512524BF3} = {6C449D72-FAB1-4FFC-BA78-8D558F85DC39}
 		{896883D4-3381-49FB-A95A-0360F8099A20} = {3B37C7EA-1289-4E95-A9A3-FB7AA9AD2C40}
 		{F7B960C2-8BBD-428C-8AB9-C3295F0E391F} = {4EC54C70-7C2C-44D1-B2B3-EAE0697BD0B2}
+		{6AF5CF8E-22DF-40C9-9D9D-338F34CA2DB0} = {4EC54C70-7C2C-44D1-B2B3-EAE0697BD0B2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BECA1B91-2140-483C-B02F-018C20755A89}

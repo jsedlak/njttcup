@@ -28,7 +28,7 @@ await Host.CreateDefaultBuilder(args)
                 services.AddMongoEventSourcing("njttcup");
             })
             .AddMemoryStreams("StreamProvider")
-            .AddMemoryGrainStorage("PubSubStore")
+            // .AddMemoryGrainStorage("PubSubStore")
             .UseLocalhostClustering();
     })
     .RunConsoleAsync();

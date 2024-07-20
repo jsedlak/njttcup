@@ -5,6 +5,7 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
 
     <ItemGroup>
@@ -26,6 +27,12 @@
       <ProjectReference Include="..\..\tazor\src\Tazor.Components\Tazor.Components.csproj" />
       <ProjectReference Include="..\..\tazor\src\Tazor.Http\Tazor.Http.csproj" />
       <ProjectReference Include="..\..\tazor\src\Tazor.Wasm\Tazor.Wasm.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="..\..\.dockerignore">
+        <Link>.dockerignore</Link>
+      </Content>
     </ItemGroup>
 
 </Project>

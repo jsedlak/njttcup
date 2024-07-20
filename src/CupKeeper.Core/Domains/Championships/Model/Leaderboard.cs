@@ -1,4 +1,5 @@
 ﻿using CupKeeper.Cqrs;
+using CupKeeper.Domains.Championships.Events.Leaderboards;
 
 namespace CupKeeper.Domains.Championships.Model;
 
@@ -37,4 +38,34 @@ public sealed class Leaderboard : IAggregateRoot
     /// </summary>
     [Id(4)]
     public bool IsDeleted { get; set; }
+    
+    [Id(5)]
+    public bool IsPublished { get; set; }
+
+    public void Apply(LeaderboardCreatedEvent @event)
+    {
+        Id = @event.AggregateId;
+        Year = @event.Year;
+        EventResultIds = @event.EventResultIds;
+    }
+
+    public void Apply(LeaderboardDeletedEvent @event)
+    {
+        IsDeleted = true;
+    }
+    
+    public void Apply(LeaderboardUndeletedEvent @event)
+    {
+        IsDeleted = false;
+    }
+
+    public void Apply(LeaderboardPublishedEvent @event)
+    {
+        IsPublished = true;
+    }
+
+    public void Apply(LeaderboardUnpublishedEvent @event)
+    {
+        IsPublished = false;
+    }
 }

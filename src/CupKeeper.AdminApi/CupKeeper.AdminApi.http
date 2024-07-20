@@ -1,0 +1,6 @@
+@CupKeeper.AdminApi_HostAddress = http://localhost:5133
+
+GET {{CupKeeper.AdminApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

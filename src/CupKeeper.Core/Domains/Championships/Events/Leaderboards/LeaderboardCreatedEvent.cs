@@ -13,4 +13,7 @@ public sealed class LeaderboardCreatedEvent : AggregateEvent
     
     [Id(0)]
     public int Year { get; set; }
+
+    [Id(1)]
+    public IEnumerable<Guid> EventResultIds { get; set; }
 }
