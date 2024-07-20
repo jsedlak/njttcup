@@ -1,9 +1,4 @@
-﻿#FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
-#USER $APP_UID
-#WORKDIR /app
-#EXPOSE 8080
-#EXPOSE 8081
-FROM nginx AS base
+﻿FROM nginx AS base
 EXPOSE 80
 EXPOSE 443
 
@@ -28,6 +23,4 @@ FROM base AS final
 WORKDIR /usr/share/nginx/html
 COPY --from=publish /app/publish/wwwroot .
 COPY  "src/CupKeeper.AdminApp/nginx.conf" /etc/nginx/nginx.conf
-#WORKDIR /app
-#COPY --from=publish /app/publish .
-#ENTRYPOINT ["dotnet", "CupKeeper.AdminApp.dll"]
+
