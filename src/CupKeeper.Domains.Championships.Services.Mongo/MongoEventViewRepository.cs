@@ -13,6 +13,13 @@ public class MongoEventViewRepository : IEventViewRepository
         _mongoClient = mongoClient;
     }
 
+    public Task<IQueryable<EventViewModel>> QueryAsync()
+    {
+        var db = _mongoClient.GetDatabase("njttcup");
+        var col = db.GetCollection<EventViewModel>("views_events");
+        return Task.FromResult((IQueryable<EventViewModel>)col.AsQueryable());
+    }
+
     public async Task<EventViewModel?> GetAsync(Guid id)
     {
         var db = _mongoClient.GetDatabase("njttcup");

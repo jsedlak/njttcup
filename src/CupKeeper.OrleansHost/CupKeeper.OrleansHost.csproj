@@ -12,11 +12,17 @@
       <Content Include="..\..\.dockerignore">
         <Link>.dockerignore</Link>
       </Content>
+      <None Remove="appsettings.json" />
+      <Content Include="appsettings.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Microsoft.Orleans.Server" Version="8.1.0" />
-      <PackageReference Include="Microsoft.Orleans.Streaming" Version="8.1.0" />
+      <PackageReference Include="Microsoft.Orleans.Reminders" Version="8.2.0" />
+      <PackageReference Include="Microsoft.Orleans.Server" Version="8.2.0" />
+      <PackageReference Include="Microsoft.Orleans.Streaming" Version="8.2.0" />
+      <PackageReference Include="Orleans.Providers.MongoDB" Version="8.0.3" />
     </ItemGroup>
 
     <ItemGroup>

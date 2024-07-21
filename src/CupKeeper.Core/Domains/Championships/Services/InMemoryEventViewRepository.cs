@@ -8,6 +8,13 @@ public class InMemoryEventViewRepository : IEventViewRepository
 {
     private static readonly ConcurrentDictionary<Guid, EventViewModel> Events = new();
 
+    public Task<IQueryable<EventViewModel>> QueryAsync()
+    {
+        return Task.FromResult(
+            Events.Values.AsQueryable()
+        );
+    }
+
     public Task<EventViewModel?> GetAsync(Guid id)
     {
         Events.TryGetValue(id, out var result);

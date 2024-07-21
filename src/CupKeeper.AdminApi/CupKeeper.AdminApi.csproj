@@ -8,6 +8,12 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="HotChocolate" Version="13.9.7" />
+        <PackageReference Include="HotChocolate.AspNetCore" Version="13.9.7" />
+        <PackageReference Include="HotChocolate.Data.MongoDb" Version="13.9.7" />
+        <PackageReference Include="Microsoft.Orleans.Client" Version="8.2.0" />
+        <PackageReference Include="Microsoft.Orleans.Reminders" Version="8.2.0" />
+        <PackageReference Include="Orleans.Providers.MongoDB" Version="8.0.3" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
     </ItemGroup>
 
@@ -15,6 +21,11 @@
       <Content Include="..\..\.dockerignore">
         <Link>.dockerignore</Link>
       </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\CupKeeper.Core\CupKeeper.Core.csproj" />
+      <ProjectReference Include="..\CupKeeper.Domains.Championships.Services.Mongo\CupKeeper.Domains.Championships.Services.Mongo.csproj" />
     </ItemGroup>
 
 </Project>

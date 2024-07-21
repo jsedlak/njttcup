@@ -1,5 +1,5 @@
 ﻿services:
-  mongo:
+  cupkeeper.mongo:
     image: mongo
     restart: always
     ports:
