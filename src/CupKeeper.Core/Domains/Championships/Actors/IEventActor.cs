@@ -42,5 +42,7 @@ public interface IEventActor : IGrainWithGuidKey
 
     ValueTask<bool> StartResultsLoad();
 
+    ValueTask<bool> CheckResultsLoadFinished();
+
     #endregion
 }

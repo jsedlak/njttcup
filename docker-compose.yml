@@ -1,5 +1,5 @@
 ﻿services:
-  cupkeeper.mongo:
+  njttcup-mongo:
     image: mongo
     restart: always
     ports:
@@ -7,24 +7,30 @@
     environment:
       MONGO_INITDB_ROOT_USERNAME: localadmin
       MONGO_INITDB_ROOT_PASSWORD: thisisapassword
-  cupkeeper.adminapp:
+  njttcup-adminapp:
     image: cupkeeper.adminapp
+    depends_on:
+      - njttcup-mongo
     restart: always
     ports:
       - 8000:80
     build:
       context: .
       dockerfile: src/CupKeeper.AdminApp/Dockerfile
-  cupkeeper.adminapi:
+  njttcup-adminapi:
     image: cupkeeper.adminapi
+    depends_on:
+      - njttcup-mongo
     restart: always
     ports:
       - 8001:8080
     build:
       context: .
       dockerfile: src/CupKeeper.AdminApi/Dockerfile
-  cupkeeper.orleanshost:
+  njttcup-orleanshost:
     image: cupkeeper.orleanshost
+    depends_on:
+      - njttcup-mongo
     build:
       context: .
       dockerfile: src/CupKeeper.OrleansHost/Dockerfile

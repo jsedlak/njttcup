@@ -12,9 +12,9 @@ public class EventViewModel
     
     public Guid CourseId { get; set; }
 
-    public string VenueName { get; set; } = null!;
+    public string? VenueName { get; set; } = null!;
 
-    public string CourseName { get; set; } = null!;
+    public string? CourseName { get; set; } = null!;
     
     public int ChampionshipYear { get; set; }
 

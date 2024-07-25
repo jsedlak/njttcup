@@ -253,6 +253,19 @@ public class EventActor : EventSourcedGrain<ScheduledEvent, ScheduledEventBaseEv
         return true;
     }
 
+    public async ValueTask<bool> CheckResultsLoadFinished()
+    {
+        if (_resultsLoadTimer is null)
+        {
+            return true;
+        }
+        
+        var resultsGrainId = State.UsacPermitNumber!;
+        var resultsLoaderGrain = _grainFactory.GetGrain<IEventResultsActor>(resultsGrainId);
+
+        return await resultsLoaderGrain.CheckStatus();
+    }
+
     private async Task CheckResultsLoad(object task)
     {
         var resultsGrainId = State.UsacPermitNumber!;
