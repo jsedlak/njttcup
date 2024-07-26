@@ -63,7 +63,7 @@
     }
   },
   "button": {
-    "global": "inline-block text-center font-semibold py-2 px-4 rounded cursor-pointer whitespace-nowrap",
+    "global": "inline-block text-center font-semibold py-2 px-4 rounded cursor-pointer whitespace-nowrap items-center flex space-x-2",
     "disabled": "opacity-50 cursor-not-allowed",
     "default": "bg-indigo-500 hover:bg-indigo-600 text-white",
     "defaultOutline": "bg-transparent hover:bg-indigo-500 text-indigo-500 dark:text-indigo-100 hover:text-white border border-indigo-500",

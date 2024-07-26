@@ -12,8 +12,11 @@
             <h1 class="text-2xl">Venues</h1>
             <p class="text-sm opacity-50">Do some venue things here.</p>
         </div>
-        <div>
-            <Button Clicked=@(() => { _isCreateDialogVisible = true; StateHasChanged();  }) Type="ButtonType.Primary">@HeroIcons.DocumentPlus("inline-block") Create Venue</Button>
+        <div class="flex items-center space-x-3">
+            <Button Type="ButtonType.DefaultOutline" Clicked=@RefreshAsync>
+                <span>@HeroIcons.ArrowPathRoundedSquare()</span>
+            </Button>
+            <Button Clicked=@(() => { _isCreateDialogVisible = true; StateHasChanged(); }) Type="ButtonType.Primary">@HeroIcons.DocumentPlus("inline-block") Create Venue</Button>
         </div>
     </div>
     
