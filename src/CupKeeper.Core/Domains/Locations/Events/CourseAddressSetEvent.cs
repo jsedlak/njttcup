@@ -3,18 +3,17 @@ using CupKeeper.Domains.Locations.Model;
 
 namespace CupKeeper.Domains.Locations.Events;
 
-public sealed class CourseAddressSetEvent : AggregateEvent
+[GenerateSerializer]
+public sealed class CourseAddressSetEvent : VenueBaseEvent
 {
-    public CourseAddressSetEvent()
-    {
-    }
-
     public CourseAddressSetEvent(Guid aggregateId) 
         : base(aggregateId)
     {
     }
 
+    [Id(0)]
     public Guid CourseId { get; set; }
 
+    [Id(1)]
     public Address? Address { get; set; }
 }

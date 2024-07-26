@@ -1,0 +1,88 @@
+﻿@page "/venues"
+@using CupKeeper.AdminApp.Components
+@using CupKeeper.AdminApp.Services
+@using CupKeeper.Domains.Locations.Commands
+@using CupKeeper.Domains.Locations.ViewModel
+@inject VenueService VenueService
+<PageTitle>Venues - Cup Keeper</PageTitle>
+
+<div class="mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div class="flex justify-between items-center mb-3">
+        <div>
+            <h1 class="text-2xl">Venues</h1>
+            <p class="text-sm opacity-50">Do some venue things here.</p>
+        </div>
+        <div>
+            <Button Clicked=@(() => { _isCreateDialogVisible = true; StateHasChanged();  }) Type="ButtonType.Primary">@HeroIcons.DocumentPlus("inline-block") Create Venue</Button>
+        </div>
+    </div>
+    
+    <DataGrid TItem="VenueViewModel" Items="_venues" Columns="_columns">
+    </DataGrid>
+</div>
+
+<Dialog Title="Create Venue" @bind-IsVisible="_isCreateDialogVisible">
+    <Content>
+        @if (!string.IsNullOrWhiteSpace(_createError))
+        {
+            <Alert Type="AlertType.Error">
+                @_createError
+            </Alert>
+        }
+        <div class="mb-2">
+            <Label>Name</Label>
+            <TextBox @bind-Value="_createCommand.Name"/>
+        </div>
+
+        <AddressEditor @bind-Address="_createCommand.ParkingAddress"></AddressEditor>
+    </Content>
+    <Footer>
+    <div class="flex items-center">
+        <Button Block Clicked=@(() => { _isCreateDialogVisible = false; StateHasChanged(); }) Type="ButtonType.DefaultOutline">Cancel</Button>
+        <Button Block Clicked="OnCreateVenueClicked" Type="ButtonType.Success">Create</Button>
+    </div>
+    </Footer>
+</Dialog>
+
+@code {
+    private bool _isCreateDialogVisible;
+    private CreateVenueCommand _createCommand = new();
+    private string _createError = "";
+    
+    private IEnumerable<Column<VenueViewModel>> _columns =
+    [
+        new Column<VenueViewModel> { Title = "Id", Field = m => m.Id },
+        new Column<VenueViewModel> { Title = "Name", Field = m=> m.Name },
+        new Column<VenueViewModel> { Title ="Address", Field = m => m.ParkingAddress!, Component = typeof(VenueAddressColumn) }
+    ];
+    
+    private IEnumerable<VenueViewModel> _venues = [];
+
+    private async Task OnCreateVenueClicked()
+    {
+        _createError = "";
+        var response = await VenueService.Create(_createCommand);
+
+        if (response.IsSuccess)
+        {
+            await RefreshAsync();
+            _isCreateDialogVisible = false;
+            StateHasChanged();
+        }
+        else
+        {
+            _createError = string.Join("; ", response.Messages);
+        }
+    }
+    
+    private async Task RefreshAsync()
+    {
+        _venues = await VenueService.GetVenues();
+    }
+    
+    protected override async Task OnInitializedAsync()
+    {
+        await RefreshAsync();
+        await base.OnInitializedAsync();
+    }
+}

@@ -1,6 +1,6 @@
-namespace CupKeeper.Domains.Championships;
+namespace CupKeeper.Domains.Championships.Actors;
 
 public class ActorConstants
 {
-    public const string ScheduledEvent_EventStreamName = "SCHEDULED_EVENT_EVENTS_STREAM";
+    public const string ScheduledEventEventStreamName = "SCHEDULED_EVENT_EVENTS_STREAM";
 }

@@ -4,7 +4,7 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <RootNamespace>CupKeeper.Domains.Championships.Services</RootNamespace>
+        <RootNamespace>CupKeeper.Domains.Locations.Services</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

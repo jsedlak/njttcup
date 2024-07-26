@@ -4,6 +4,7 @@ using HotChocolate.Data;
 
 namespace CupKeeper.AdminApi.Queries;
 
+[ExtendObjectType("Query")]
 public class EventQueries
 {
     [UseFiltering]

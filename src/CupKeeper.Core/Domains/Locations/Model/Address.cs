@@ -31,8 +31,14 @@ public sealed record Address
     public string State { get; set; } = null!;
 
     /// <summary>
+    /// Gets or Sets the zip code
+    /// </summary>
+    [Id(4)] 
+    public string? ZipCode { get; set; } = null;
+
+    /// <summary>
     /// Gets or Sets the country code
     /// </summary>
-    [Id(4)]
-    public string Country { get; set; } = null!;
+    [Id(5)]
+    public string? Country { get; set; } = null;
 }

@@ -31,7 +31,7 @@ public class EventActor : EventSourcedGrain<ScheduledEvent, ScheduledEventBaseEv
         var streamProvider = this.GetStreamProvider("StreamProvider");
         
         var myId = this.GetGrainId().GetGuidKey();
-        var streamId = StreamId.Create(ActorConstants.ScheduledEvent_EventStreamName, myId);
+        var streamId = StreamId.Create(ActorConstants.ScheduledEventEventStreamName, myId);
         
         // grab a ref to the stream using the stream id
         _eventStream = streamProvider.GetStream<ScheduledEventBaseEvent>(streamId);

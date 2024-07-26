@@ -2,16 +2,14 @@
 
 namespace CupKeeper.Domains.Locations.Events;
 
-public sealed class VenueNameSetEvent : AggregateEvent
+[GenerateSerializer]
+public sealed class VenueNameSetEvent : VenueBaseEvent
 {
-    public VenueNameSetEvent()
-    {
-    }
-
     public VenueNameSetEvent(Guid aggregateId) 
         : base(aggregateId)
     {
     }
 
+    [Id(0)]
     public string Name { get; set; } = null!;
 }

@@ -1,5 +1,7 @@
 ﻿using CupKeeper.Domains.Championships.ServiceModel;
 using CupKeeper.Domains.Championships.Services;
+using CupKeeper.Domains.Locations.ServiceModel;
+using CupKeeper.Domains.Locations.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -25,6 +27,7 @@ await Host.CreateDefaultBuilder(args)
                 // our custom services
                 services.AddSingleton<IRiderLocatorService, InMemoryRiderLocatorService>();
                 services.AddScoped<IEventViewRepository, MongoEventViewRepository>();
+                services.AddScoped<IVenueViewRepository, MongoVenueViewRepository>();
                 
                 // Adds support for the EventSourcedGrain, using mongodb
                 services.AddOrleansEventSerializer();

@@ -1,0 +1,7 @@
+@using CupKeeper.Domains.Locations.ViewModel
+<AddressView Value="Item.ParkingAddress" Inline />
+@code {
+    [Parameter] public bool Inline { get; set; }
+
+    [Parameter] public VenueViewModel Item { get; set; } = null!;
+}

@@ -1,0 +1,40 @@
+@using CupKeeper.Domains.Locations.Model
+@if (Value != null)
+{
+    if (Inline)
+    {
+        IEnumerable<string> values =
+        [
+            Value.StreetAddress,
+            Value.AdditionalStreetAddress ?? "",
+            Value.City,
+            Value.State,
+            Value.ZipCode ?? "",
+            Value.Country ?? ""
+        ];
+
+        values = values.Where(m => !string.IsNullOrWhiteSpace(m));
+        
+        <address>
+            @(string.Join(", ", values))
+        </address>
+    }
+    else
+    {
+        <address>
+            @Value.StreetAddress
+            <br/>
+            @if (!string.IsNullOrWhiteSpace(Value.AdditionalStreetAddress))
+            {
+                @Value.AdditionalStreetAddress
+                <br/>
+            }
+            @Value.City, @Value.State, @Value.ZipCode
+        </address>
+    }
+}
+@code {
+    [Parameter] public bool Inline { get; set; }
+    
+    [Parameter] public Address? Value { get; set; }
+}

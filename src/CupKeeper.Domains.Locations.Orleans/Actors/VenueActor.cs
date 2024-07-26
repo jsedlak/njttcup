@@ -3,65 +3,99 @@ using CupKeeper.Domains.Locations.Commands;
 using CupKeeper.Domains.Locations.Events;
 using CupKeeper.Domains.Locations.Model;
 using Orleans.Runtime;
+using Orleans.Streams;
 using Petl.EventSourcing;
 
 namespace CupKeeper.Domains.Locations.Actors;
 
-public class VenueActor : EventSourcedGrain<Venue, AggregateEvent>, IVenueActor
+public class VenueActor : EventSourcedGrain<Venue, VenueBaseEvent>, IVenueActor
 {
+    private IAsyncStream<VenueBaseEvent>? _eventStream;
+
+    #region Grain Management
+
+    public override async Task OnActivateAsync(CancellationToken cancellationToken)
+    {
+        await base.OnActivateAsync(cancellationToken);
+
+        var streamProvider = this.GetStreamProvider("StreamProvider");
+
+        var myId = this.GetGrainId().GetGuidKey();
+        var streamId = StreamId.Create(ActorConstants.VenueEventEventStreamName, myId);
+
+        _eventStream = streamProvider.GetStream<VenueBaseEvent>(streamId);
+    }
+
+    protected override async Task Raise(VenueBaseEvent @event)
+    {
+        await base.Raise(@event);
+        await _eventStream!.OnNextAsync(@event);
+    }
+
+    protected override async Task Raise(IEnumerable<VenueBaseEvent> events)
+    {
+        var eventBatch = events as VenueBaseEvent[] ?? events.ToArray();
+
+        await base.Raise(eventBatch);
+        await _eventStream!.OnNextBatchAsync(eventBatch);
+    }
+
+    #endregion
+
     #region Venue Management
-    public Task<CommandResult> Create(CreateVenueCommand command)
+
+    public async Task<CommandResult> Create(CreateVenueCommand command)
     {
         var result = new VenueCreatedEvent(this.GetGrainId().GetGuidKey())
         {
             Name = command.Name,
             ParkingAddress = command.ParkingAddress,
         };
-        
-        Raise(result);
 
-        return Task.FromResult(CommandResult.Success());
+        await Raise(result);
+
+        return CommandResult.Success();
     }
 
-    public Task<CommandResult> Delete(DeleteVenueCommand command)
+    public async Task<CommandResult> Delete(DeleteVenueCommand command)
     {
         if (State.IsDeleted)
         {
-            return Task.FromResult(
-                CommandResult.Failure("Cannot delete venue - it is already marked for deletion.")
-            );
+            return CommandResult.Failure("Cannot delete venue - it is already marked for deletion.");
         }
-        
-        Raise(new VenueDeletedEvent(command.VenueId));
-        
-        return Task.FromResult(CommandResult.Success());
+
+        await Raise(new VenueDeletedEvent(command.VenueId));
+
+        return CommandResult.Success();
     }
 
-    public Task<CommandResult> SetName(SetVenueNameCommand command)
+    public async Task<CommandResult> SetName(SetVenueNameCommand command)
     {
-        Raise(new VenueNameSetEvent(command.VenueId)
+        await Raise(new VenueNameSetEvent(command.VenueId)
         {
             Name = command.Name
         });
 
-        return Task.FromResult(CommandResult.Success());
+        return CommandResult.Success();
     }
 
-    public Task<CommandResult> SetParkingAddress(SetVenueParkingAddressCommand command)
+    public async Task<CommandResult> SetParkingAddress(SetVenueParkingAddressCommand command)
     {
-        Raise(new VenueParkingAddressSetEvent(command.VenueId)
+        await Raise(new VenueParkingAddressSetEvent(command.VenueId)
         {
             ParkingAddress = command.ParkingAddress
         });
-        
-        return Task.FromResult(CommandResult.Success());
+
+        return CommandResult.Success();
     }
+
     #endregion
 
     #region Course Management
-    public Task<CommandResult> AddCourse(AddCourseToVenueCommand command)
+
+    public async Task<CommandResult> AddCourse(AddCourseToVenueCommand command)
     {
-        Raise(new CourseAddedToVenueEvent(command.VenueId)
+        await Raise(new CourseAddedToVenueEvent(command.VenueId)
         {
             CourseId = Guid.NewGuid(),
             Name = command.Name,
@@ -71,54 +105,54 @@ public class VenueActor : EventSourcedGrain<Venue, AggregateEvent>, IVenueActor
             RideWithGpsId = command.RideWithGpsId,
             RouteLink = command.RouteLink
         });
-        
-        return Task.FromResult(CommandResult.Success());
+
+        return CommandResult.Success();
     }
 
-    public Task<CommandResult> DeleteCourse(DeleteCourseFromVenueCommand command)
+    public async Task<CommandResult> DeleteCourse(DeleteCourseFromVenueCommand command)
     {
-        Raise(new CourseDeletedFromVenueEvent(command.VenueId)
+        await Raise(new CourseDeletedFromVenueEvent(command.VenueId)
         {
-            CourseId = command.CourseId 
+            CourseId = command.CourseId
         });
-        
-        return Task.FromResult(CommandResult.Success());
+
+        return CommandResult.Success();
     }
 
-    public Task<CommandResult> SetCourseAddress(SetCourseAddressCommand command)
+    public async Task<CommandResult> SetCourseAddress(SetCourseAddressCommand command)
     {
-        Raise(new CourseAddressSetEvent(command.VenueId)
+        await Raise(new CourseAddressSetEvent(command.VenueId)
         {
             CourseId = command.CourseId,
             Address = command.Address
         });
-        
-        return Task.FromResult(CommandResult.Success());
+
+        return CommandResult.Success();
     }
 
-    public Task<CommandResult> SetCourseMetaData(SetCourseMetaData command)
+    public async Task<CommandResult> SetCourseMetaData(SetCourseMetaData command)
     {
-        Raise(new CourseMetaDataSetEvent(command.VenueId)
+        await Raise(new CourseMetaDataSetEvent(command.VenueId)
         {
             CourseId = command.CourseId,
             Name = command.Name,
             Description = command.Description
         });
-        
-        return Task.FromResult(CommandResult.Success());
+
+        return CommandResult.Success();
     }
 
-    public Task<CommandResult> SetCourseRouteData(SetCourseRouteDataCommand command)
+    public async Task<CommandResult> SetCourseRouteData(SetCourseRouteDataCommand command)
     {
-        Raise(new CourseRouteDataSetEvent(command.VenueId)
+        await Raise(new CourseRouteDataSetEvent(command.VenueId)
         {
             CourseId = command.CourseId,
             Mileage = command.Mileage,
             RouteLink = command.RouteLink,
             RideWithGpsId = command.RideWithGpsId
         });
-        
-        return Task.FromResult(CommandResult.Success());
+
+        return CommandResult.Success();
     }
     #endregion
 }

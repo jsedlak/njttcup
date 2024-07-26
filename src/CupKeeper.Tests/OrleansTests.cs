@@ -44,7 +44,7 @@ public class OrleansTests
         var foundEvent = await repo.GetAsync(eventId);
 
         Assert.IsNotNull(foundEvent);
-        Assert.AreEqual(eventName, foundEvent.Name);
+        Assert.That(foundEvent.Name, Is.EqualTo(eventName));
         
         Assert.Pass();
         

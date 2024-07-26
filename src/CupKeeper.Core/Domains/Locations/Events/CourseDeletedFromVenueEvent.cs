@@ -2,16 +2,14 @@
 
 namespace CupKeeper.Domains.Locations.Events;
 
-public sealed class CourseDeletedFromVenueEvent : AggregateEvent
+[GenerateSerializer]
+public sealed class CourseDeletedFromVenueEvent : VenueBaseEvent
 {
-    public CourseDeletedFromVenueEvent()
-    {
-    }
-
     public CourseDeletedFromVenueEvent(Guid aggregateId) 
         : base(aggregateId)
     {
     }
 
+    [Id(0)]
     public Guid CourseId { get; set; }
 }

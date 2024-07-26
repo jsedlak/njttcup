@@ -1,8 +1,9 @@
+using CupKeeper.Data;
 using CupKeeper.Domains.Championships.Model;
 
 namespace CupKeeper.Domains.Championships.ViewModel;
 
-public class EventViewModel
+public class EventViewModel : IView
 {
     public Guid Id { get; set; } = Guid.NewGuid();
 

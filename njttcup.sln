@@ -34,6 +34,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3D2E8A89-3C0B-49B7-9860-F1280B36C642}"
 	ProjectSection(SolutionItems) = preProject
 		docker-compose.yml = docker-compose.yml
+		graphql.config.yml = graphql.config.yml
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CupKeeper.Domains.Championships.UsaCycling", "src\CupKeeper.Domains.Championships.UsaCycling\CupKeeper.Domains.Championships.UsaCycling.csproj", "{F1FD3725-3310-44F2-9C3D-084C42E46EF8}"
@@ -57,6 +58,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CupKeeper.OrleansClient", "src\CupKeeper.OrleansClient\CupKeeper.OrleansClient.csproj", "{F7B960C2-8BBD-428C-8AB9-C3295F0E391F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CupKeeper.AdminApi", "src\CupKeeper.AdminApi\CupKeeper.AdminApi.csproj", "{6AF5CF8E-22DF-40C9-9D9D-338F34CA2DB0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CupKeeper.Domains.Locations.Services.Mongo", "src\CupKeeper.Domains.Locations.Services.Mongo\CupKeeper.Domains.Locations.Services.Mongo.csproj", "{99517866-E0B0-460E-A285-8ED6F92F5F97}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CupKeeper.Data.Mongo", "src\CupKeeper.Data.Mongo\CupKeeper.Data.Mongo.csproj", "{D77372B5-5EE9-48CF-BBD0-859434D4D578}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -140,6 +145,14 @@ Global
 		{6AF5CF8E-22DF-40C9-9D9D-338F34CA2DB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6AF5CF8E-22DF-40C9-9D9D-338F34CA2DB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6AF5CF8E-22DF-40C9-9D9D-338F34CA2DB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99517866-E0B0-460E-A285-8ED6F92F5F97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99517866-E0B0-460E-A285-8ED6F92F5F97}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99517866-E0B0-460E-A285-8ED6F92F5F97}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99517866-E0B0-460E-A285-8ED6F92F5F97}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D77372B5-5EE9-48CF-BBD0-859434D4D578}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D77372B5-5EE9-48CF-BBD0-859434D4D578}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D77372B5-5EE9-48CF-BBD0-859434D4D578}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D77372B5-5EE9-48CF-BBD0-859434D4D578}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -164,6 +177,8 @@ Global
 		{896883D4-3381-49FB-A95A-0360F8099A20} = {3B37C7EA-1289-4E95-A9A3-FB7AA9AD2C40}
 		{6AF5CF8E-22DF-40C9-9D9D-338F34CA2DB0} = {4EC54C70-7C2C-44D1-B2B3-EAE0697BD0B2}
 		{F7B960C2-8BBD-428C-8AB9-C3295F0E391F} = {CFAC031F-A142-4E60-8F66-D5463D141B36}
+		{99517866-E0B0-460E-A285-8ED6F92F5F97} = {3B37C7EA-1289-4E95-A9A3-FB7AA9AD2C40}
+		{D77372B5-5EE9-48CF-BBD0-859434D4D578} = {3B37C7EA-1289-4E95-A9A3-FB7AA9AD2C40}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BECA1B91-2140-483C-B02F-018C20755A89}

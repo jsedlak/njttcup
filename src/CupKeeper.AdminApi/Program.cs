@@ -1,6 +1,8 @@
 using CupKeeper.AdminApi.Queries;
 using CupKeeper.Domains.Championships.ServiceModel;
 using CupKeeper.Domains.Championships.Services;
+using CupKeeper.Domains.Locations.ServiceModel;
+using CupKeeper.Domains.Locations.Services;
 using MongoDB.Driver;
 using Orleans.Configuration;
 
@@ -24,12 +26,16 @@ builder.Services.AddHealthChecks();
 
 // Add our custom services
 builder.Services.AddScoped<IEventViewRepository, MongoEventViewRepository>();
+builder.Services.AddScoped<IVenueViewRepository, MongoVenueViewRepository>();
+
 
 // Add GraphQL
 builder.Services
     .AddGraphQLServer()
-    .AddQueryType<EventQueries>()
-    .AddFiltering();
+    .AddFiltering()
+    .AddQueryType(q => q.Name("Query"))
+    .AddType<EventQueries>()
+    .AddType<VenueQueries>();
 
 // Add Orleans Client
 builder.UseOrleansClient(clientBuilder =>

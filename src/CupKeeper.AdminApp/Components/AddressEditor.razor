@@ -1,0 +1,35 @@
+@inherits TazorBaseComponent
+@using CupKeeper.Domains.Locations.Model
+<div class="grid grid-cols-2">
+    <div class="col-span-2 mb-2">
+        <Label>Street Address</Label>
+        <TextBox @bind-Value="Address.StreetAddress" />
+    </div>
+    <div class="col-span-2 mb-2">
+        <Label>Address 2</Label>
+        <TextBox @bind-Value="Address.AdditionalStreetAddress" />
+    </div>
+    
+    <div class="mb-2">
+        <Label>City</Label>
+        <TextBox @bind-Value="Address.City" />
+    </div>
+    
+    <div class="mb-2">
+        <Label>State</Label>
+        <TextBox @bind-Value="Address.State" />
+    </div>
+    
+    <div class="col-span-2 mb-2">
+        <Label>Zip Code</Label>
+        <TextBox @bind-Value="Address.ZipCode" />
+    </div>
+</div>
+
+@code {
+    [Parameter] public Address Address { get; set; }
+
+    [Parameter] public EventCallback<Address> AddressChanged { get; set; }
+
+
+}

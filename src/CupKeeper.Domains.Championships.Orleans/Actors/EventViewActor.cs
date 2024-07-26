@@ -7,8 +7,9 @@ using Orleans.Streams.Core;
 
 namespace CupKeeper.Domains.Championships.Actors;
 
-[ImplicitStreamSubscription(ActorConstants.ScheduledEvent_EventStreamName)]
-public class EventViewActor : Grain, IEventSearchViewModelActor, IStreamSubscriptionObserver, IAsyncObserver<ScheduledEventBaseEvent>
+[ImplicitStreamSubscription(ActorConstants.ScheduledEventEventStreamName)]
+public class EventViewActor : Grain, IEventSearchViewModelActor,
+    IStreamSubscriptionObserver, IAsyncObserver<ScheduledEventBaseEvent>
 {
     private readonly ILogger<EventViewActor> _logger;
     private readonly IEventViewRepository _viewRepository;

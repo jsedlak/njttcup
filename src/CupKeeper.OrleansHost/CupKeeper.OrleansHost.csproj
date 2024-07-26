@@ -22,6 +22,7 @@
       <PackageReference Include="Microsoft.Orleans.Reminders" Version="8.1.0" />
       <PackageReference Include="Microsoft.Orleans.Server" Version="8.1.0" />
       <PackageReference Include="Microsoft.Orleans.Streaming" Version="8.1.0" />
+      <PackageReference Include="MongoDB.Driver" Version="2.27.0" />
       <PackageReference Include="Orleans.Providers.MongoDB" Version="8.0.3" />
     </ItemGroup>
 
@@ -33,6 +34,7 @@
       <ProjectReference Include="..\CupKeeper.Domains.Championships.Orleans\CupKeeper.Domains.Championships.Orleans.csproj" />
       <ProjectReference Include="..\CupKeeper.Domains.Championships.Services.Mongo\CupKeeper.Domains.Championships.Services.Mongo.csproj" />
       <ProjectReference Include="..\CupKeeper.Domains.Locations.Orleans\CupKeeper.Domains.Locations.Orleans.csproj" />
+      <ProjectReference Include="..\CupKeeper.Domains.Locations.Services.Mongo\CupKeeper.Domains.Locations.Services.Mongo.csproj" />
     </ItemGroup>
 
 </Project>
