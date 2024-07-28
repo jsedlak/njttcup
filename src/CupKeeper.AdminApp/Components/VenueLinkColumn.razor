@@ -1,0 +1,5 @@
+@using CupKeeper.Domains.Locations.ViewModel
+<a class="underline decoration-wavy decoration-indigo-500 decoration-1" href=@($"/venues/{Item.Id}")>@(Item.Id.ToString().Split("-").First())...</a>
+@code {
+    [Parameter] public VenueViewModel Item { get; set; } = null!;
+}

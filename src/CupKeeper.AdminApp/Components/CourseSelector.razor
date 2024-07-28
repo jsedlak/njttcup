@@ -1,0 +1,102 @@
+@inherits TazorBaseComponent
+@using CupKeeper.AdminApp.Services
+@using CupKeeper.Domains.Locations.Model
+@using CupKeeper.Domains.Locations.ViewModel
+@inject VenueService VenueService
+<div class="bg-gray-700 p-2 rounded">
+    <div class="mb-2">
+        <Label>Venue</Label>
+        <select @onchange=@OnVenueChanged class="@Theme.Forms.SelectInput">
+            <option value="">Select a venue...</option>
+            @foreach (var venue in _venues)
+            {
+                if (venue.Id.Equals(VenueId))
+                {
+                    <option selected="selected" value="@venue.Id">@venue.Name</option>
+                }
+                else
+                {
+                    <option value="@venue.Id">@venue.Name</option>
+                }
+            }
+        </select>
+    </div>
+
+    <div class="mb-2">
+        <Label>Course</Label>
+        <select @onchange=@OnCourseChanged class="@Theme.Forms.SelectInput">
+            <option value="">Select a course...</option>
+            @{
+                var selectedVenue = _venues.FirstOrDefault(m => m.Id == VenueId); 
+            }
+            @if (selectedVenue is not null)
+            {
+                foreach (var course in selectedVenue.Courses)
+                {
+                    if (course.Id.Equals(CourseId))
+                    {
+                        <option selected="selected" value="@course.Id">@course.Name</option>
+                    }
+                    else
+                    {
+                        <option value="@course.Id">@course.Name</option>
+                    }
+                }
+            }
+            
+        </select>
+    </div>
+</div>
+@code {
+    [Parameter] public Guid VenueId { get; set; }
+
+    [Parameter] public EventCallback<Guid> VenueIdChanged { get; set; }
+
+    [Parameter] public Guid CourseId { get; set; }
+
+    [Parameter] public EventCallback<Guid> CourseIdChanged { get; set; }
+
+    private IEnumerable<VenueViewModel> _venues = [];
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        _venues = await VenueService.GetVenues();
+    }
+
+    private async Task OnVenueChanged(ChangeEventArgs args)
+    {
+        if (args.Value is null || string.IsNullOrWhiteSpace(args.Value.ToString()))
+        {
+            VenueId = Guid.Empty;
+        }
+        else
+        {
+            VenueId = Guid.Parse(args.Value!.ToString()!);
+        }
+        
+        await VenueIdChanged.InvokeAsync(VenueId);
+        
+        CourseId = Guid.Empty;
+        await CourseIdChanged.InvokeAsync(CourseId);
+        
+        StateHasChanged();
+    }
+    
+    private async Task OnCourseChanged(ChangeEventArgs args)
+    {
+        if (args.Value is null || string.IsNullOrWhiteSpace(args.Value.ToString()))
+        {
+            CourseId = Guid.Empty;
+        }
+        else
+        {
+            CourseId = Guid.Parse(args.Value.ToString());
+        }
+
+        await CourseIdChanged.InvokeAsync(CourseId);
+        StateHasChanged();
+    }
+
+}

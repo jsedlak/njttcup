@@ -1,0 +1,134 @@
+@page "/venues/{venueId:guid}"
+@using CupKeeper.AdminApp.Services
+@using CupKeeper.Domains.Locations.ViewModel
+@using CupKeeper.AdminApp.Components
+@using CupKeeper.Domains.Locations.Commands
+@inject VenueService VenueService
+
+<PageTitle>Venue Details - Cup Keeper</PageTitle>
+<div class="mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <Toolbar Title=@_venue.Name Subtitle=@_venue.ParkingAddress?.ToString()>
+        <Buttons>
+            <Button Type="ButtonType.DefaultOutline" Clicked=@RefreshData>
+                <span>@HeroIcons.ArrowPathRoundedSquare()</span>
+            </Button>
+            <Button Clicked=@(() => { _createCourseCommand = new(VenueId); _isCreateDialogVisible = true; StateHasChanged(); })
+                    Type="ButtonType.Primary">@HeroIcons.DocumentPlus("inline-block") Create Course</Button>
+        </Buttons>
+    </Toolbar>
+    
+    <DataGrid HideToolbar TItem="CourseViewModel" Items="_venue.Courses" Columns="_columns"/>
+</div>
+
+<Dialog @bind-IsVisible=@_isCreateDialogVisible Title="Add Course">
+    <Content>
+        @if (!string.IsNullOrWhiteSpace(_createError))
+        {
+        <Alert Type="AlertType.Error">
+            @_createError
+        </Alert>
+        }
+        
+        <div class="grid grid-cols-2 gap-4">
+            <div>
+                <div class="mb-2">
+                    <Label>Name</Label>
+                    <TextBox @bind-Value="_createCourseCommand.Name"/>
+                </div>
+
+                <div class="mb-2">
+                    <Label>Description</Label>
+                    <TextBox @bind-Value="_createCourseCommand.Description"/>
+                </div>
+
+                <div class="mb-2">
+                    <Label>Route Link</Label>
+                    <TextBox @bind-Value="_createCourseCommand.RouteLink"/>
+                </div>
+
+                <div class="mb-2">
+                    <Label>Ride w/ GPS ID</Label>
+                    <TextBox @bind-Value="_createCourseCommand.RideWithGpsId"/>
+                </div>
+
+                <div class="mb-2">
+                    <Label>Mileage</Label>
+                    <TextBox @bind-Value="_createCourseCommand.Mileage" />
+                </div>
+            </div>
+            <div>
+                <div class="mb-2">
+                    <Label>Start Line Address</Label>
+                    <AddressEditor @bind-Address="_createCourseCommand.Address" />
+                </div>
+            </div>
+        </div>
+    </Content>
+    <Footer>
+        <Button Type="ButtonType.DefaultOutline" Clicked=@(() => { _isCreateDialogVisible = false; StateHasChanged(); })>
+            Cancel</Button>
+        <Button Type="ButtonType.Success" Clicked=@OnCreateCourseClicked>
+            Create
+        </Button>
+    </Footer>
+</Dialog>
+
+@code {
+    [Parameter] public Guid VenueId { get; set; }
+
+    private VenueViewModel _venue = new();
+    
+    private IEnumerable<Column<CourseViewModel>> _columns = [
+        new Column<CourseViewModel> { Title = "Id", Field = m => m.Id },
+        new Column<CourseViewModel> { Title = "Name", Field = m => m.Name },
+        new Column<CourseViewModel> { Title = "Route Link", Field = m => m.RouteLink },
+        new Column<CourseViewModel> { Title = "RideWithGPS ID", Field = m => m.RideWithGpsId },
+        new Column<CourseViewModel> { Title = "Description", Field = m => m.Description },
+        new Column<CourseViewModel> { Title = "Mileage", Field = m => m.Mileage },
+        new Column<CourseViewModel> { Title = "Address", Field = m => m.Address }
+    ];
+    
+    private bool _isCreateDialogVisible;
+    private string _createError = "";
+    private AddCourseToVenueCommand _createCourseCommand = new(Guid.Empty);
+
+    private async Task OnCreateCourseClicked()
+    {
+        if (_createCourseCommand.Address is null ||
+            string.IsNullOrWhiteSpace(_createCourseCommand.Address!.StreetAddress) ||
+            string.IsNullOrWhiteSpace(_createCourseCommand.Address!.City) ||
+            string.IsNullOrWhiteSpace(_createCourseCommand.Address!.State))
+        {
+            _createError = "Address, City & State are required.";
+            StateHasChanged();
+            return;
+        }
+        
+        _createError = "";
+        _createCourseCommand.VenueId = VenueId;
+        
+        var response = await VenueService.AddCourse(_createCourseCommand);
+
+        if (response.IsSuccess)
+        {
+            await RefreshData();
+            _isCreateDialogVisible = false;
+            StateHasChanged();
+            return;
+        }
+
+        _createError = string.Join(", ", response.Messages);
+    }
+
+    private async Task RefreshData()
+    {
+        _venue = (await VenueService.GetVenues()).FirstOrDefault() ?? new();
+    }
+    
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        await RefreshData();
+    }
+}
