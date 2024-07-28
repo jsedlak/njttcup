@@ -18,7 +18,7 @@ public sealed class EventService : ApiServiceBase
 
     public Task<CommandResult> Create(CreateScheduledEventCommand command)
     {
-        return ExecuteAsync("events", command);
+        return ExecuteAsync("api/events", command);
     }
 
     public async Task<IEnumerable<EventViewModel>> GetEvents()

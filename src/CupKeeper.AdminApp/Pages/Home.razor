@@ -1,6 +1,7 @@
 ﻿@page "/"
 @using CupKeeper.AdminApp.Components
 @using CupKeeper.AdminApp.Services
+@using CupKeeper.Domains.Championships.Commands
 @using CupKeeper.Domains.Championships.ViewModel
 @inject EventService EventService;
 <PageTitle>Home - Cup Keeper</PageTitle>
@@ -11,7 +12,7 @@
             <Button Type="ButtonType.DefaultOutline" Clicked=@RefreshData>
                 @HeroIcons.ArrowPathRoundedSquare("inline-block")
             </Button>
-            <Button Type="ButtonType.Primary">
+            <Button Type="ButtonType.Primary" Clicked=@(() => { _createDialogVisible = true; _createCommand = new(); StateHasChanged(); })>
                 @HeroIcons.DocumentPlus("inline-block")
                 Create Event
             </Button>
@@ -22,13 +23,66 @@
     <DataGrid Items="_events" Columns="_columns" HideToolbar />
 </div>
 
+<Dialog WindowClass="w-1/2" Title="Create Event" @bind-IsVisible="_createDialogVisible">
+    <Content>
+        <div class="grid grid-cols-2 gap-4">
+            <div>
+                <div class="mb-2">
+                    <Label>Name</Label>
+                    <TextBox @bind-Value="_createCommand.Name"/>
+                </div>
+                <div class="mb-2">
+                    <Label>Scheduled Date</Label>
+                    <input type="date" 
+                           class=@Theme.Forms.TextBox
+                           @bind=_createCommand.ScheduledDate
+                    />
+                </div>
+                <div class="mb-2">
+                    <Label>Venue/Course</Label>
+                    <CourseSelector @bind-VenueId="_createCommand.VenueId" @bind-CourseId="_createCommand.CourseId"/>
+                </div>
+            </div>
+            <div>
+                <div class="mb-2">
+                    <Label>Registration Link</Label>
+                    <TextBox @bind-Value="_createCommand.RegistrationLink"/>
+                </div>
+
+                <div class="mb-2">
+                    <Label>USAC Results Link</Label>
+                    <TextBox @bind-Value="_createCommand.UsacResultsLink"/>
+                </div>
+
+                <div class="mb-2">
+                    <Label>USAC Permit Number</Label>
+                    <TextBox @bind-Value="_createCommand.UsacPermitNumber"/>
+                </div>
+            </div>
+        </div>
+    </Content>
+    <Footer>
+        <Button Type="ButtonType.DefaultOutline" Clicked=@(() => { _createDialogVisible = false; StateHasChanged(); })>Cancel</Button>
+        <Button Type="ButtonType.Success"
+               Clicked=@HandleCreateClicked >
+            Create
+        </Button>
+    </Footer>
+</Dialog>
+
 @code {
+    [CascadingParameter(Name = "Theme")]
+    public ITheme Theme { get; set; } = null!;
+    
+    private bool _createDialogVisible;
+    private string _createError = "";
+    private CreateScheduledEventCommand _createCommand = new();
 
     private IEnumerable<EventViewModel> _events = [];
 
     private IEnumerable<Column<EventViewModel>> _columns =
     [
-        new Column<EventViewModel> { Title = "Id", Field = m => m.Id },
+        new Column<EventViewModel> { Title = "Id", Field = m => m.Id, Component = typeof(EventLinkColumn) },
         new Column<EventViewModel> { Title = "Year", Field = m => m.ChampionshipYear },
         new Column<EventViewModel> { Title = "Name", Field = m => m.Name },
         new Column<EventViewModel> { Title = "Date", Field = m => m.ScheduledDate, Format = "F" },
@@ -39,6 +93,26 @@
     private async Task RefreshData()
     {
         _events = await EventService.GetEvents();
+    }
+
+    private async Task HandleCreateClicked()
+    {
+        _createError = "";
+
+        var response = await EventService.Create(_createCommand);
+
+        if (response.IsSuccess)
+        {
+            _createDialogVisible = false;
+            StateHasChanged();
+            
+            await RefreshData();
+
+            return;
+        }
+        
+        _createError = string.Join("; ", response.Messages);
+        StateHasChanged();
     }
 
     protected override async Task OnInitializedAsync()

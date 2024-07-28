@@ -122,7 +122,7 @@
 
     private async Task RefreshData()
     {
-        _venue = (await VenueService.GetVenues()).FirstOrDefault() ?? new();
+        _venue = (await VenueService.GetVenues()).FirstOrDefault(m => m.Id == VenueId) ?? new();
     }
     
     protected override async Task OnInitializedAsync()
