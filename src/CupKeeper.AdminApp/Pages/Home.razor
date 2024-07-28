@@ -6,7 +6,17 @@
 <PageTitle>Home - Cup Keeper</PageTitle>
 
 <div class="mx-auto px-4 sm:px-6 lg:px-8 py-6">
-    <PageHeader>Events</PageHeader>
+    <Toolbar Title="Events" Subtitle="We do some eventing here.">
+        <Buttons>
+            <Button Type="ButtonType.DefaultOutline" Clicked=@RefreshData>
+                @HeroIcons.ArrowPathRoundedSquare("inline-block")
+            </Button>
+            <Button Type="ButtonType.Primary">
+                @HeroIcons.DocumentPlus("inline-block")
+                Create Event
+            </Button>
+        </Buttons>
+    </Toolbar>
     
     @* <CourseSelector /> *@
     <DataGrid Items="_events" Columns="_columns" HideToolbar />
