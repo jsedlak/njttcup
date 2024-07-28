@@ -7,18 +7,14 @@
 <PageTitle>Venues - Cup Keeper</PageTitle>
 
 <div class="mx-auto px-4 sm:px-6 lg:px-8 py-6">
-    <div class="flex justify-between items-center mb-3">
-        <div>
-            <h1 class="text-2xl">Venues</h1>
-            <p class="text-sm opacity-50">Do some venue things here.</p>
-        </div>
-        <div class="flex items-center space-x-3">
+    <Toolbar Title="Venues" Subtitle="Do some venue things here.">
+        <Buttons>
             <Button Type="ButtonType.DefaultOutline" Clicked=@RefreshAsync>
                 <span>@HeroIcons.ArrowPathRoundedSquare()</span>
             </Button>
             <Button Clicked=@(() => { _isCreateDialogVisible = true; StateHasChanged(); }) Type="ButtonType.Primary">@HeroIcons.DocumentPlus("inline-block") Create Venue</Button>
-        </div>
-    </div>
+        </Buttons>
+    </Toolbar>
     
     <DataGrid TItem="VenueViewModel" Items="_venues" Columns="_columns">
     </DataGrid>
@@ -54,7 +50,7 @@
     
     private IEnumerable<Column<VenueViewModel>> _columns =
     [
-        new Column<VenueViewModel> { Title = "Id", Field = m => m.Id },
+        new Column<VenueViewModel> { Title = "Id", Field = m => m.Id, Component = typeof(VenueLinkColumn) },
         new Column<VenueViewModel> { Title = "Name", Field = m=> m.Name },
         new Column<VenueViewModel> { Title ="Address", Field = m => m.ParkingAddress!, Component = typeof(VenueAddressColumn) }
     ];

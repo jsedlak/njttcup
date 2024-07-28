@@ -5,21 +5,23 @@ using CupKeeper.Domains.Locations.ViewModel;
 
 namespace CupKeeper.AdminApp.Services;
 
-public sealed class VenueService
+public sealed class VenueService : ApiServiceBase
 {
     private readonly HttpClient _graphQlClient;
-    private readonly HttpClient _apiClient;
 
-    public VenueService(IHttpClientFactory httpClientFactory)
+    public VenueService(IHttpClientFactory httpClientFactory) : base(httpClientFactory)
     {
-        _apiClient = httpClientFactory.CreateClient(ServiceConstants.ApiHttpClientName);
         _graphQlClient = httpClientFactory.CreateClient(ServiceConstants.GraphQlHttpClientName);
     }
 
-    public async Task<CommandResult> Create(CreateVenueCommand command)
+    public Task<CommandResult> Create(CreateVenueCommand command)
     {
-        var response = await _apiClient.PostAsJsonAsync("api/venues", command);
-        return (await response.Content.ReadFromJsonAsync<CommandResult>()) ?? CommandResult.Failure("Server error");
+        return ExecuteAsync("api/venues", command);
+    }
+
+    public Task<CommandResult> AddCourse(AddCourseToVenueCommand command)
+    {
+        return ExecuteAsync($"api/venues/{command.VenueId}/courses", command);
     }
     
     public async Task<IEnumerable<VenueViewModel>> GetVenues()
@@ -70,10 +72,4 @@ public sealed class VenueService
     {
         public IEnumerable<VenueViewModel> Venues { get; set; } = [];
     }
-}
-
-internal sealed class GraphQueryWrapper<TEntity> 
-    where TEntity : new() 
-{
-    public TEntity Data { get; set; } = new();
 }

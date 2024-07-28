@@ -3,20 +3,8 @@
 {
     if (Inline)
     {
-        IEnumerable<string> values =
-        [
-            Value.StreetAddress,
-            Value.AdditionalStreetAddress ?? "",
-            Value.City,
-            Value.State,
-            Value.ZipCode ?? "",
-            Value.Country ?? ""
-        ];
-
-        values = values.Where(m => !string.IsNullOrWhiteSpace(m));
-        
         <address>
-            @(string.Join(", ", values))
+            @(Value.ToString())
         </address>
     }
     else

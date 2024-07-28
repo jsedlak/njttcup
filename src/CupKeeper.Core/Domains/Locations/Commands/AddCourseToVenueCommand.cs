@@ -25,6 +25,5 @@ public sealed class AddCourseToVenueCommand : ExistingVenueCommandBase
     [Id(4)]
     public double Mileage { get; set; } = 0;
 
-    [Id(5)]
-    public Address? Address { get; set; }
+    [Id(5)] public Address? Address { get; set; } = new();
 }

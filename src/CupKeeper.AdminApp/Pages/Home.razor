@@ -1,7 +1,41 @@
 ﻿@page "/"
-
+@using CupKeeper.AdminApp.Components
+@using CupKeeper.AdminApp.Services
+@using CupKeeper.Domains.Championships.ViewModel
+@inject EventService EventService;
 <PageTitle>Home - Cup Keeper</PageTitle>
 
 <div class="mx-auto px-4 sm:px-6 lg:px-8 py-6">
     <PageHeader>Events</PageHeader>
+    
+    @* <CourseSelector /> *@
+    <DataGrid Items="_events" Columns="_columns" HideToolbar />
 </div>
+
+@code {
+
+    private IEnumerable<EventViewModel> _events = [];
+
+    private IEnumerable<Column<EventViewModel>> _columns =
+    [
+        new Column<EventViewModel> { Title = "Id", Field = m => m.Id },
+        new Column<EventViewModel> { Title = "Year", Field = m => m.ChampionshipYear },
+        new Column<EventViewModel> { Title = "Name", Field = m => m.Name },
+        new Column<EventViewModel> { Title = "Date", Field = m => m.ScheduledDate, Format = "F" },
+        new Column<EventViewModel> { Title = "Venue", Field = m => m.VenueName },
+        new Column<EventViewModel> { Title = "Course", Field = m => m.CourseName }
+    ];
+
+    private async Task RefreshData()
+    {
+        _events = await EventService.GetEvents();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        await RefreshData();
+    }
+
+}

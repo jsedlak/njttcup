@@ -18,7 +18,8 @@ builder.Services.AddHttpClient(
     client => client.BaseAddress = new Uri("http://localhost:8001/")
 );
 
-builder.Services.AddScoped<VenueService>();
+builder.Services.AddSingleton<VenueService>();
+builder.Services.AddSingleton<EventService>();
 
 await builder.AddTazorAsync();
 

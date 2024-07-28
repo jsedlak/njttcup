@@ -41,4 +41,21 @@ public sealed record Address
     /// </summary>
     [Id(5)]
     public string? Country { get; set; } = null;
+
+    public override string ToString()
+    {
+        IEnumerable<string> values =
+        [
+            StreetAddress,
+            AdditionalStreetAddress ?? "",
+            City,
+            State,
+            ZipCode ?? "",
+            Country ?? ""
+        ];
+
+        values = values.Where(m => !string.IsNullOrWhiteSpace(m));
+
+        return string.Join(", ", values);
+    }
 }

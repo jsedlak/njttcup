@@ -118,8 +118,8 @@
   "forms": {
     "label": "text-left block mb-1",
     "subLabel": "text-sm block text-left mb-1",
-    "textBox": "px-3 py-2 rounded text-gray-900 bg-gray-50 dark:bg-gray-900 dark:text-white",
-    "selectInput": "px-3 py-2 rounded text-gray-900 bg-gray-50 dark:bg-gray-900 dark:text-white",
+    "textBox": "px-3 py-2 rounded text-gray-900 bg-gray-50 dark:bg-gray-900 dark:text-white w-full",
+    "selectInput": "px-3 py-2 rounded text-gray-900 bg-gray-50 dark:bg-gray-900 dark:text-white w-full",
     "comboBox": {
       "wrapper": "relative px-3 py-2 bg-white dark:bg-gray-800 rounded w-full",
       "viewContainer": "",

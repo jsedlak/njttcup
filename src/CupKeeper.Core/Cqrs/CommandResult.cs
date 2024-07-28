@@ -26,6 +26,19 @@ public class CommandResult
 [GenerateSerializer]
 public class CommandResult<TData> : CommandResult
 {
+    public new static CommandResult<TData> Success()
+    {
+        return new CommandResult<TData> { IsSuccess = true };
+    }
+
+    public new static CommandResult<TData> Failure(params string[] messages)
+    {
+        return new CommandResult<TData>()
+        {
+            Messages = messages
+        };
+    }
+    
     public static CommandResult<TData> Success(TData data)
     {
         return new CommandResult<TData> { Data = data };
