@@ -12,6 +12,18 @@ public abstract class ApiServiceBase
         _apiClient = httpClientFactory.CreateClient(ServiceConstants.ApiHttpClientName);
     }
 
+    protected async Task<TResponse> GetAsync<TResponse>(string path)
+    {
+        var response = await _apiClient.GetFromJsonAsync<TResponse>(path);
+        return response ?? throw new InvalidOperationException();
+    }
+    
+    protected async Task<TResult?> PostAsync<TResult>(string path, object input)
+    {
+        var response = await _apiClient.PostAsJsonAsync(path, input);
+        return await response.Content.ReadFromJsonAsync<TResult>();
+    }
+
     protected async Task<CommandResult> ExecuteAsync<TCommand>(string path, TCommand command)
     {
         var response = await _apiClient.PostAsJsonAsync(path, command);

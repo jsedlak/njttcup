@@ -20,6 +20,17 @@ public sealed class EventService : ApiServiceBase
     {
         return ExecuteAsync("api/events", command);
     }
+    
+    
+    public async Task<bool> StartLoad(Guid eventId)
+    {
+        return await PostAsync<bool?>($"api/events/{eventId}/results/load", (object)(new { eventId })) ?? false;
+    }
+
+    public Task<bool> CheckLoadStatus(Guid eventId)
+    {
+        return GetAsync<bool>($"api/events/{eventId}/results/load/status");
+    }
 
     public async Task<IEnumerable<EventViewModel>> GetEvents()
     {

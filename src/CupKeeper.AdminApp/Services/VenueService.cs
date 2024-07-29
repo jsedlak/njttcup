@@ -1,5 +1,6 @@
 using System.Net.Http.Json;
 using CupKeeper.Cqrs;
+using CupKeeper.Domains.Championships.Commands.EventResults;
 using CupKeeper.Domains.Locations.Commands;
 using CupKeeper.Domains.Locations.ViewModel;
 

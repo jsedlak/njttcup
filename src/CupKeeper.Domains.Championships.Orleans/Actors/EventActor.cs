@@ -236,7 +236,7 @@ public class EventActor : EventSourcedGrain<ScheduledEvent, ScheduledEventBaseEv
         var resultsGrainId = State.UsacPermitNumber!;
         var resultsLoaderGrain = _grainFactory.GetGrain<IEventResultsActor>(resultsGrainId);
         
-        var internalResult  = await resultsLoaderGrain.StartLoad(new LoadResultsCommand());
+        var internalResult  = await resultsLoaderGrain.StartLoad(new LoadResultsCommand(resultsGrainId));
 
         if (!internalResult)
         {
@@ -295,6 +295,8 @@ public class EventActor : EventSourcedGrain<ScheduledEvent, ScheduledEventBaseEv
                 Name = parsedCategory.Name
             };
 
+            var riderList = new List<RiderResult>();
+            
             foreach (var parsedRider in parsedCategory.Results)
             {
                 // formalize / search / get the well-known rider
@@ -317,9 +319,12 @@ public class EventActor : EventSourcedGrain<ScheduledEvent, ScheduledEventBaseEv
                     ExclusionReason = isExcluded ? parsedRider.Place : null
                 };
 
-                cat.Riders = [..cat.Riders, riderResult];
+                //cat.Riders = [..cat.Riders, riderResult];
+                riderList.Add(riderResult);
             }
 
+            cat.Riders = riderList.ToArray();
+            
             categories.Add(cat);
         }
 

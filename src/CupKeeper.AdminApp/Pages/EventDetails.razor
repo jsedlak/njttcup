@@ -1,0 +1,85 @@
+﻿@page "/events/{eventId:guid}"
+@using CupKeeper.AdminApp.Components
+@using CupKeeper.AdminApp.Services
+@using CupKeeper.Domains.Championships.Commands
+@using CupKeeper.Domains.Championships.ViewModel
+@inject EventService EventService;
+<PageTitle>@_event.Name - Event Details - Cup Keeper</PageTitle>
+
+<div class="mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <Toolbar Title=@($"Event: {_event.Name}") Subtitle="We do some eventing here."/>
+
+    <div>Grid of info goes here...</div>
+
+    @* <CourseSelector /> *@
+    <Toolbar Title="Results">
+        <Buttons>
+            <Button Type="ButtonType.Primary" Clicked=@LoadResultsFromUsac Disabled=@_isLoadingResults>
+                @if (_isLoadingResults)
+                {
+                    <Spinner/>
+                }
+                else
+                {
+                    @HeroIcons.ArrowRightOnRectangle("inline-block")
+                }
+                <span>Load Results</span>
+            </Button>
+        </Buttons>
+    </Toolbar>
+    @* <DataGrid Items="_events" Columns="_columns" HideToolbar /> *@
+</div>
+
+
+@code {
+    [Parameter] public Guid EventId { get; set; }
+
+    [CascadingParameter(Name = "Theme")] public ITheme Theme { get; set; } = null!;
+
+    private EventViewModel _event = new();
+    private bool _isLoadingResults = false;
+
+    private Timer? _loadTimer;
+
+
+    private async Task LoadResultsFromUsac()
+    {
+        _isLoadingResults = true;
+
+        var response = await EventService.StartLoad(EventId);
+
+        if (response)
+        {
+            _loadTimer = new Timer(CheckResultsAsync, new { }, TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(1));
+
+            StateHasChanged();
+        }
+    }
+
+    private async void CheckResultsAsync(object? state)
+    {
+        var isFinished = await EventService.CheckLoadStatus(EventId);
+
+        if (isFinished)
+        {
+            _event = (await EventService.GetEvents()).First(m => m.Id == EventId);
+            _isLoadingResults = false;
+
+            if (_loadTimer is not null)
+            {
+                await _loadTimer.DisposeAsync();
+                _loadTimer = null;
+            }
+            
+            StateHasChanged();
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        _event = (await EventService.GetEvents()).First(m => m.Id == EventId);
+    }
+
+}

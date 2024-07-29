@@ -143,7 +143,7 @@ public class EventsController : Controller
         return await actor.StartResultsLoad();
     }
     
-    [HttpPost("{eventId}/results/load/status")]
+    [HttpGet("{eventId}/results/load/status")]
     public async Task<bool> CheckLoadAsync([FromRoute]Guid eventId)
     {
         var actor = _clusterClient.GetGrain<IEventActor>(eventId);

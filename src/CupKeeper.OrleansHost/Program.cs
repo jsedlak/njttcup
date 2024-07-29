@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MongoDB.Driver;
 using Orleans.Configuration;
+using Orleans.SyncWork.ExtensionMethods;
 using Petl.EventSourcing;
 using Petl.EventSourcing.Providers;
 
@@ -28,6 +29,7 @@ await Host.CreateDefaultBuilder(args)
                 services.AddSingleton<IRiderLocatorService, InMemoryRiderLocatorService>();
                 services.AddScoped<IEventViewRepository, MongoEventViewRepository>();
                 services.AddScoped<IVenueViewRepository, MongoVenueViewRepository>();
+                services.AddScoped<IResultsLoader, UsaCyclingWebResultsLoader>();
                 
                 // Adds support for the EventSourcedGrain, using mongodb
                 services.AddOrleansEventSerializer();
@@ -39,6 +41,7 @@ await Host.CreateDefaultBuilder(args)
                 return MongoClientSettings.FromConnectionString(config.GetConnectionString("Mongo"));
             })
             .UseInMemoryReminderService()
+            .ConfigureSyncWorkAbstraction(Math.Max(Environment.ProcessorCount - 2, 1))
             .AddReminders()
             .AddMemoryStreams("StreamProvider")
             .AddMongoDBGrainStorage("PubSubStore", options => options.DatabaseName = "njttcup-pubsub")

@@ -1,5 +1,7 @@
 using CupKeeper.Domains.Championships.Commands.EventResults;
 using CupKeeper.Domains.Championships.Model.Parsing;
+using CupKeeper.Domains.Championships.ServiceModel;
+using CupKeeper.Domains.Championships.Services;
 using Microsoft.Extensions.Logging;
 using Orleans.SyncWork;
 using Orleans.SyncWork.Enums;
@@ -7,14 +9,17 @@ using Orleans.SyncWork.Enums;
 namespace CupKeeper.Domains.Championships.Actors;
 
 public class EventResultsActor : SyncWorker<LoadResultsCommand, ParsedEventResult>, IEventResultsActor {
-    public EventResultsActor(ILogger logger, LimitedConcurrencyLevelTaskScheduler limitedConcurrencyScheduler) 
+    private readonly IResultsLoader _resultsLoader;
+
+    public EventResultsActor(IResultsLoader resultsLoader, ILogger<EventResultsActor> logger, LimitedConcurrencyLevelTaskScheduler limitedConcurrencyScheduler) 
         : base(logger, limitedConcurrencyScheduler)
     {
+        _resultsLoader = resultsLoader;
     }
 
     protected override Task<ParsedEventResult> PerformWork(LoadResultsCommand request, GrainCancellationToken grainCancellationToken)
     {
-        throw new NotImplementedException();
+        return _resultsLoader.GetResults(request.UsacPermitNumber);
     }
 
     public async ValueTask<bool> StartLoad(LoadResultsCommand command)
