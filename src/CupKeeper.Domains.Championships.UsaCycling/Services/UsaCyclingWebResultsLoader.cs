@@ -136,11 +136,15 @@ public sealed class UsaCyclingWebResultsLoader : IResultsLoader
 
         TimeSpan.TryParse(timeText, out var time);
 
+        var riderName = cells[4].GetInnerText().Trim().StripCategoryPlacing().ToPascalCase();
+        
+        _logger.LogInformation($"Rider #{placeText} {riderName} with time {time} (Raw: {timeText})");
+
         return new ParsedRiderResult
         {
             Place = placeText,
             License = cells[8].GetInnerText(),
-            Name = cells[4].GetInnerText().Trim().StripCategoryPlacing().ToPascalCase(),
+            Name = riderName,
             Team = cells[10].GetInnerText(),
             Time = time.TotalSeconds
         };

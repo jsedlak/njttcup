@@ -1,0 +1,12 @@
+@using CupKeeper.Domains.Championships.Model
+@if (Item.ExcludeFromPoints)
+{
+    @(Item.ExclusionReason)
+}
+else
+{
+    @(Item.Place)
+}
+@code {
+    [Parameter] public RiderResult Item { get; set; } = null!;
+}

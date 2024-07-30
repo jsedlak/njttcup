@@ -306,7 +306,7 @@ public class EventActor : EventSourcedGrain<ScheduledEvent, ScheduledEventBaseEv
                     parsedRider.License
                 );
 
-                var isExcluded = int.TryParse(parsedRider.Place, out int riderPlacing);
+                var isExcluded = !int.TryParse(parsedRider.Place, out int riderPlacing) || riderPlacing <= 0;
 
                 var riderResult = new RiderResult
                 {

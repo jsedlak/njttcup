@@ -107,7 +107,11 @@ public class EventViewActor : Grain, IEventSearchViewModelActor,
     #region View Model: Results Loading
     private async Task Handle(EventResultsLoadedEvent ev)
     {
-        
+        var existing = await _viewRepository.GetAsync(ev.AggregateId) ?? new();
+
+        existing.Results = ev.Categories;
+
+        await _viewRepository.UpsertAsync(existing);
     }
     #endregion
 

@@ -1,0 +1,9 @@
+@using CupKeeper.Domains.Championships.Model
+@if (!Item.ExcludeFromPoints)
+{
+    @(TimeSpan.FromSeconds(Item.Time ?? 0).ToString("g"))    
+}
+
+@code {
+    [Parameter] public RiderResult Item { get; set; } = null!;
+}

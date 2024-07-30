@@ -50,6 +50,21 @@ public sealed class EventService : ApiServiceBase
             usacResultsLink
             venueId
             venueName
+            results {
+                id
+                name
+                order
+                riders {
+                    excludeFromPoints
+                    exclusionReason
+                    id
+                    place
+                    points
+                    riderId
+                    teamName
+                    time
+                }
+            }
           }
         }
         ";

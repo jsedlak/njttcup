@@ -28,5 +28,5 @@ public sealed class CategoryResult
     /// Gets or Sets the set of rider results for the event
     /// </summary>
     [Id(3)]
-    public IEnumerable<RiderResult> Riders { get; set; } = Enumerable.Empty<RiderResult>();
+    public IEnumerable<RiderResult> Riders { get; set; } = [];
 }
