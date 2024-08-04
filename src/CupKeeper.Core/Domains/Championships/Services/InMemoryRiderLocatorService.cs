@@ -35,4 +35,12 @@ public class InMemoryRiderLocatorService : IRiderLocatorService
 
         return Task.FromResult(rider);
     }
+
+    public Task<Rider> GetAsync(Guid riderId)
+    {
+        Riders.TryGetValue(riderId, out var rider);
+
+        // TODO: Do we need to return null here?
+        return Task.FromResult(rider ?? new());
+    }
 }

@@ -1,5 +1,7 @@
 using CupKeeper.Domains.Championships.Events.ScheduledEvents;
+using CupKeeper.Domains.Championships.Model;
 using CupKeeper.Domains.Championships.ServiceModel;
+using CupKeeper.Domains.Championships.ViewModel;
 using Microsoft.Extensions.Logging;
 using Orleans.Runtime;
 using Orleans.Streams;
@@ -13,11 +15,13 @@ public class EventViewActor : Grain, IEventSearchViewModelActor,
 {
     private readonly ILogger<EventViewActor> _logger;
     private readonly IEventViewRepository _viewRepository;
+    private readonly IRiderLocatorService _riderLocatorService;
     
-    public EventViewActor(ILogger<EventViewActor> logger, IEventViewRepository viewRepository)
+    public EventViewActor(ILogger<EventViewActor> logger, IEventViewRepository viewRepository, IRiderLocatorService riderLocatorService)
     {
         _logger = logger;
         _viewRepository = viewRepository;
+        _riderLocatorService = riderLocatorService;
     }
     
     #region Implicit Subscription Management
@@ -108,8 +112,49 @@ public class EventViewActor : Grain, IEventSearchViewModelActor,
     private async Task Handle(EventResultsLoadedEvent ev)
     {
         var existing = await _viewRepository.GetAsync(ev.AggregateId) ?? new();
+        
+        var categories = new List<CategoryResultViewModel>();
 
-        existing.Results = ev.Categories;
+        // we need to build view models for every category
+        foreach (var cat in ev.Categories)
+        {
+            var categoryView = new CategoryResultViewModel()
+            {
+                Id = cat.Id,
+                Order = cat.Order,
+                Name = cat.Name
+            };
+            
+            var riderList = new List<RiderResultViewModel>();
+
+            // and call out for rider names
+            // TODO: Can we parallel or batch this for performance?
+            foreach (var rider in cat.Riders)
+            {
+                var riderReference = await _riderLocatorService.GetAsync(rider.RiderId);
+
+                riderList.Add(new RiderResultViewModel
+                {
+                    Id = rider.Id,
+                    Place = rider.Place,
+                    Points = rider.Points,
+                    RiderId = rider.RiderId,
+                    RiderName = riderReference.Name,
+                    TeamName = rider.TeamName,
+                    Time = rider.Time,
+                    ExcludeFromPoints = rider.ExcludeFromPoints,
+                    ExclusionReason = rider.ExclusionReason
+                });
+            }
+
+            // build the two lists out yay
+            categoryView.Riders = riderList.Where(m => !m.ExcludeFromPoints).ToArray();
+            categoryView.ExcludedRiders = riderList.Where(m => m.ExcludeFromPoints).ToArray();
+            
+            categories.Add(categoryView);
+        }
+
+        existing.Results = categories.ToArray();
 
         await _viewRepository.UpsertAsync(existing);
     }

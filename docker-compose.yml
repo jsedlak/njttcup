@@ -4,33 +4,46 @@
     restart: always
     ports:
       - 27017:27017
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: localadmin
-      MONGO_INITDB_ROOT_PASSWORD: thisisapassword
+    env_file:
+      - path: ./env/mongo.env
+        required: true
+      - path: ./env/mongo.override.env
+        required: false
+  njttcup-orleanshost:
+    image: cupkeeper.orleanshost
+    depends_on:
+      - njttcup-mongo
+    env_file:
+      - path: ./env/orleans-host.env
+        required: true
+      - path: ./env/orleans-host.override.env
+        required: false
+    build:
+      context: .
+      dockerfile: src/CupKeeper.OrleansHost/Dockerfile
+  njttcup-adminapi:
+    image: cupkeeper.adminapi
+    depends_on:
+      - njttcup-mongo
+      - njttcup-orleanshost
+    restart: always
+    ports:
+      - 8001:8080
+    env_file:
+      - path: ./env/admin-api.env
+        required: true
+      - path: ./env/admin-api.override.env
+        required: false
+    build:
+      context: .
+      dockerfile: src/CupKeeper.AdminApi/Dockerfile
   njttcup-adminapp:
     image: cupkeeper.adminapp
     depends_on:
-      - njttcup-mongo
+      - njttcup-adminapi
     restart: always
     ports:
       - 8000:80
     build:
       context: .
       dockerfile: src/CupKeeper.AdminApp/Dockerfile
-  njttcup-adminapi:
-    image: cupkeeper.adminapi
-    depends_on:
-      - njttcup-mongo
-    restart: always
-    ports:
-      - 8001:8080
-    build:
-      context: .
-      dockerfile: src/CupKeeper.AdminApi/Dockerfile
-  njttcup-orleanshost:
-    image: cupkeeper.orleanshost
-    depends_on:
-      - njttcup-mongo
-    build:
-      context: .
-      dockerfile: src/CupKeeper.OrleansHost/Dockerfile

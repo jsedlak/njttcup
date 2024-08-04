@@ -1,8 +1,6 @@
 ﻿@page "/events/{eventId:guid}"
 @using CupKeeper.AdminApp.Components
 @using CupKeeper.AdminApp.Services
-@using CupKeeper.Domains.Championships.Commands
-@using CupKeeper.Domains.Championships.Model
 @using CupKeeper.Domains.Championships.ViewModel
 @inject EventService EventService;
 <PageTitle>@_event.Name - Event Details - Cup Keeper</PageTitle>
@@ -34,13 +32,13 @@
         <div class="my-3 rounded bg-gray-800 p-3">
             <Toolbar Title=@category.Name />
             
-            <DataGrid Items="category.Riders.Where(m => !m.ExcludeFromPoints).OrderBy(m => m.Time)" Columns="_categoryColumns" />
+            <DataGrid Items="category.Riders.OrderBy(m => m.Place)" Columns="_categoryColumns" />
             
             <h2 class="text-xl mb-0">
                 Excluded Results
             </h2>
 
-            <DataGrid Items="category.Riders.Where(m => m.ExcludeFromPoints).OrderBy(m => m.Time)" Columns="_categoryColumns" />
+            <DataGrid Items="category.ExcludedRiders" Columns="_categoryColumns" />
         </div>
     }
 </div>
@@ -56,13 +54,13 @@
 
     private Timer? _loadTimer;
 
-    private IEnumerable<Column<RiderResult>> _categoryColumns =
+    private IEnumerable<Column<RiderResultViewModel>> _categoryColumns =
     [
-        new Column<RiderResult>() { Title = "Place", Field = m => m.Place, Component = typeof(RiderPlacementColumn) },
-        new Column<RiderResult>() { Title = "Points", Field = m => m.Points },
-        new Column<RiderResult>() { Title = "Rider ID", Field = m => m.RiderId },
-        new Column<RiderResult>() { Title = "Team", Field = m => m.TeamName },
-        new Column<RiderResult>() { Title = "Time", Field = m => m.Time, Component = typeof(RiderTimeColumn) }
+        new Column<RiderResultViewModel>() { Title = "Place", Field = m => m.Place, Component = typeof(RiderPlacementColumn) },
+        new Column<RiderResultViewModel>() { Title = "Points", Field = m => m.Points },
+        new Column<RiderResultViewModel>() { Title = "Rider ID", Field = m => m.RiderName },
+        new Column<RiderResultViewModel>() { Title = "Team", Field = m => m.TeamName },
+        new Column<RiderResultViewModel>() { Title = "Time", Field = m => m.Time, Component = typeof(RiderTimeColumn) }
     ];
 
     private async Task LoadResultsFromUsac()

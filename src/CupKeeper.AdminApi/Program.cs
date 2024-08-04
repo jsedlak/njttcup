@@ -48,8 +48,14 @@ builder.UseOrleansClient(clientBuilder =>
         })
         .UseMongoDBClient(sp =>
         {
-            var config = sp.GetRequiredService<IConfiguration>();
-            return MongoClientSettings.FromConnectionString(config.GetConnectionString("Mongo"));
+            var host = Environment.GetEnvironmentVariable("MONGO_HOST");
+            var username = Environment.GetEnvironmentVariable("MONGO_USERNAME");
+            var password = Environment.GetEnvironmentVariable("MONGO_PASSWORD");
+                
+            var connectionString = $"mongodb://{username}:{password}@{host}";
+            
+            // var config = sp.GetRequiredService<IConfiguration>();
+            return MongoClientSettings.FromConnectionString(connectionString);
         })
         .UseMongoDBClustering(options =>
         {
