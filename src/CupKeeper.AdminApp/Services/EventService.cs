@@ -61,6 +61,7 @@ public sealed class EventService : ApiServiceBase
                     place
                     points
                     riderId
+                    riderName
                     teamName
                     time
                 }

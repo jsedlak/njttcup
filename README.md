@@ -17,6 +17,7 @@ For our public site, the goal is to add a host of functionality for users.
 3. Allow riders to submit changes that can be approved and automatically applied [as a command within the Orleans system]
 4. Add rider searching, course searching, and better interfaces for results and championship leaderboards.
 5. Provide a surface for analytics regarding participation and competition
+6. Add automated rules change tracking [njttcup-rules](https://github.com/jsedlak/njttcup-rules)
 
 ## Architecture
 
@@ -45,3 +46,11 @@ Currently, the Admin Site is run separately, though there will be a docker optio
 ```
 dotnet watch run .
 ```
+
+## Sample Screenshots
+
+Creating an Event
+![Create Event Sample](doc/create-event.png)
+
+Event Results Loaded from USAC
+![Event Results](doc/event-results.png)
