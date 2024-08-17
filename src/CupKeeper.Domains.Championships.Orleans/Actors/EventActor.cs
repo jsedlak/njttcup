@@ -206,7 +206,7 @@ public class EventActor : EventSourcedGrain<ScheduledEvent, ScheduledEventBaseEv
         await WaitForConfirmation();
 
         // calculate the year into a grain identifier
-        var year = State.ActualDate?.Year ?? State.ScheduledDate?.Year ?? DateTimeOffset.Now.Year;
+        var year = TentativeState.ActualDate?.Year ?? TentativeState.ScheduledDate?.Year ?? DateTimeOffset.Now.Year;
         var yearAsGrainId = year.ToString().ToGuid();
         
         // recalculate that year's leaderboard
@@ -221,7 +221,7 @@ public class EventActor : EventSourcedGrain<ScheduledEvent, ScheduledEventBaseEv
 
     public async ValueTask<bool> StartResultsLoad()
     {
-        if (State.UsacPermitNumber is null)
+        if (TentativeState.UsacPermitNumber is null)
         {
             // TODO: Log warning
             return false;
@@ -233,7 +233,7 @@ public class EventActor : EventSourcedGrain<ScheduledEvent, ScheduledEventBaseEv
             return false;
         }
 
-        var resultsGrainId = State.UsacPermitNumber!;
+        var resultsGrainId = TentativeState.UsacPermitNumber!;
         var resultsLoaderGrain = _grainFactory.GetGrain<IEventResultsActor>(resultsGrainId);
         
         var internalResult  = await resultsLoaderGrain.StartLoad(new LoadResultsCommand(resultsGrainId));
@@ -260,7 +260,7 @@ public class EventActor : EventSourcedGrain<ScheduledEvent, ScheduledEventBaseEv
             return true;
         }
         
-        var resultsGrainId = State.UsacPermitNumber!;
+        var resultsGrainId = TentativeState.UsacPermitNumber!;
         var resultsLoaderGrain = _grainFactory.GetGrain<IEventResultsActor>(resultsGrainId);
 
         return await resultsLoaderGrain.CheckStatus();
@@ -268,7 +268,7 @@ public class EventActor : EventSourcedGrain<ScheduledEvent, ScheduledEventBaseEv
 
     private async Task CheckResultsLoad(object task)
     {
-        var resultsGrainId = State.UsacPermitNumber!;
+        var resultsGrainId = TentativeState.UsacPermitNumber!;
         var resultsLoaderGrain = _grainFactory.GetGrain<IEventResultsActor>(resultsGrainId);
 
         var completed = await resultsLoaderGrain.CheckStatus();

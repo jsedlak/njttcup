@@ -17,7 +17,7 @@ public class TestSiloConfigurator : ISiloConfigurator
                     .AddScoped<IEventViewRepository, InMemoryEventViewRepository>(sp => TestInitializer.ViewRepositoryInstance)
                     .AddScoped<IResultsLoader, UsaCyclingWebResultsLoader>();
 
-                services.AddOrleansEventSerializer();
+                services.AddOrleansSerializers();
                 services.AddMemoryEventSourcing();
             })
             .AddMemoryGrainStorageAsDefault()

@@ -59,7 +59,7 @@ public class VenueActor : EventSourcedGrain<Venue, VenueBaseEvent>, IVenueActor
 
     public async Task<CommandResult> Delete(DeleteVenueCommand command)
     {
-        if (State.IsDeleted)
+        if (TentativeState.IsDeleted)
         {
             return CommandResult.Failure("Cannot delete venue - it is already marked for deletion.");
         }

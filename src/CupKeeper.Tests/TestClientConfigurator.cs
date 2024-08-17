@@ -16,7 +16,7 @@ public class TestClientConfigurator : IClientBuilderConfigurator
             .AddScoped<IRiderLocatorService, InMemoryRiderLocatorService>()
             .AddScoped<IResultsLoader, UsaCyclingWebResultsLoader>();
         clientBuilder.AddMemoryStreams("StreamProvider");
-        clientBuilder.Services.AddOrleansEventSerializer();
+        clientBuilder.Services.AddOrleansSerializers();
         clientBuilder.Services.AddMemoryEventSourcing();
     }
 }

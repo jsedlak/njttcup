@@ -32,7 +32,7 @@ await Host.CreateDefaultBuilder(args)
                 services.AddScoped<IResultsLoader, UsaCyclingWebResultsLoader>();
                 
                 // Adds support for the EventSourcedGrain, using mongodb
-                services.AddOrleansEventSerializer();
+                services.AddOrleansSerializers();
                 services.AddMongoEventSourcing("njttcup");
             })
             .UseMongoDBClient(sp =>
