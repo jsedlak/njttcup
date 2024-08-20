@@ -2,6 +2,7 @@ using CupKeeper.Domains.Championships.Events.ScheduledEvents;
 using CupKeeper.Domains.Championships.Model;
 using CupKeeper.Domains.Championships.ServiceModel;
 using CupKeeper.Domains.Championships.ViewModel;
+using CupKeeper.Domains.Locations.ServiceModel;
 using Microsoft.Extensions.Logging;
 using Orleans.Runtime;
 using Orleans.Streams;
@@ -16,12 +17,14 @@ public class EventViewActor : Grain, IEventSearchViewModelActor,
     private readonly ILogger<EventViewActor> _logger;
     private readonly IEventViewRepository _viewRepository;
     private readonly IRiderLocatorService _riderLocatorService;
+    private readonly IVenueViewRepository _venueViewRepository;
     
-    public EventViewActor(ILogger<EventViewActor> logger, IEventViewRepository viewRepository, IRiderLocatorService riderLocatorService)
+    public EventViewActor(ILogger<EventViewActor> logger, IEventViewRepository viewRepository, IRiderLocatorService riderLocatorService, IVenueViewRepository venueViewRepository)
     {
         _logger = logger;
         _viewRepository = viewRepository;
         _riderLocatorService = riderLocatorService;
+        _venueViewRepository = venueViewRepository;
     }
     
     #region Implicit Subscription Management
@@ -72,9 +75,17 @@ public class EventViewActor : Grain, IEventSearchViewModelActor,
         existing.VenueId = ev.VenueId;
         existing.CourseId = ev.CourseId;
         existing.ScheduledDate = ev.ScheduledDate;
+        existing.ChampionshipYear = ev.ScheduledDate.GetValueOrDefault().Year;
         existing.RegistrationLink = ev.RegistrationLink;
         existing.UsacResultsLink = ev.UsacResultsLink;
         existing.UsacPermitNumber = ev.UsacPermitNumber;
+        
+        var venue = await _venueViewRepository.GetAsync(ev.VenueId);
+        var course = venue?.Courses.FirstOrDefault(m => m.Id == ev.CourseId);
+        
+        // TODO: Return error if we can't find the venue?
+        existing.VenueName = venue?.Name;
+        existing.CourseName = course?.Name;
 
         await _viewRepository.UpsertAsync(existing);
     }

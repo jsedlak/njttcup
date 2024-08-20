@@ -98,7 +98,7 @@
     private async Task HandleCreateClicked()
     {
         _createError = "";
-
+        
         var response = await EventService.Create(_createCommand);
 
         if (response.IsSuccess)

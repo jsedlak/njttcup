@@ -12,12 +12,11 @@
             <Button Type="ButtonType.DefaultOutline" Clicked=@RefreshAsync>
                 <span>@HeroIcons.ArrowPathRoundedSquare()</span>
             </Button>
-            <Button Clicked=@(() => { _isCreateDialogVisible = true; StateHasChanged(); }) Type="ButtonType.Primary">@HeroIcons.DocumentPlus("inline-block") Create Venue</Button>
+            <Button Clicked=@(() => { _createCommand = new(); _isCreateDialogVisible = true; StateHasChanged(); }) Type="ButtonType.Primary">@HeroIcons.DocumentPlus("inline-block") Create Venue</Button>
         </Buttons>
     </Toolbar>
     
-    <DataGrid TItem="VenueViewModel" Items="_venues" Columns="_columns">
-    </DataGrid>
+    <DataGrid HideToolbar TItem="VenueViewModel" Items="_venues" Columns="_columns" />
 </div>
 
 <Dialog Title="Create Venue" @bind-IsVisible="_isCreateDialogVisible">
