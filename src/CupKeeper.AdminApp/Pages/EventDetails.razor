@@ -32,13 +32,16 @@
         <div class="my-3 rounded bg-gray-800 p-3">
             <Toolbar Title=@category.Name />
             
-            <DataGrid Items="category.Riders.OrderBy(m => m.Place)" Columns="_categoryColumns" />
+            <DataGrid HideToolbar Items="category.Riders.OrderBy(m => m.Place)" Columns="_categoryColumns" />
             
-            <h2 class="text-xl mb-0">
-                Excluded Results
-            </h2>
+            @if (category.ExcludedRiders.Any())
+            {
+                <h2 class="text-xl mb-0">
+                    Excluded Results
+                </h2>
 
-            <DataGrid Items="category.ExcludedRiders" Columns="_categoryColumns" />
+                <DataGrid HideToolbar Items="category.ExcludedRiders" Columns="_categoryColumns"/>
+            }
         </div>
     }
 </div>
