@@ -10,7 +10,9 @@ public sealed class CategoryResultAddedEvent : ScheduledEventBaseEvent
     {
     }
 
-    [Id(0)] public string Name { get; set; } = null!;
+    [Id(0)] public Guid CategoryId { get; set; }
 
-    [Id(1)] public int Order { get; set; }
+    [Id(1)] public string Name { get; set; } = null!;
+
+    [Id(2)] public int Order { get; set; }
 }
