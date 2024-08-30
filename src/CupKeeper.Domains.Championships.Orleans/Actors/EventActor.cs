@@ -313,7 +313,7 @@ public class EventActor : EventSourcedGrain<ScheduledEvent, ScheduledEventBaseEv
                     TeamName = rider.TeamName,
                     RiderId = rider.Id,
                     Place = isExcluded ? null : riderPlacing,
-                    Points = 0,
+                    Points = isExcluded ? 0 : Math.Max(21 - riderPlacing, 0),
                     Time = isExcluded ? null : parsedRider.Time,
                     ExcludeFromPoints = isExcluded,
                     ExclusionReason = isExcluded ? parsedRider.Place : null

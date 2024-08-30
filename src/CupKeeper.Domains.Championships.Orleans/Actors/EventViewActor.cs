@@ -292,6 +292,7 @@ public class EventViewActor : Grain, IEventSearchViewModelActor,
         var existing = await _viewRepository.GetAsync(ev.AggregateId) ?? new();
         
         existing.ScheduledDate = ev.ScheduledDate;
+        existing.ActualDate = ev.ActualDate;
         existing.ChampionshipYear = ev.ScheduledDate.GetValueOrDefault().Year;
         
         await _viewRepository.UpsertAsync(existing);

@@ -25,8 +25,11 @@ await Host.CreateDefaultBuilder(args)
             })
             .ConfigureServices((services) =>
             {
+                // add config
+                services.Configure<MongoRiderLocatorServiceOptions>(options => options.DatabaseName = "njttcup");
+                
                 // our custom services
-                services.AddSingleton<IRiderLocatorService, InMemoryRiderLocatorService>();
+                services.AddSingleton<IRiderLocatorService, MongoRiderLocatorService>();
                 services.AddScoped<IEventViewRepository, MongoEventViewRepository>();
                 services.AddScoped<IVenueViewRepository, MongoVenueViewRepository>();
                 services.AddScoped<IResultsLoader, UsaCyclingWebResultsLoader>();
