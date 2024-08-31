@@ -8,8 +8,33 @@
 <div class="mx-auto px-4 sm:px-6 lg:px-8 py-6">
     <Toolbar Title=@($"Event: {_event.Name}") Subtitle="We do some eventing here."/>
 
-    <div>Grid of info goes here...</div>
+    @* Top Grid of Info *@
+    <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+        <InfoCard>
+            <Title>Dates</Title>
+            <Content>
+                <div class="mb-1">
+                    <h4 class="font-bold">Scheduled</h4>
+                    @(_event.ScheduledDate is null ? "Not Set" : _event.ScheduledDate.Value.ToString("D"))
+                </div>
+                <div class="mb-1">
+                    <h4 class="font-bold">Actual</h4>
+                    @(_event.ActualDate is null ? "Not Set" : _event.ActualDate.Value.ToString("D"))
+                </div>
+            </Content>
+        </InfoCard>
 
+        <InfoCard>
+            <Title>Course</Title>
+            <Content>
+                <div class="mb-1">
+                    <h4 class="font-bold">@_event.VenueName</h4>
+                    @_event.CourseName
+                </div>
+            </Content>
+        </InfoCard>
+    </div>
+    
     @* <CourseSelector /> *@
     <Toolbar Title="Results">
         <Buttons>
@@ -50,12 +75,23 @@
     }
 </div>
 
-<Dialog @bind-IsVisible=@_isEditDialogVisible Title="Edit Event">
+<Dialog @bind-IsVisible=@_isEditDialogVisible Title="Edit Event" WindowClass="w-1/2">
     <Content>
-        <div class="mb-2">
-            <Label>Scheduled Date</Label>
-            <input class=@Theme.Forms.TextBox type="date" value="@_event.ScheduledDate" onchange=@OnHandleScheduledDateChanged />
-        </div> 
+        <div class="grid grid-cols-2 gap-4">
+            <div>
+                <div class="mb-2">
+                    <Label>Scheduled Date</Label>
+                    <input class=@Theme.Forms.TextBox type="date" @bind=@_editContext.ScheduledDate onblur=@OnEditContextScheduledDateChanged/>
+                </div>
+            </div>    
+            <div>
+                <CourseSelector 
+                    CourseId=@_editContext.CourseId 
+                    VenueId=@_editContext.VenueId 
+                    VenueIdChanged=@((venueId) => { _editContext.VenueId = venueId; })
+                    CourseIdChanged=@OnEditContextCourseChanged />
+            </div>
+        </div>
     </Content>
     
 </Dialog>
@@ -66,6 +102,7 @@
     [CascadingParameter(Name = "Theme")] public ITheme Theme { get; set; } = null!;
 
     private EventViewModel _event = new();
+    private EventViewModel _editContext = new();
     private bool _isLoadingResults = false;
 
     private bool _isEditDialogVisible = false;
@@ -83,6 +120,7 @@
 
     private void OnBeginEdit()
     {
+        CopyToEditContext();
         _isEditDialogVisible = true;
         StateHasChanged();
     }
@@ -105,19 +143,22 @@
     {
         var isFinished = await EventService.CheckLoadStatus(EventId);
 
-        if (isFinished)
+        if (!isFinished)
         {
-            _event = (await EventService.GetEvents()).First(m => m.Id == EventId);
-            _isLoadingResults = false;
-
-            if (_loadTimer is not null)
-            {
-                await _loadTimer.DisposeAsync();
-                _loadTimer = null;
-            }
-            
-            StateHasChanged();
+            return;
         }
+        
+
+        _event = (await EventService.GetEvents()).First(m => m.Id == EventId);
+        _isLoadingResults = false;
+
+        if (_loadTimer is not null)
+        {
+            await _loadTimer.DisposeAsync();
+            _loadTimer = null;
+        }
+            
+        StateHasChanged();
     }
 
     protected override async Task OnInitializedAsync()
@@ -127,8 +168,60 @@
         _event = (await EventService.GetEvents()).First(m => m.Id == EventId);
     }
 
-    private void OnHandleScheduledDateChanged(ChangeEventArgs args)
+    private async Task OnEditContextScheduledDateChanged(FocusEventArgs args)
     {
-        Console.WriteLine(args.Value.ToString());
+        if (_editContext.ScheduledDate == _event.ScheduledDate)
+        {
+            // nothing to submit
+            return;
+        }
+
+        // submit to the server!
+        var response = await EventService.SetScheduledDate(
+            _event.Id, 
+            _editContext.ScheduledDate,
+            _editContext.ScheduledDate
+        );
+
+        // we probably want to reload this from the server, or provide a loopback
+        if (response.IsSuccess)
+        {
+            _event.ScheduledDate = _editContext.ScheduledDate;
+            _event.ActualDate = _editContext.ScheduledDate;
+            StateHasChanged();
+        }
+    }
+
+    private async Task OnEditContextCourseChanged(Guid courseId)
+    {
+        if (courseId == _editContext.CourseId)
+        {
+            return;
+        }
+
+        _editContext.CourseId = courseId;
+
+        var response = await EventService.SetCourse(
+            _event.Id,
+            _editContext.VenueId,
+            _editContext.CourseId
+        );
+
+        if (response.IsSuccess)
+        {
+            var reloadedEvent = (await EventService.GetEvents()).First(m => m.Id == EventId);
+            _event.VenueId = reloadedEvent.VenueId;
+            _event.VenueName = reloadedEvent.VenueName;
+            _event.CourseId = reloadedEvent.CourseId;
+            _event.CourseName = reloadedEvent.CourseName;
+            
+            StateHasChanged();
+        }
+    }
+
+    private void CopyToEditContext()
+    {
+        _editContext.Name = _event.Name;
+        _editContext.ScheduledDate = _event.ScheduledDate;
     }
 }

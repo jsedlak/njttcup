@@ -24,9 +24,14 @@ builder.Services.AddHealthChecks();
 //     return MongoClientSettings.FromConnectionString(config.GetConnectionString("Mongo"));
 // });
 
+// configure our services
+builder.Services.Configure<MongoRiderRepositoryOptions>(options => 
+    builder.Configuration.GetSection("riders").Bind(options));
+
 // Add our custom services
 builder.Services.AddScoped<IEventViewRepository, MongoEventViewRepository>();
 builder.Services.AddScoped<IVenueViewRepository, MongoVenueViewRepository>();
+builder.Services.AddScoped<IRiderRepository, MongoRiderRepository>();
 
 
 // Add GraphQL
@@ -35,7 +40,8 @@ builder.Services
     .AddFiltering()
     .AddQueryType(q => q.Name("Query"))
     .AddType<EventQueries>()
-    .AddType<VenueQueries>();
+    .AddType<VenueQueries>()
+    .AddType<RiderQueries>();
 
 // Add Orleans Client
 builder.UseOrleansClient(clientBuilder =>

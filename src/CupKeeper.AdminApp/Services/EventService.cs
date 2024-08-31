@@ -9,7 +9,6 @@ public sealed class EventService : ApiServiceBase
 {
     private readonly HttpClient _graphQlClient;
     
-
     public EventService(IHttpClientFactory httpClientFactory) 
         : base(httpClientFactory)
     {
@@ -20,7 +19,24 @@ public sealed class EventService : ApiServiceBase
     {
         return ExecuteAsync("api/events", command);
     }
-    
+
+    public async Task<CommandResult> SetScheduledDate(Guid eventId, DateTimeOffset? scheduledDate, DateTimeOffset? actualDate)
+    {
+        return await PostAsync<CommandResult>($"api/events/{eventId}/dates", new SetEventDatesCommand(eventId)
+        {
+            ScheduledDate = scheduledDate,
+            ActualDate = actualDate
+        }) ?? new();
+    }
+
+    public async Task<CommandResult> SetCourse(Guid eventId, Guid venueId, Guid courseId)
+    {
+        return await PostAsync<CommandResult>($"api/events/{eventId}/course", new SetEventCourseCommand(eventId)
+        {
+            VenueId = venueId,
+            CourseId = courseId
+        }) ?? new();
+    }
     
     public async Task<bool> StartLoad(Guid eventId)
     {

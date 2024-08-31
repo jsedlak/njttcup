@@ -1,0 +1,39 @@
+@page "/riders"
+@inject RiderService RiderService;
+<PageTitle>Riders - Cup Keeper</PageTitle>
+
+<div class="mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <Toolbar Title="Riders" Subtitle="Manage all riders here.">
+        
+    </Toolbar>
+
+    @* <CourseSelector /> *@
+    <DataGrid Items=@_riders Columns=@_columns HideToolbar NumberPerPage="100" />
+</div>
+
+@code {
+    private IEnumerable<Rider> _riders = [];
+
+    private IEnumerable<Column<Rider>> _columns =
+    [
+        new Column<Rider>() { Title = "Id", Field = m => m.Id },
+        new Column<Rider>() { Title = "Name", Field = m => m.Name },
+        new Column<Rider>() { Title = "First Name", Field = m => m.Name.Split(' ', StringSplitOptions.RemoveEmptyEntries).FirstOrDefault() ?? "" },
+        new Column<Rider>() { Title = "Last Name", Field = m => m.Name.Split(' ', StringSplitOptions.RemoveEmptyEntries).LastOrDefault() ?? "" },
+        new Column<Rider>() { Title = "Team", Field = m => m.TeamName! },
+        new Column<Rider>() { Title = "License", Field = m => m.UsacLicenseNumber! }
+    ];
+    
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        await LoadRidersAsync();
+    }
+
+    private async Task LoadRidersAsync()
+    {
+        _riders = await RiderService.GetRidersAsync();
+    }
+
+}

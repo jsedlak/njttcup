@@ -1,4 +1,3 @@
-using CupKeeper.Data;
 using CupKeeper.Domains.Championships.Model;
 using CupKeeper.Domains.Championships.ServiceModel;
 using Microsoft.Extensions.Options;
@@ -6,13 +5,13 @@ using MongoDB.Driver;
 
 namespace CupKeeper.Domains.Championships.Services;
 
-public sealed class MongoRiderLocatorService : IRiderLocatorService
+public sealed class MongoRiderRepository : IRiderRepository, IRiderLocatorService
 {
     private readonly IMongoClient _mongoClient;
     private readonly string _databaseName;
     private readonly string _collectionName = "riders";
 
-    public MongoRiderLocatorService(IMongoClient mongoClient, IOptions<MongoRiderLocatorServiceOptions> options)
+    public MongoRiderRepository(IMongoClient mongoClient, IOptions<MongoRiderRepositoryOptions> options)
     {
         _mongoClient = mongoClient;
         _databaseName = options.Value.DatabaseName;
@@ -23,6 +22,43 @@ public sealed class MongoRiderLocatorService : IRiderLocatorService
         return _mongoClient
             .GetDatabase(_databaseName)
             .GetCollection<Rider>(_collectionName);
+    }
+
+    public async Task<IEnumerable<Rider>> GetRidersAsync()
+    {
+        return (await GetCollection().FindAsync(m => true)).ToList();
+    }
+
+    private Task UpsertAsync(Rider rider)
+    {
+        var col = GetCollection();
+        return col.ReplaceOneAsync(
+            m => m.Id == rider.Id, 
+            rider, 
+            new ReplaceOptions() { IsUpsert = true }
+        );
+    }
+
+    public Task CreateAsync(Rider rider)
+    {
+        return UpsertAsync(rider);
+    }
+
+    public Task UpdateAsync(Rider rider)
+    {
+        return UpsertAsync(rider);
+    }
+
+    public Task DeleteAsync(Rider rider)
+    {
+        var col = GetCollection();
+        return col.FindOneAndDeleteAsync(m => m.Id == rider.Id);
+    }
+
+    public Task DeleteAsync(Guid riderId)
+    {
+        var col = GetCollection();
+        return col.FindOneAndDeleteAsync(m => m.Id == riderId);
     }
 
     public async Task<Rider> GetAsync(string name, string? teamName, string? license)
@@ -38,7 +74,7 @@ public sealed class MongoRiderLocatorService : IRiderLocatorService
                 return rider;
             }
         }
-        
+
         var namedRider = (await col.FindAsync(m => m.Name.ToLower() == name.ToLower().Trim())).FirstOrDefault();
 
         if (namedRider is not null)
@@ -53,9 +89,9 @@ public sealed class MongoRiderLocatorService : IRiderLocatorService
             TeamName = teamName?.Trim(),
             UsacLicenseNumber = license?.Trim(),
         };
-        
+
         await col.InsertOneAsync(namedRider);
-        
+
         return namedRider;
     }
 
