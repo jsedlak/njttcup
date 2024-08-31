@@ -4,7 +4,16 @@
 
 <div class="mx-auto px-4 sm:px-6 lg:px-8 py-6">
     <Toolbar Title="Riders" Subtitle="Manage all riders here.">
-        
+        <Buttons>
+            <Button Type="ButtonType.PrimaryOutline" Clicked=@OnSetPascalNames>
+                @HeroIcons.ChatBubbleBottomCenterText("inline-block mr-2", "w-5 h-5")
+                Pascal Case
+            </Button>
+            <Button Type="ButtonType.PrimaryOutline" Clicked=@OnSetUpperCaseNames>
+                @HeroIcons.ChatBubbleBottomCenterText("inline-block mr-2", "w-5 h-5")
+                Upper Case
+            </Button>
+        </Buttons>
     </Toolbar>
 
     @* <CourseSelector /> *@
@@ -24,9 +33,18 @@
     </Footer>
 </Dialog>
 
+<Dialog Title="Updating Riders" @bind-IsVisible=@_isUpdatingRiders WindowClass="w-1/2 h-1/2">
+    <Content>
+        <div class="flex justify-center items-center">
+        <Spinner></Spinner>
+        </div>
+    </Content>
+</Dialog>
+
 @code {
     private IEnumerable<Rider> _riders = [];
 
+    private bool _isUpdatingRiders = false;
     private bool _isEditVisible = false;
     private Rider _editContext = new();
 
@@ -73,6 +91,38 @@
         await RiderService.SetRiderName(_editContext.Id, _editContext.Name);
         await LoadRidersAsync();
         _isEditVisible = false;
+        StateHasChanged();
+    }
+
+    private async Task OnSetPascalNames()
+    {
+        _isUpdatingRiders = true;
+        StateHasChanged();
+        
+        foreach (var rider in _riders)
+        {
+            await RiderService.SetRiderName(rider.Id, rider.Name.ToPascalCase());
+        }
+        
+        await LoadRidersAsync();
+        
+        _isUpdatingRiders = false;
+        StateHasChanged();
+    }
+
+    private async Task OnSetUpperCaseNames()
+    {
+        _isUpdatingRiders = true;
+        StateHasChanged();
+        
+        foreach (var rider in _riders)
+        {
+            await RiderService.SetRiderName(rider.Id, rider.Name.ToUpper());
+        }
+        
+        await LoadRidersAsync();
+        
+        _isUpdatingRiders = false;
         StateHasChanged();
     }
 
