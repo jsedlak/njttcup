@@ -2,6 +2,7 @@ using CupKeeper.Cqrs;
 using CupKeeper.Domains.Championships.Commands;
 using CupKeeper.Domains.Championships.Commands.EventResults;
 using CupKeeper.Domains.Championships.Events.ScheduledEvents;
+using CupKeeper.Domains.Championships.Messages;
 using CupKeeper.Domains.Championships.Model;
 using CupKeeper.Domains.Championships.ServiceModel;
 using Orleans.Runtime;
@@ -51,6 +52,7 @@ public class EventActor : EventSourcedGrain<ScheduledEvent, ScheduledEventBaseEv
         await _eventStream!.OnNextBatchAsync(eventBatch);
     }
 
+    #region Event Management
     public async Task<CommandResult> Create(CreateScheduledEventCommand command)
     {
         await Raise(new ScheduledEventCreatedEvent(this.GetGrainId().GetGuidKey())
@@ -66,14 +68,14 @@ public class EventActor : EventSourcedGrain<ScheduledEvent, ScheduledEventBaseEv
 
         return CommandResult.Success();
     }
-
+    
     public async Task<CommandResult> Delete(DeleteScheduledEventCommand command)
     {
         await Raise(new ScheduledEventDeletedEvent(command.ScheduledEventId));
 
         return CommandResult.Success();
     }
-
+    
     public async Task<CommandResult> SetName(SetEventNameCommand command)
     {
         await Raise(new EventNameSetEvent(command.ScheduledEventId)
@@ -83,7 +85,7 @@ public class EventActor : EventSourcedGrain<ScheduledEvent, ScheduledEventBaseEv
         
         return CommandResult.Success();
     }
-
+    
     public async Task<CommandResult> SetCourse(SetEventCourseCommand command)
     {
         await Raise(new EventCourseSetEvent(command.ScheduledEventId)
@@ -126,7 +128,9 @@ public class EventActor : EventSourcedGrain<ScheduledEvent, ScheduledEventBaseEv
         
         return CommandResult.Success();
     }
+    #endregion
 
+    #region Results Management
     public async Task<CommandResult> AddCategory(AddCategoryResultCommand command)
     {
         await Raise(new CategoryResultAddedEvent(command.ScheduledEventId)
@@ -198,7 +202,9 @@ public class EventActor : EventSourcedGrain<ScheduledEvent, ScheduledEventBaseEv
         
         return CommandResult.Success();
     }
+    #endregion
 
+    #region Publishing
     public async Task<CommandResult> PublishResults(PublishEventResultsCommand command)
     {
         await Raise(new EventResultsPublishedEvent(command.ScheduledEventId));
@@ -218,7 +224,9 @@ public class EventActor : EventSourcedGrain<ScheduledEvent, ScheduledEventBaseEv
         
         return CommandResult.Success();
     }
-
+    #endregion
+    
+    #region Ingestion / Parsing
     public async ValueTask<bool> StartResultsLoad()
     {
         if (TentativeState.UsacPermitNumber is null)
@@ -339,4 +347,15 @@ public class EventActor : EventSourcedGrain<ScheduledEvent, ScheduledEventBaseEv
             _resultsLoadTimer = null;
         }
     }
+    #endregion
+    
+    #region Hydration Management
+    public async Task ReloadRiderData(Guid riderId)
+    {
+        await _eventStream!.OnNextAsync(new ReloadRiderRequest(this.GetGrainId().GetGuidKey())
+        {
+            RiderId = riderId
+        });
+    }
+    #endregion
 }

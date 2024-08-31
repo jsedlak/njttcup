@@ -5,6 +5,8 @@ namespace CupKeeper.Domains.Championships.ServiceModel;
 public interface IRiderRepository
 {
     Task<IEnumerable<Rider>> GetRidersAsync();
+
+    Task<Rider> GetAsync(Guid riderId);
     
     Task CreateAsync(Rider rider);
     

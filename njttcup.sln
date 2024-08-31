@@ -63,6 +63,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CupKeeper.Domains.Locations
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CupKeeper.Data.Mongo", "src\CupKeeper.Data.Mongo\CupKeeper.Data.Mongo.csproj", "{D77372B5-5EE9-48CF-BBD0-859434D4D578}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CupKeeper.AdminApi.ApiModel", "src\CupKeeper.AdminApi.ApiModel\CupKeeper.AdminApi.ApiModel.csproj", "{59B605CD-6DC3-42DD-9862-2907E223A442}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -153,6 +155,10 @@ Global
 		{D77372B5-5EE9-48CF-BBD0-859434D4D578}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D77372B5-5EE9-48CF-BBD0-859434D4D578}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D77372B5-5EE9-48CF-BBD0-859434D4D578}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59B605CD-6DC3-42DD-9862-2907E223A442}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59B605CD-6DC3-42DD-9862-2907E223A442}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59B605CD-6DC3-42DD-9862-2907E223A442}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59B605CD-6DC3-42DD-9862-2907E223A442}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -179,6 +185,7 @@ Global
 		{F7B960C2-8BBD-428C-8AB9-C3295F0E391F} = {CFAC031F-A142-4E60-8F66-D5463D141B36}
 		{99517866-E0B0-460E-A285-8ED6F92F5F97} = {3B37C7EA-1289-4E95-A9A3-FB7AA9AD2C40}
 		{D77372B5-5EE9-48CF-BBD0-859434D4D578} = {3B37C7EA-1289-4E95-A9A3-FB7AA9AD2C40}
+		{59B605CD-6DC3-42DD-9862-2907E223A442} = {4EC54C70-7C2C-44D1-B2B3-EAE0697BD0B2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BECA1B91-2140-483C-B02F-018C20755A89}

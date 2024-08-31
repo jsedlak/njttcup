@@ -27,6 +27,7 @@
       <ProjectReference Include="..\..\tazor\src\Tazor.Components\Tazor.Components.csproj" />
       <ProjectReference Include="..\..\tazor\src\Tazor.Http\Tazor.Http.csproj" />
       <ProjectReference Include="..\..\tazor\src\Tazor.Wasm\Tazor.Wasm.csproj" />
+      <ProjectReference Include="..\CupKeeper.AdminApi.ApiModel\CupKeeper.AdminApi.ApiModel.csproj" />
       <ProjectReference Include="..\CupKeeper.Core\CupKeeper.Core.csproj" />
     </ItemGroup>
 

@@ -1,4 +1,5 @@
 using CupKeeper.Domains.Championships.Events.ScheduledEvents;
+using CupKeeper.Domains.Championships.Messages;
 using CupKeeper.Domains.Championships.Model;
 using CupKeeper.Domains.Championships.ServiceModel;
 using CupKeeper.Domains.Championships.ViewModel;
@@ -334,6 +335,27 @@ public class EventViewActor : Grain, IEventSearchViewModelActor,
         
         existing.UsacResultsLink = ev.UsacResultsLink;
         existing.UsacPermitNumber = ev.UsacPermitNumber;
+        
+        await _viewRepository.UpsertAsync(existing);
+    }
+    #endregion
+    
+    #region View Model: Hydration Management
+    private async Task Handle(ReloadRiderRequest request)
+    {
+        var existing = await _viewRepository.GetAsync(request.AggregateId) ?? new();
+        
+        // get the rider
+        var rider = await _riderLocatorService.GetAsync(request.RiderId);
+
+        foreach (var categoryResult in existing.Results)
+        {
+            var riderResults = categoryResult.Riders.Where(m => m.RiderId == request.RiderId).ToArray();
+            foreach (var riderResult in riderResults)
+            {
+                riderResult.RiderName = rider.Name;
+            }
+        }
         
         await _viewRepository.UpsertAsync(existing);
     }

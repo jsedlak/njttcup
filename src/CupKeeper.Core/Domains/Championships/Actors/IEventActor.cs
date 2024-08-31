@@ -45,4 +45,10 @@ public interface IEventActor : IGrainWithGuidKey
     ValueTask<bool> CheckResultsLoadFinished();
 
     #endregion
+    
+    #region Hydration Management
+
+    Task ReloadRiderData(Guid riderId);
+
+    #endregion
 }

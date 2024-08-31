@@ -8,11 +8,27 @@
     </Toolbar>
 
     @* <CourseSelector /> *@
-    <DataGrid Items=@_riders Columns=@_columns HideToolbar NumberPerPage="100" />
+    <DataGrid Items=@_riders Columns=@_columns HideToolbar NumberPerPage="100" OnEdit=@OnBeginEdit  />
 </div>
+
+<Dialog Title="Edit Rider" @bind-IsVisible=@_isEditVisible>
+    <Content>
+        <div class="mb-4">
+            <Label>Name</Label>
+            <TextBox @bind-Value=@_editContext.Name/>
+        </div>
+    </Content>
+    <Footer>
+        <Button Clicked=@(() => { _isEditVisible = false; StateHasChanged();  }) Type="ButtonType.DefaultOutline">Cancel</Button>
+        <Button Clicked=@OnEndEdit Type="ButtonType.Success">Save</Button>
+    </Footer>
+</Dialog>
 
 @code {
     private IEnumerable<Rider> _riders = [];
+
+    private bool _isEditVisible = false;
+    private Rider _editContext = new();
 
     private IEnumerable<Column<Rider>> _columns =
     [
@@ -22,6 +38,11 @@
         new Column<Rider>() { Title = "Last Name", Field = m => m.Name.Split(' ', StringSplitOptions.RemoveEmptyEntries).LastOrDefault() ?? "" },
         new Column<Rider>() { Title = "Team", Field = m => m.TeamName! },
         new Column<Rider>() { Title = "License", Field = m => m.UsacLicenseNumber! }
+    ];
+
+    private IEnumerable<CommandItem> _actions =
+    [
+        new CommandItem() { Icon = HeroIcons.Pencil(), Key = "edit", Title = "Edit " }
     ];
     
     protected override async Task OnInitializedAsync()
@@ -34,6 +55,25 @@
     private async Task LoadRidersAsync()
     {
         _riders = await RiderService.GetRidersAsync();
+    }
+
+    private void OnBeginEdit(Rider rider)
+    {
+        _editContext.Id = rider.Id;
+        _editContext.Name = rider.Name;
+        _editContext.TeamName = rider.TeamName;
+        _editContext.UsacLicenseNumber = rider.UsacLicenseNumber;
+        
+        _isEditVisible = true;
+        StateHasChanged();
+    }
+
+    private async Task OnEndEdit()
+    {
+        await RiderService.SetRiderName(_editContext.Id, _editContext.Name);
+        await LoadRidersAsync();
+        _isEditVisible = false;
+        StateHasChanged();
     }
 
 }
