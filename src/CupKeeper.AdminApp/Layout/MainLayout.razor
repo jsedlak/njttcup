@@ -118,6 +118,7 @@
         _subClient = await PubSubFactory.CreateClient("events");
         await _subClient.SubscribeAsync(m =>
         {
+            Console.WriteLine("MainLayout Received Message");
             Console.WriteLine(JsonSerializer.Serialize(m));
         });
         

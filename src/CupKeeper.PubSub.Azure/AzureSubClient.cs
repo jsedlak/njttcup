@@ -1,5 +1,6 @@
-using System.Text.Json;
+using Newtonsoft.Json;
 using Websocket.Client;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace CupKeeper.PubSub;
 
@@ -31,7 +32,7 @@ public class AzureSubClient : ISubClient, IDisposable
         IsDisposed = true;
     }
     
-    public Task SubscribeAsync(Action<object> onMessage)
+    public async Task SubscribeAsync(Action<object> onMessage)
     {
         _onMessage = onMessage;
         _client.MessageReceived.Subscribe(msg =>
@@ -42,21 +43,40 @@ public class AzureSubClient : ISubClient, IDisposable
             var envelope = JsonSerializer.Deserialize<PubSubEnvelope>(msg.Text!);
             var messageType = Type.GetType(envelope!.MessageType)!;
 
-            Console.WriteLine($"{messageType}");
-            Console.WriteLine($"{envelope.Message}");
-            
-            var messageObject = JsonSerializer.Deserialize(envelope.Message, messageType);
-            
-            if (messageObject == null)
+            if (messageType == null)
             {
-                Console.WriteLine("Message is null");
+                Console.WriteLine("Message type is null, cannot deserialize");
                 return;
             }
+
+            Console.WriteLine($"{envelope.Message}");
+            Console.WriteLine($"Message Type is {messageType?.Name ?? "NULL"}");
+            try
+            {
+                var messageObject = JsonConvert.DeserializeObject(envelope.Message, messageType!);
+                // JsonSerializer.Deserialize(envelope.Message, messageType);
+
+                if (messageObject == null)
+                {
+                    Console.WriteLine("Message is null");
+                    return;
+                }
+
+                Console.WriteLine("Sending message to callback");
+                _onMessage(messageObject);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error deserializing");
+                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.StackTrace);
+            }
             
-            onMessage(messageObject);
+
+            
         });
         
-        return _client.Start();
+        await _client.Start();
     }
 
     public void Dispose()
