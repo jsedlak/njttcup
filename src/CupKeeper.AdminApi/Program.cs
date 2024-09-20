@@ -1,3 +1,4 @@
+using Azure.Messaging.WebPubSub;
 using CupKeeper.AdminApi.Queries;
 using CupKeeper.Domains.Championships.ServiceModel;
 using CupKeeper.Domains.Championships.Services;
@@ -33,6 +34,11 @@ builder.Services.AddScoped<IEventViewRepository, MongoEventViewRepository>();
 builder.Services.AddScoped<IVenueViewRepository, MongoVenueViewRepository>();
 builder.Services.AddScoped<IRiderRepository, MongoRiderRepository>();
 
+// infrastructure bits
+builder.Services.AddScoped<WebPubSubServiceClient>(_ => new WebPubSubServiceClient(
+    Environment.GetEnvironmentVariable("PUBSUB_CONNECTION_STRING"),
+    "njttcup"
+));
 
 // Add GraphQL
 builder.Services

@@ -4,6 +4,7 @@ using CupKeeper.Domains.Championships.Model;
 using CupKeeper.Domains.Championships.ServiceModel;
 using CupKeeper.Domains.Championships.ViewModel;
 using CupKeeper.Domains.Locations.ServiceModel;
+using CupKeeper.PubSub;
 using Microsoft.Extensions.Logging;
 using Orleans.Runtime;
 using Orleans.Streams;
@@ -19,13 +20,16 @@ public class EventViewActor : Grain, IEventSearchViewModelActor,
     private readonly IEventViewRepository _viewRepository;
     private readonly IRiderLocatorService _riderLocatorService;
     private readonly IVenueViewRepository _venueViewRepository;
+
+    private readonly IPubClient _pubClient;
     
-    public EventViewActor(ILogger<EventViewActor> logger, IEventViewRepository viewRepository, IRiderLocatorService riderLocatorService, IVenueViewRepository venueViewRepository)
+    public EventViewActor(ILogger<EventViewActor> logger, IEventViewRepository viewRepository, IRiderLocatorService riderLocatorService, IVenueViewRepository venueViewRepository, IPubClient pubClient)
     {
         _logger = logger;
         _viewRepository = viewRepository;
         _riderLocatorService = riderLocatorService;
         _venueViewRepository = venueViewRepository;
+        _pubClient = pubClient;
     }
     
     #region Implicit Subscription Management
@@ -46,6 +50,8 @@ public class EventViewActor : Grain, IEventSearchViewModelActor,
             dynamic o = this;
             dynamic e = item;
             await o.Handle(e);
+
+            await _pubClient.PublishAsync("events", item);
         }
         catch (Exception ex)
         {

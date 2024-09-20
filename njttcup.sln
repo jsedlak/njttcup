@@ -65,6 +65,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CupKeeper.Data.Mongo", "src
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CupKeeper.AdminApi.ApiModel", "src\CupKeeper.AdminApi.ApiModel\CupKeeper.AdminApi.ApiModel.csproj", "{59B605CD-6DC3-42DD-9862-2907E223A442}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CupKeeper.PubSub.Azure", "src\CupKeeper.PubSub.Azure\CupKeeper.PubSub.Azure.csproj", "{D89BA113-453F-4DFA-8A39-805D0B1A0292}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -159,6 +161,10 @@ Global
 		{59B605CD-6DC3-42DD-9862-2907E223A442}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{59B605CD-6DC3-42DD-9862-2907E223A442}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{59B605CD-6DC3-42DD-9862-2907E223A442}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D89BA113-453F-4DFA-8A39-805D0B1A0292}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D89BA113-453F-4DFA-8A39-805D0B1A0292}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D89BA113-453F-4DFA-8A39-805D0B1A0292}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D89BA113-453F-4DFA-8A39-805D0B1A0292}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -186,6 +192,7 @@ Global
 		{99517866-E0B0-460E-A285-8ED6F92F5F97} = {3B37C7EA-1289-4E95-A9A3-FB7AA9AD2C40}
 		{D77372B5-5EE9-48CF-BBD0-859434D4D578} = {3B37C7EA-1289-4E95-A9A3-FB7AA9AD2C40}
 		{59B605CD-6DC3-42DD-9862-2907E223A442} = {4EC54C70-7C2C-44D1-B2B3-EAE0697BD0B2}
+		{D89BA113-453F-4DFA-8A39-805D0B1A0292} = {3B37C7EA-1289-4E95-A9A3-FB7AA9AD2C40}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BECA1B91-2140-483C-B02F-018C20755A89}

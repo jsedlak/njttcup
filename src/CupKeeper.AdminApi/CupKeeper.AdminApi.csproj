@@ -8,6 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Azure.Messaging.WebPubSub" Version="1.4.0" />
         <PackageReference Include="HotChocolate" Version="13.9.7" />
         <PackageReference Include="HotChocolate.AspNetCore" Version="13.9.7" />
         <PackageReference Include="HotChocolate.Data.MongoDb" Version="13.9.7" />

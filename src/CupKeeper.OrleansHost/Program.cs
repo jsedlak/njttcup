@@ -1,7 +1,9 @@
-﻿using CupKeeper.Domains.Championships.ServiceModel;
+﻿using Azure.Messaging.WebPubSub;
+using CupKeeper.Domains.Championships.ServiceModel;
 using CupKeeper.Domains.Championships.Services;
 using CupKeeper.Domains.Locations.ServiceModel;
 using CupKeeper.Domains.Locations.Services;
+using CupKeeper.PubSub;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -29,11 +31,18 @@ await Host.CreateDefaultBuilder(args)
                 services.Configure<MongoRiderRepositoryOptions>(options => 
                     options.DatabaseName = "njttcup");
                 
+                // infrastructure bits
+                services.AddScoped<WebPubSubServiceClient>(_ => new WebPubSubServiceClient(
+                    Environment.GetEnvironmentVariable("PUBSUB_CONNECTION_STRING"),
+                    "njttcup"
+                ));
+
                 // our custom services
                 services.AddScoped<IRiderLocatorService, MongoRiderRepository>();
                 services.AddScoped<IEventViewRepository, MongoEventViewRepository>();
                 services.AddScoped<IVenueViewRepository, MongoVenueViewRepository>();
                 services.AddScoped<IResultsLoader, UsaCyclingWebResultsLoader>();
+                services.AddScoped<IPubClient, AzurePubClient>();
                 
                 // Adds support for the EventSourcedGrain, using mongodb
                 services.AddOrleansSerializers();

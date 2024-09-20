@@ -21,6 +21,7 @@ builder.Services.AddHttpClient(
 builder.Services.AddSingleton<VenueService>();
 builder.Services.AddSingleton<EventService>();
 builder.Services.AddSingleton<RiderService>();
+builder.Services.AddSingleton<PubSubServiceFactory>();
 
 await builder.AddTazorAsync();
 
