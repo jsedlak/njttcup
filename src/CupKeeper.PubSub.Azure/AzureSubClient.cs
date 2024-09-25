@@ -1,3 +1,5 @@
+using System.Threading.Channels;
+using CupKeeper.Domains.Championships.Events.ScheduledEvents;
 using Newtonsoft.Json;
 using Websocket.Client;
 using JsonSerializer = System.Text.Json.JsonSerializer;
@@ -7,7 +9,7 @@ namespace CupKeeper.PubSub;
 public class AzureSubClient : ISubClient, IDisposable
 {
     private readonly WebsocketClient _client;
-    private Action<object>? _onMessage = null;
+    private Action<object>? _messageHandler = null;
     
     public AzureSubClient(string uri)
     {
@@ -32,9 +34,10 @@ public class AzureSubClient : ISubClient, IDisposable
         IsDisposed = true;
     }
     
-    public async Task SubscribeAsync(Action<object> onMessage)
+    public async Task SubscribeAsync(Action<object> messageHandler)
     {
-        _onMessage = onMessage;
+        _messageHandler = messageHandler;
+        
         _client.MessageReceived.Subscribe(msg =>
         {
             Console.WriteLine($"Message Received: {msg.MessageType}");
@@ -42,12 +45,6 @@ public class AzureSubClient : ISubClient, IDisposable
             
             var envelope = JsonSerializer.Deserialize<PubSubEnvelope>(msg.Text!);
             var messageType = Type.GetType(envelope!.MessageType)!;
-
-            if (messageType == null)
-            {
-                Console.WriteLine("Message type is null, cannot deserialize");
-                return;
-            }
 
             Console.WriteLine($"{envelope.Message}");
             Console.WriteLine($"Message Type is {messageType?.Name ?? "NULL"}");
@@ -62,8 +59,8 @@ public class AzureSubClient : ISubClient, IDisposable
                     return;
                 }
 
-                Console.WriteLine("Sending message to callback");
-                _onMessage(messageObject);
+                Console.WriteLine("Sending message to handler");
+                _messageHandler(messageObject);
             }
             catch (Exception ex)
             {
@@ -71,9 +68,6 @@ public class AzureSubClient : ISubClient, IDisposable
                 Console.WriteLine(ex.Message);
                 Console.WriteLine(ex.StackTrace);
             }
-            
-
-            
         });
         
         await _client.Start();

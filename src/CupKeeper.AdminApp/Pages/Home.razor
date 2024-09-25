@@ -1,13 +1,14 @@
 ﻿@page "/"
-@inject EventService EventService;
+@inherits CupKeeperComponentBase
+@inject EventService EventService
 <PageTitle>Home - Cup Keeper</PageTitle>
 
 <div class="mx-auto px-4 sm:px-6 lg:px-8 py-6">
     <Toolbar Title="Events" Subtitle="We do some eventing here.">
         <Buttons>
-            <Button Type="ButtonType.DefaultOutline" Clicked=@RefreshData>
-                @HeroIcons.ArrowPathRoundedSquare("inline-block")
-            </Button>
+            @* <Button Type="ButtonType.DefaultOutline" Clicked=@RefreshData> *@
+            @*     @HeroIcons.ArrowPathRoundedSquare("inline-block") *@
+            @* </Button> *@
             <Button Type="ButtonType.Primary" Clicked=@(() => { _createDialogVisible = true; _createCommand = new(); StateHasChanged(); })>
                 @HeroIcons.DocumentPlus("inline-block")
                 Create Event
@@ -16,7 +17,8 @@
     </Toolbar>
     
     @* <CourseSelector /> *@
-    <DataGrid Items="_events" Columns="_columns" HideToolbar />
+    <p class="text-sm mb-2">Found @DataContext.EventCount events.</p>
+    <DataGrid Items="DataContext.Events" Columns="_columns" HideToolbar />
 </div>
 
 <Dialog WindowClass="w-1/2" Title="Create Event" @bind-IsVisible="_createDialogVisible">
@@ -86,10 +88,6 @@
         new Column<EventViewModel> { Title = "Course", Field = m => m.CourseName }
     ];
 
-    private async Task RefreshData()
-    {
-        _events = await EventService.GetEvents();
-    }
 
     private async Task HandleCreateClicked()
     {
@@ -101,8 +99,6 @@
         {
             _createDialogVisible = false;
             StateHasChanged();
-            
-            await RefreshData();
 
             return;
         }
@@ -110,12 +106,4 @@
         _createError = string.Join("; ", response.Messages);
         StateHasChanged();
     }
-
-    protected override async Task OnInitializedAsync()
-    {
-        await base.OnInitializedAsync();
-
-        await RefreshData();
-    }
-
 }
