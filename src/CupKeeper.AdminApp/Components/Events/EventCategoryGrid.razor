@@ -1,0 +1,106 @@
+@inject EventService EventService
+<div class="my-6 rounded bg-gray-800 p-6 shadow-lg">
+    <Toolbar Title=@Category.Name>
+        <Buttons>
+            <Button Type="ButtonType.DefaultOutline" Clicked=@OnBeginEditCategory>
+                @HeroIcons.Pencil("inline-block mr-2", "w-4 h-4")
+                Edit Category
+            </Button>
+        </Buttons>
+    </Toolbar>
+            
+    <DataGrid HideToolbar Items="Category.Riders.OrderBy(m => m.Place)" Columns="_categoryColumns" />
+            
+    @if (Category.ExcludedRiders.Any())
+    {
+        <h2 class="text-xl mb-0">
+            Excluded Results
+        </h2>
+
+        <DataGrid HideToolbar Items="Category.ExcludedRiders" Columns="_categoryColumns"/>
+    }
+</div>
+
+<Dialog @bind-IsVisible=@_isEditCategoryVisible Title="Edit Category" WindowClass="w-1/2">
+    <Content>
+        @if (!string.IsNullOrWhiteSpace(_errorMessage))
+        {
+            <Alert Type="AlertType.Error">
+                @_errorMessage
+            </Alert>
+        }
+        <div class="mb-3">
+            <Label>Name</Label>
+            <TextBox @bind-Value=@_editContext.Name/>
+        </div>
+
+        <div class="mb-3">
+            <Label>Order</Label>
+            <TextBox @bind-Value=@_editContext.Order/>
+        </div>
+    </Content>
+    <Footer>
+        <Button Type="ButtonType.DefaultOutline" Clicked=@(() => { _isEditCategoryVisible = false; StateHasChanged(); })>
+            @HeroIcons.ArrowLeft("inline-block mr-2")
+            Cancel
+        </Button>
+        <Button Type="ButtonType.Success" Clicked=@OnEndEditCategory>
+            @HeroIcons.Check("inline-block mr-2")
+            Save
+        </Button>
+    </Footer>
+</Dialog>
+
+@code {
+    [CascadingParameter(Name = "CategoryWindow")]
+    public ICategoryWindow? CategoryWindow { get; set; }
+    
+    [Parameter] public Guid EventId { get; set; }
+
+    [Parameter] public CategoryResultViewModel Category { get; set; } = null!;
+
+    private CategoryResultViewModel _editContext = new();
+    private bool _isEditCategoryVisible = false;
+    private string _errorMessage = string.Empty;
+    
+    private IEnumerable<Column<RiderResultViewModel>> _categoryColumns =
+    [
+        new() { Title = "Place", Field = m => m.Place, Component = typeof(RiderPlacementColumn) },
+        new() { Title = "Points", Field = m => m.Points },
+        new() { Title = "Rider", Field = m => m.RiderName },
+        new() { Title = "Team", Field = m => m.TeamName },
+        new() { Title = "Time", Field = m => m.Time, Component = typeof(RiderTimeColumn) }
+    ];
+
+    private void OnBeginEditCategory()
+    {
+        _editContext.Name = Category.Name;
+        _editContext.Order = Category.Order;
+        _isEditCategoryVisible = true;
+        StateHasChanged();
+    }
+
+    private async Task OnEndEditCategory()
+    {
+        var result = await EventService.SetCategoryName(EventId, Category.Id, _editContext.Name, _editContext.Order);
+
+        if (!result.IsSuccess)
+        {
+            _errorMessage = string.Join("; ", result.Messages);
+            StateHasChanged();
+            return;
+        }
+        
+        Category.Name = _editContext.Name;
+        Category.Order = _editContext.Order;
+        _isEditCategoryVisible = false;
+        
+        if (CategoryWindow is not null)
+        {
+            // await CategoryWindow.HandleCategoryUpdated(Category);
+        }
+        
+        StateHasChanged();
+    }
+
+}

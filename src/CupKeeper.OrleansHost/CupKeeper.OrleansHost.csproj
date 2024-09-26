@@ -25,6 +25,7 @@
       <PackageReference Include="Microsoft.Orleans.Streaming" Version="8.1.0" />
       <PackageReference Include="MongoDB.Driver" Version="2.27.0" />
       <PackageReference Include="Orleans.Providers.MongoDB" Version="8.0.3" />
+      <PackageReference Include="OrleansDashboard" Version="8.0.0" />
     </ItemGroup>
 
     <ItemGroup>

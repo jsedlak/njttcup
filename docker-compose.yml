@@ -12,6 +12,9 @@
   njttcup-orleanshost:
     image: cupkeeper.orleanshost
     restart: always
+    deploy:
+      mode: replicated
+      replicas: 2
     depends_on:
       - njttcup-mongo
     env_file:
@@ -22,6 +25,18 @@
     build:
       context: .
       dockerfile: src/CupKeeper.OrleansHost/Dockerfile
+  njttcup-orleans-nginx:
+    image: nginx:latest
+    user: root
+    restart: always
+    ports:
+      - 8080:8080
+    volumes:
+      - ./cfg/nginx/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - njttcup-orleanshost
+    links:
+      - njttcup-orleanshost
   njttcup-adminapi:
     image: cupkeeper.adminapi
     depends_on:

@@ -15,4 +15,6 @@ public sealed class CategoryResultNameSetEvent : ScheduledEventBaseEvent
     public Guid CategoryResultId { get; set; }
 
     [Id(1)] public string Name { get; set; } = null!;
+
+    [Id(2)] public int Order { get; set; }
 }

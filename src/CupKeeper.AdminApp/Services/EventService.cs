@@ -8,8 +8,8 @@ namespace CupKeeper.AdminApp.Services;
 public sealed class EventService : ApiServiceBase
 {
     private readonly HttpClient _graphQlClient;
-    
-    public EventService(IHttpClientFactory httpClientFactory) 
+
+    public EventService(IHttpClientFactory httpClientFactory)
         : base(httpClientFactory)
     {
         _graphQlClient = httpClientFactory.CreateClient(ServiceConstants.GraphQlHttpClientName);
@@ -20,7 +20,8 @@ public sealed class EventService : ApiServiceBase
         return ExecuteAsync("api/events", command);
     }
 
-    public async Task<CommandResult> SetScheduledDate(Guid eventId, DateTimeOffset? scheduledDate, DateTimeOffset? actualDate)
+    public async Task<CommandResult> SetScheduledDate(Guid eventId, DateTimeOffset? scheduledDate,
+        DateTimeOffset? actualDate)
     {
         return await PostAsync<CommandResult>($"api/events/{eventId}/dates", new SetEventDatesCommand(eventId)
         {
@@ -37,7 +38,26 @@ public sealed class EventService : ApiServiceBase
             CourseId = courseId
         }) ?? new();
     }
-    
+
+    #region Results Management
+
+    public async Task<CommandResult> SetCategoryName(Guid eventId, Guid categoryId, string name, int order)
+    {
+        return await PostAsync<CommandResult>(
+            $"api/events/{eventId}/results/categories/{categoryId}/name",
+            new SetCategoryResultNameCommand(eventId)
+            {
+                CategoryResultId = categoryId,
+                Name = name,
+                Order = order
+            }
+        ) ?? new();
+    }
+
+    #endregion
+
+    #region Results Processing
+
     public async Task<bool> StartLoad(Guid eventId)
     {
         return await PostAsync<bool?>($"api/events/{eventId}/results/load", (object)(new { eventId })) ?? false;
@@ -47,6 +67,10 @@ public sealed class EventService : ApiServiceBase
     {
         return GetAsync<bool>($"api/events/{eventId}/results/load/status");
     }
+
+    #endregion
+
+    #region Querying
 
     public async Task<IEnumerable<EventViewModel>> GetEvents()
     {
@@ -85,13 +109,15 @@ public sealed class EventService : ApiServiceBase
           }
         }
         ";
-        
+
         var response = await _graphQlClient.PostAsJsonAsync(ServiceConstants.GraphQlPath, new { query });
-        
+
         var result = await response.Content.ReadFromJsonAsync<GraphQueryWrapper<EventQueryWrapper>>() ?? new();
         return result.Data.Events;
     }
-    
+
+    #endregion
+
     private class EventQueryWrapper
     {
         public IEnumerable<EventViewModel> Events { get; set; } = [];

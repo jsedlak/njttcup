@@ -201,7 +201,10 @@ public class EventViewActor : Grain, IEventSearchViewModelActor,
     {
         var existing = await _viewRepository.GetAsync(ev.AggregateId) ?? new();
         
-        existing.Results.First(m => m.Id == ev.CategoryResultId).Name = ev.Name;
+        var category = existing.Results.First(m => m.Id == ev.CategoryResultId);
+        
+        category.Name = ev.Name;
+        category.Order = ev.Order;
         
         await _viewRepository.UpsertAsync(existing);
     }

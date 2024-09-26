@@ -35,6 +35,11 @@ public class DataContextService : INotifyPropertyChanged
 
     private async Task Rehydrate()
     {
+        if (!CanRehydrate)
+        {
+            return;
+        }
+        
         Console.WriteLine("Rehydrating...");
         
         Events = await _eventService.GetEvents();
@@ -46,6 +51,8 @@ public class DataContextService : INotifyPropertyChanged
         Venues = await _venueService.GetVenues();
         OnPropertyChanged(nameof(Venues));
     }
+
+    public bool CanRehydrate { get; set; } = true;
 
     public int EventCount { get; set; }
 

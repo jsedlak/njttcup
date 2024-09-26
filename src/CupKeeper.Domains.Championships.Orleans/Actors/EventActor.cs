@@ -157,7 +157,8 @@ public class EventActor : EventSourcedGrain<ScheduledEvent, ScheduledEventBaseEv
         await Raise(new CategoryResultNameSetEvent(command.ScheduledEventId)
         {
             CategoryResultId = command.CategoryResultId,
-            Name = command.Name
+            Name = command.Name,
+            Order = command.Order
         });
         
         return CommandResult.Success();

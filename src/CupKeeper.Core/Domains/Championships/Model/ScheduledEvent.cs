@@ -170,5 +170,13 @@ public sealed class ScheduledEvent : IAggregateRoot
 
         category.Riders = [..category.Riders.Where(m => m.Id != @event.RiderResultId)];
     }
+
+    public void Apply(CategoryResultNameSetEvent @event)
+    {
+        var category = Results.Categories.First(m => m.Id == @event.CategoryResultId);
+        
+        category.Name = @event.Name;
+        category.Order = @event.Order;
+    }
     #endregion
 }

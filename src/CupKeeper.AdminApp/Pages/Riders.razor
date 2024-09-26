@@ -1,4 +1,5 @@
 @page "/riders"
+@inherits CupKeeperComponentBase
 @inject RiderService RiderService;
 <PageTitle>Riders - Cup Keeper</PageTitle>
 
@@ -96,6 +97,7 @@
 
     private async Task OnSetPascalNames()
     {
+        DataContext.CanRehydrate = false;
         _isUpdatingRiders = true;
         StateHasChanged();
         
@@ -107,11 +109,13 @@
         await LoadRidersAsync();
         
         _isUpdatingRiders = false;
+        DataContext.CanRehydrate = true;
         StateHasChanged();
     }
 
     private async Task OnSetUpperCaseNames()
     {
+        DataContext.CanRehydrate = false;
         _isUpdatingRiders = true;
         StateHasChanged();
         
@@ -123,6 +127,7 @@
         await LoadRidersAsync();
         
         _isUpdatingRiders = false;
+        DataContext.CanRehydrate = true;
         StateHasChanged();
     }
 

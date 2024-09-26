@@ -67,6 +67,7 @@ await Host.CreateDefaultBuilder(args)
             .UseMongoDBClustering(options =>
             {
                 options.DatabaseName = "njttcup-cluster";
-            });
+            })
+            .UseDashboard(options => options.Port = 8080);
     })
     .RunConsoleAsync();

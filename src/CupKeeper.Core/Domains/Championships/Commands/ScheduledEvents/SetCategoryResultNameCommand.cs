@@ -7,9 +7,10 @@ public sealed class SetCategoryResultNameCommand : ExistingScheduledEventCommand
         : base(scheduledEventId)
     {
     }
-    
-    [Id(0)]
-    public string Name { get; set; } = null!;
 
-    public Guid CategoryResultId { get; set; }
+    [Id(0)] public Guid CategoryResultId { get; set; }
+
+    [Id(1)] public string Name { get; set; } = null!;
+
+    [Id(2)] public int Order { get; set; }
 }
