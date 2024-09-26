@@ -1,8 +1,5 @@
 ﻿@page "/events/{eventId:guid}"
 @inherits CupKeeperComponentBase
-@using CupKeeper.AdminApp.Components
-@using CupKeeper.AdminApp.Services
-@using CupKeeper.Domains.Championships.ViewModel
 @inject EventService EventService;
 <PageTitle>@_event.ChampionshipYear @_event.Name - Event Details - Cup Keeper</PageTitle>
 
@@ -56,12 +53,10 @@
         </InfoCard>
     </div>
 
-    <CascadingValue TValue="ICategoryWindow" Value="this" Name="CategoryWindow">
-    @foreach (var category in _event.Results)
+    @foreach (var category in _event.Results.OrderBy(m => m.Order).ThenBy(m => m.Name))
     {
         <EventCategoryGrid Category="category" EventId="EventId" />
     }
-    </CascadingValue>
 </div>
 
 <Dialog @bind-IsVisible=@_isEditDialogVisible Title="Edit Event" WindowClass="w-1/2">

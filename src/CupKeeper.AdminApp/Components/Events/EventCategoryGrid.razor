@@ -52,9 +52,6 @@
 </Dialog>
 
 @code {
-    [CascadingParameter(Name = "CategoryWindow")]
-    public ICategoryWindow? CategoryWindow { get; set; }
-    
     [Parameter] public Guid EventId { get; set; }
 
     [Parameter] public CategoryResultViewModel Category { get; set; } = null!;
@@ -94,11 +91,6 @@
         Category.Name = _editContext.Name;
         Category.Order = _editContext.Order;
         _isEditCategoryVisible = false;
-        
-        if (CategoryWindow is not null)
-        {
-            // await CategoryWindow.HandleCategoryUpdated(Category);
-        }
         
         StateHasChanged();
     }

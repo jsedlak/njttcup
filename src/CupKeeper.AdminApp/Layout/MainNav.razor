@@ -1,0 +1,48 @@
+@inject NavigationManager Navigation
+<div class="ml-10 flex items-baseline space-x-4">
+    <nav>
+        <ul class="flex space-x-4 items-center">
+
+            @foreach (var item in _nav)
+            {
+                if (item.Href is null)
+                {
+                    continue;
+                }
+                
+                var localPath = new Uri(Navigation.Uri).LocalPath;
+                var listItemClass = "hover:bg-gray-900 px-3 py-2 text-center rounded flex items-center";
+                
+                if ((localPath.Equals("/") && item.Href.Equals("/")) || 
+                    (!item.Href.Equals("/") && localPath.ToLower().Contains(item.Href.ToLower())))
+                {
+                    listItemClass += " bg-gray-900";
+                }
+
+                <li class=@listItemClass>
+                    <a href=@item.Href class="flex items-center space-x-2">
+                        @(item.LeftIcon)
+                        <span>@item.Text</span>
+                    </a>
+                </li>
+            }
+        </ul>
+    </nav>
+</div>
+
+@code {
+
+    private NavItem[] _nav =
+    [
+        new NavItem("home", "Events") { Href = "/", LeftIcon = HeroIcons.Calendar("inline-block", "w-4 h-4") },
+        new NavItem("venues", "Venues") { Href = "/venues", LeftIcon = HeroIcons.MapPin("inline-block", "w-4 h-4") },
+        new NavItem("riders", "Riders") { Href = "/riders", LeftIcon = HeroIcons.UserGroup("inline-block", "w-4 h-4") }
+    ];
+
+    protected override Task OnInitializedAsync()
+    {
+        Navigation.LocationChanged += (sender, args) => StateHasChanged(); 
+        return base.OnInitializedAsync();
+    }
+
+}
