@@ -20,6 +20,11 @@ public sealed class EventService : ApiServiceBase
         return ExecuteAsync("api/events", command);
     }
 
+    public Task<CommandResult> Delete(Guid eventId)
+    {
+        return DeleteAsync<CommandResult>($"api/events/{eventId}");
+    }
+
     public async Task<CommandResult> SetScheduledDate(Guid eventId, DateTimeOffset? scheduledDate,
         DateTimeOffset? actualDate)
     {

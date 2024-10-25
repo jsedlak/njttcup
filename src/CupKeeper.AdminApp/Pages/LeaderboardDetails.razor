@@ -26,22 +26,24 @@
                     <Header>Team</Header>
                     <Cell>@context.Team</Cell>
                 </ColumnTemplate>
-                @for (var pIndex = 0; pIndex < _leaderboard.Events.Length; pIndex++)
-                {
-                    <ColumnTemplate>
-                        <Header>Race @pIndex</Header>
-                        <Cell>
-                            @if (pIndex >= context.Points.Length)
+                <ColumnTemplate>
+                    <Header>Races</Header>
+                    <Cell>
+                        <div class="flex gap-1 items-center">
+                            @for (var pIndex = 0; pIndex < _leaderboard.Events.Length; pIndex++)
                             {
-                                <span>E</span>
+                                if (pIndex >= context.Points.Length)
+                                {
+                                    <div>E</div>
+                                }
+                                else
+                                {
+                                    <div>@(context.Points[pIndex])</div>
+                                }
                             }
-                            else
-                            {
-                                @(context.Points[pIndex])
-                            }
-                        </Cell>
-                    </ColumnTemplate>
-                }
+                        </div>
+                    </Cell>
+                </ColumnTemplate>
                 <ColumnTemplate>
                     <Header>Subtotal</Header>
                     <Cell>@context.RawTotal</Cell>

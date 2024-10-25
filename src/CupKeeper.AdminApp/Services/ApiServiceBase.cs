@@ -36,4 +36,10 @@ public abstract class ApiServiceBase
         return (await response.Content.ReadFromJsonAsync<CommandResult<TResult>>()) ?? 
                CommandResult<TResult>.Failure("Server error");
     }
+    
+    protected async Task<CommandResult> DeleteAsync<TCommand>(string path)
+    {
+        var response = await _apiClient.DeleteAsync(path);
+        return (await response.Content.ReadFromJsonAsync<CommandResult>()) ?? CommandResult.Failure("Server error");
+    }
 }

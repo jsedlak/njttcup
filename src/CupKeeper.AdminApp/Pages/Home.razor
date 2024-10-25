@@ -13,12 +13,62 @@
                 @HeroIcons.DocumentPlus("inline-block")
                 Create Event
             </Button>
+            <Switch @bind-IsChecked="@_hideDeletedEvents" />
         </Buttons>
     </Toolbar>
-    
+
     @* <CourseSelector /> *@
     <p class="text-sm mb-2">Found @DataContext.EventCount events.</p>
-    <DataGrid Items="DataContext.Events" Columns="_columns" HideToolbar />
+
+    <TemplatedGrid Items="@DataContext.Events.Where(m => !_hideDeletedEvents || !m.IsDeleted)" RowClassCallback="@RowClassHandler">
+        <ColumnTemplate>
+            <Header>ID</Header>
+            <Cell>
+                <a class="underline decoration-wavy decoration-indigo-500 decoration-1" href=@($"/events/{context.Id}")>@(context.Id.ToString().Split("-").First())...</a>
+            </Cell>
+        </ColumnTemplate>
+        <ColumnTemplate>
+            <Header>Year</Header>
+            <Cell>@context.ChampionshipYear</Cell>
+        </ColumnTemplate>
+        <ColumnTemplate>
+            <Header>Name</Header>
+            <Cell>@context.Name</Cell>
+        </ColumnTemplate>
+        <ColumnTemplate>
+            <Header>Venue/Course</Header>
+            <Cell>
+                <div>@context.VenueName</div>
+                <div class="opacity-75 text-sm">@context.CourseName</div>
+            </Cell>
+        </ColumnTemplate>
+        <ColumnTemplate>
+            <Header>Status</Header>
+            <Cell>
+                @if (context.IsDeleted)
+                {
+                    <div class="flex gap-2 items-center">
+                    @HeroIcons.XMark("inline-block text-red-400")
+                    <span>Deleted</span>
+                    </div>
+                }
+                else if (context.IsPublished)
+                {
+                    <div class="flex gap-2 items-center">
+                    @HeroIcons.CheckBadge("inline-block text-green-400")
+                    <span>Published</span>
+                    </div>
+                }
+                else
+                {
+                    <div class="flex gap-2 items-center opacity-75">
+                        @HeroIcons.MinusCircle("inline-block")
+                        <span>Draft</span>
+                    </div>
+                }
+            </Cell>
+        </ColumnTemplate>
+    </TemplatedGrid>
 </div>
 
 <Dialog WindowClass="w-1/2" Title="Create Event" @bind-IsVisible="_createDialogVisible">
@@ -31,10 +81,9 @@
                 </div>
                 <div class="mb-2">
                     <Label>Scheduled Date</Label>
-                    <input type="date" 
+                    <input type="date"
                            class=@Theme.Forms.TextBox
-                           @bind=_createCommand.ScheduledDate
-                    />
+                           @bind=_createCommand.ScheduledDate/>
                 </div>
                 <div class="mb-2">
                     <Label>Venue/Course</Label>
@@ -62,37 +111,25 @@
     <Footer>
         <Button Type="ButtonType.DefaultOutline" Clicked=@(() => { _createDialogVisible = false; StateHasChanged(); })>Cancel</Button>
         <Button Type="ButtonType.Success"
-               Clicked=@HandleCreateClicked >
+                Clicked=@HandleCreateClicked>
             Create
         </Button>
     </Footer>
 </Dialog>
 
 @code {
-    [CascadingParameter(Name = "Theme")]
-    public ITheme Theme { get; set; } = null!;
+    [CascadingParameter(Name = "Theme")] public ITheme Theme { get; set; } = null!;
+
+    private bool _hideDeletedEvents = true;
     
     private bool _createDialogVisible;
     private string _createError = "";
     private CreateScheduledEventCommand _createCommand = new();
 
-    private IEnumerable<EventViewModel> _events = [];
-
-    private IEnumerable<Column<EventViewModel>> _columns =
-    [
-        new Column<EventViewModel> { Title = "Id", Field = m => m.Id, Component = typeof(EventLinkColumn) },
-        new Column<EventViewModel> { Title = "Year", Field = m => m.ChampionshipYear },
-        new Column<EventViewModel> { Title = "Name", Field = m => m.Name },
-        new Column<EventViewModel> { Title = "Date", Field = m => m.ScheduledDate, Format = "F" },
-        new Column<EventViewModel> { Title = "Venue", Field = m => m.VenueName },
-        new Column<EventViewModel> { Title = "Course", Field = m => m.CourseName }
-    ];
-
-
     private async Task HandleCreateClicked()
     {
         _createError = "";
-        
+
         var response = await EventService.Create(_createCommand);
 
         if (response.IsSuccess)
@@ -102,8 +139,19 @@
 
             return;
         }
-        
+
         _createError = string.Join("; ", response.Messages);
         StateHasChanged();
     }
+
+    private string RowClassHandler(EventViewModel item)
+    {
+        if (item.IsDeleted)
+        {
+            return "opacity-50";
+        }
+
+        return "";
+    }
+
 }

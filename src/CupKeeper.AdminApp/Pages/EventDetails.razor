@@ -7,10 +7,14 @@
 <div class="bg-indigo-900 px-4 sm:px-6 lg:px-8 py-6 shadow-lg">
     <Toolbar Title=@($"{_event.ChampionshipYear} {_event.Name}") Subtitle="We do some eventing here.">
         <Buttons>
-            <Button Type="ButtonType.DefaultOutline" Clicked=@OnBeginEdit>
+            <Button Type="ButtonType.ErrorOutline" Clicked="@OnBeginDelete">
+                @HeroIcons.Trash("inline-block")
+                <span>Delete</span>
+            </Button>
+            <Button Type="ButtonType.DefaultOutline" Clicked="@OnBeginEdit">
                 @HeroIcons.Pencil("inline-block")
                 <span>Edit</span>
-            </Button> 
+            </Button>
             <Button Type="ButtonType.Primary" Clicked=@LoadResultsFromUsac Disabled=@_isLoadingResults>
                 @if (_isLoadingResults)
                 {
@@ -24,10 +28,10 @@
             </Button>
             @if (!_event.IsPublished && _event.Results.Any())
             {
-            <Button Type="ButtonType.Primary" Clicked="HandlePublishClicked">
-                @HeroIcons.BarsArrowUp("inline-block")
-                <span>Publish</span>
-            </Button>
+                <Button Type="ButtonType.Primary" Clicked="HandlePublishClicked">
+                    @HeroIcons.BarsArrowUp("inline-block")
+                    <span>Publish</span>
+                </Button>
             }
         </Buttons>
     </Toolbar>
@@ -50,6 +54,10 @@
                 {
                     @HeroIcons.CheckCircle("text-green-400")
                 }
+                else if (_event.IsDeleted)
+                {
+                    @HeroIcons.XMark("text-red-400")
+                }
                 else
                 {
                     @HeroIcons.MinusCircle("opacity-75")
@@ -59,6 +67,10 @@
                 @if (_event.IsPublished)
                 {
                     <span>Published</span>
+                }
+                else if (_event.IsDeleted)
+                {
+                    <span>Deleted</span>
                 }
                 else
                 {
@@ -107,6 +119,16 @@
     </Content>
 </Dialog>
 
+<Dialog @bind-IsVisible="@_isDeleteDialogVisible" Title="Delete Event">
+    <Content>
+        <p>Are you sure you want to mark this event as deleted?</p>
+    </Content>
+    <Footer>
+        <Button Clicked="@OnCancelDelete">Cancel</Button>
+        <Button Clicked="@OnConfirmDelete" Type="ButtonType.Error">Confirm Delete</Button>
+    </Footer>
+</Dialog>
+
 @code {
     [Parameter] public Guid EventId { get; set; }
 
@@ -117,6 +139,7 @@
     private bool _isLoadingResults = false;
     private bool _isPublishing = false;
 
+    private bool _isDeleteDialogVisible = false;
     private bool _isEditDialogVisible = false;
 
     private Timer? _loadTimer;
@@ -126,6 +149,33 @@
         CopyToEditContext();
         _isEditDialogVisible = true;
         StateHasChanged();
+    }
+
+    private void OnBeginDelete()
+    {
+        CopyToEditContext();
+        _isDeleteDialogVisible = true;
+        StateHasChanged();
+    }
+
+    private void OnCancelDelete()
+    {
+        _isDeleteDialogVisible = false;
+        StateHasChanged();
+    }
+
+    private async Task OnConfirmDelete()
+    {
+        var result = await EventService.Delete(EventId);
+        
+        // TODO: Do something with the result ^^
+        if (result.IsSuccess)
+        {
+            _isDeleteDialogVisible = false;
+            StateHasChanged();
+
+            _event = (await EventService.GetEvents()).First(m => m.Id == EventId);
+        }
     }
 
     private async Task HandlePublishClicked()
