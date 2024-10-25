@@ -1,6 +1,7 @@
 ﻿@page "/events/{eventId:guid}"
 @inherits CupKeeperComponentBase
-@inject EventService EventService;
+@inject EventService EventService
+@inject IDragProvider DragProvider
 <PageTitle>@_event.ChampionshipYear @_event.Name - Event Details - Cup Keeper</PageTitle>
 
 <div class="bg-indigo-900 px-4 sm:px-6 lg:px-8 py-6 shadow-lg">
@@ -9,18 +10,25 @@
             <Button Type="ButtonType.DefaultOutline" Clicked=@OnBeginEdit>
                 @HeroIcons.Pencil("inline-block")
                 <span>Edit</span>
-            </Button>
+            </Button> 
             <Button Type="ButtonType.Primary" Clicked=@LoadResultsFromUsac Disabled=@_isLoadingResults>
                 @if (_isLoadingResults)
                 {
-                <Spinner/>
+                    <Spinner/>
                 }
                 else
                 {
-                @HeroIcons.ArrowRightOnRectangle("inline-block")
+                    @HeroIcons.ArrowRightOnRectangle("inline-block")
                 }
                 <span>Load Results</span>
             </Button>
+            @if (!_event.IsPublished && _event.Results.Any())
+            {
+            <Button Type="ButtonType.Primary" Clicked="HandlePublishClicked">
+                @HeroIcons.BarsArrowUp("inline-block")
+                <span>Publish</span>
+            </Button>
+            }
         </Buttons>
     </Toolbar>
 </div>
@@ -28,31 +36,51 @@
 <div class="mx-auto px-4 sm:px-6 lg:px-8 my-6">
     @* Top Grid of Info *@
     <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 my-6">
-        <InfoCard>
-            <Title>Dates</Title>
-            <Content>
-                <div class="mb-1">
-                    <h4 class="font-bold">Scheduled</h4>
-                    @(_event.ScheduledDate is null ? "Not Set" : _event.ScheduledDate.Value.ToString("D"))
-                </div>
-                <div class="mb-1">
-                    <h4 class="font-bold">Actual</h4>
-                    @(_event.ActualDate is null ? "Not Set" : _event.ActualDate.Value.ToString("D"))
-                </div>
-            </Content>
-        </InfoCard>
-
-        <InfoCard>
+        <StatCard>
             <Title>Course</Title>
-            <Content>
-                <div class="mb-1">
-                    <h4 class="font-bold">@_event.VenueName</h4>
-                    @_event.CourseName
-                </div>
-            </Content>
-        </InfoCard>
-    </div>
+            <Statistic>
+                <h4 class="font-bold text-2xl">@_event.VenueName</h4>
+                <h5 class="opacity-75 text-xl">@_event.CourseName</h5>
+            </Statistic>
+        </StatCard>
+        <StatCard>
+            <Title>Status</Title>
+            <AdditionalData>
+                @if (_event.IsPublished)
+                {
+                    @HeroIcons.CheckCircle("text-green-400")
+                }
+                else
+                {
+                    @HeroIcons.MinusCircle("opacity-75")
+                }
+            </AdditionalData>
+            <Statistic>
+                @if (_event.IsPublished)
+                {
+                    <span>Published</span>
+                }
+                else
+                {
+                    <span>Draft</span>
+                }
+            </Statistic>
+        </StatCard>
+        <StatCard>
+            <Title>Scheduled</Title>
+            <Statistic>
+                @(_event.ScheduledDate is null ? "Not Set" : _event.ScheduledDate.Value.ToString("D"))
+            </Statistic>
+        </StatCard>
+        <StatCard>
+            <Title>Actual</Title>
+            <Statistic>
+                @(_event.ActualDate is null ? "Not Set" : _event.ActualDate.Value.ToString("D"))
+            </Statistic>
+        </StatCard>
 
+    </div>
+    
     @foreach (var category in _event.Results.OrderBy(m => m.Order).ThenBy(m => m.Name))
     {
         <EventCategoryGrid Category="category" EventId="EventId" />
@@ -87,6 +115,7 @@
     private EventViewModel _event = new();
     private EventViewModel _editContext = new();
     private bool _isLoadingResults = false;
+    private bool _isPublishing = false;
 
     private bool _isEditDialogVisible = false;
 
@@ -96,6 +125,18 @@
     {
         CopyToEditContext();
         _isEditDialogVisible = true;
+        StateHasChanged();
+    }
+
+    private async Task HandlePublishClicked()
+    {
+        _isPublishing = true;
+        StateHasChanged();
+
+        var response = await EventService.Publish(EventId);
+
+        _isPublishing = false;
+        _event = (await EventService.GetEvents()).First(m => m.Id == EventId);
         StateHasChanged();
     }
 

@@ -1,5 +1,6 @@
 ﻿using CupKeeper.Cqrs;
 using CupKeeper.Domains.Championships.Events.Leaderboards;
+using CupKeeper.Domains.Championships.Events.ScheduledEvents;
 
 namespace CupKeeper.Domains.Championships.Model;
 
@@ -25,13 +26,13 @@ public sealed class Leaderboard : IAggregateRoot
     /// Gets or Sets the list of result identifiers that make up this leaderboard
     /// </summary>
     [Id(2)]
-    public IEnumerable<Guid> EventResultIds { get; set; } = [];
+    public Guid[] EventResultIds { get; set; } = [];
 
     /// <summary>
     /// Gets or Sets the list of category leaderboards that form the master leaderboard
     /// </summary>
     [Id(3)]
-    public IEnumerable<CategoryLeaderboard> Categories { get; set; } = [];
+    public CategoryLeaderboard[] Categories { get; set; } = Array.Empty<CategoryLeaderboard>();
 
     /// <summary>
     /// Gets or Sets whether the leaderboard is deleted and is ready to be permanently removes
@@ -46,7 +47,6 @@ public sealed class Leaderboard : IAggregateRoot
     {
         Id = @event.AggregateId;
         Year = @event.Year;
-        EventResultIds = @event.EventResultIds;
     }
 
     public void Apply(LeaderboardDeletedEvent @event)
@@ -67,5 +67,12 @@ public sealed class Leaderboard : IAggregateRoot
     public void Apply(LeaderboardUnpublishedEvent @event)
     {
         IsPublished = false;
+    }
+
+    public void Apply(LeaderboardRecalculatedEvent @event)
+    {
+        Year = @event.Year;
+        Categories = @event.Categories;
+        EventResultIds = @event.EventResultIds;
     }
 }

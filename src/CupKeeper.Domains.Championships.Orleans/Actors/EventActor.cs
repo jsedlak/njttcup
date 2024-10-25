@@ -5,6 +5,8 @@ using CupKeeper.Domains.Championships.Events.ScheduledEvents;
 using CupKeeper.Domains.Championships.Messages;
 using CupKeeper.Domains.Championships.Model;
 using CupKeeper.Domains.Championships.ServiceModel;
+using Jint.Parser;
+using Microsoft.Extensions.Logging;
 using Orleans.Runtime;
 using Orleans.Streams;
 using Petl.EventSourcing;
@@ -15,14 +17,16 @@ public class EventActor : EventSourcedGrain<ScheduledEvent, ScheduledEventBaseEv
 {
     private readonly IGrainFactory _grainFactory;
     private readonly IRiderLocatorService _riderLocatorService;
+    private readonly ILogger<EventActor> _logger;
     
     private IDisposable? _resultsLoadTimer;
     private IAsyncStream<ScheduledEventBaseEvent>? _eventStream;
     
-    public EventActor(IGrainFactory grainFactory, IRiderLocatorService riderLocatorService)
+    public EventActor(IGrainFactory grainFactory, IRiderLocatorService riderLocatorService, ILogger<EventActor> logger)
     {
         _grainFactory = grainFactory;
         _riderLocatorService = riderLocatorService;
+        _logger = logger;
     }
 
     public override async Task OnActivateAsync(CancellationToken cancellationToken)
@@ -209,12 +213,13 @@ public class EventActor : EventSourcedGrain<ScheduledEvent, ScheduledEventBaseEv
     public async Task<CommandResult> PublishResults(PublishEventResultsCommand command)
     {
         await Raise(new EventResultsPublishedEvent(command.ScheduledEventId));
-
         await WaitForConfirmation();
 
         // calculate the year into a grain identifier
-        var year = TentativeState.ActualDate?.Year ?? TentativeState.ScheduledDate?.Year ?? DateTimeOffset.Now.Year;
+        var year = ConfirmedState.ActualDate?.Year ?? ConfirmedState.ScheduledDate?.Year ?? DateTimeOffset.Now.Year;
         var yearAsGrainId = year.ToString().ToGuid();
+        
+        _logger.LogInformation($"Publishing results and recalculating leaderboard. [Leaderboard ID]=>[{year}, {yearAsGrainId}]");
         
         // recalculate that year's leaderboard
         var proxy = _grainFactory.GetGrain<ILeaderboardActor>(yearAsGrainId);

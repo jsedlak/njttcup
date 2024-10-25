@@ -34,5 +34,5 @@ public sealed class RiderLeaderboardPlacing
     /// Gets or Sets the set of points that make up the leaderboard
     /// </summary>
     [Id(4)]
-    public IEnumerable<int> Points { get; set; } = Enumerable.Empty<int>();
+    public int[] Points { get; set; } = Array.Empty<int>();
 }

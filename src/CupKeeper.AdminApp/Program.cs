@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using CupKeeper.AdminApp;
 using CupKeeper.AdminApp.Services;
+using CupKeeper.Domains.Championships.ViewModel;
+using Tazor.Components;
 using Tazor.Wasm;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
@@ -21,9 +23,16 @@ builder.Services.AddHttpClient(
 builder.Services.AddSingleton<VenueService>();
 builder.Services.AddSingleton<EventService>();
 builder.Services.AddSingleton<RiderService>();
+builder.Services.AddSingleton<LeaderboardService>();
 builder.Services.AddSingleton<PubSubServiceFactory>();
 builder.Services.AddSingleton<DataContextService>();
 
-await builder.AddTazorAsync();
+builder.Services.AddTazor()
+    .WithDragAndDrop()
+    .Build();
 
-await builder.Build().RunAsync();
+var app = builder.Build();
+
+await app.UseTazor();
+    
+await app.RunAsync();

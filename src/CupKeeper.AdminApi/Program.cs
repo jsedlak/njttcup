@@ -33,6 +33,7 @@ builder.Services.Configure<MongoRiderRepositoryOptions>(options =>
 builder.Services.AddScoped<IEventViewRepository, MongoEventViewRepository>();
 builder.Services.AddScoped<IVenueViewRepository, MongoVenueViewRepository>();
 builder.Services.AddScoped<IRiderRepository, MongoRiderRepository>();
+builder.Services.AddScoped<ILeaderboardViewRepository, MongoLeaderboardViewRepository>();
 
 // infrastructure bits
 builder.Services.AddScoped<WebPubSubServiceClient>(_ => new WebPubSubServiceClient(
@@ -47,7 +48,8 @@ builder.Services
     .AddQueryType(q => q.Name("Query"))
     .AddType<EventQueries>()
     .AddType<VenueQueries>()
-    .AddType<RiderQueries>();
+    .AddType<RiderQueries>()
+    .AddType<LeaderboardQueries>();
 
 // Add Orleans Client
 builder.UseOrleansClient(clientBuilder =>

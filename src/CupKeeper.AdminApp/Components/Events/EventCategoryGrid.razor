@@ -1,4 +1,6 @@
+@implements IDragSource
 @inject EventService EventService
+@inject IDragProvider DragProvider
 <div class="my-6 rounded bg-gray-800 p-6 shadow-lg">
     <Toolbar Title=@Category.Name>
         <Buttons>
@@ -8,8 +10,44 @@
             </Button>
         </Buttons>
     </Toolbar>
+    
+    <DropZone @bind-Visible=@_isDropVisible Dropped=@OnRiderDropped TTarget="RiderResultViewModel">
+        <Content>Drop a rider here to move them!</Content>
+    </DropZone>
             
-    <DataGrid HideToolbar Items="Category.Riders.OrderBy(m => m.Place)" Columns="_categoryColumns" />
+    @* <DataGrid HideToolbar Items="Category.Riders.OrderBy(m => m.Place)" Columns="_categoryColumns" /> *@
+    
+    <TemplatedGrid Items="Category.Riders.OrderBy(m => m.Place)">
+        <ColumnTemplate>
+            <Header>Place</Header>
+            <Cell>@context.Place</Cell>
+        </ColumnTemplate>
+        <ColumnTemplate>
+            <Header>Points</Header>
+            <Cell>@context.Points</Cell>
+        </ColumnTemplate>
+        <ColumnTemplate>
+            <Header>Rider</Header>
+            <Cell>@context.RiderName</Cell>
+        </ColumnTemplate>
+        <ColumnTemplate>
+            <Header>Team</Header>
+            <Cell>@context.TeamName</Cell>
+        </ColumnTemplate>
+        <ColumnTemplate>
+            <Header>Time</Header>
+            <Cell>
+                @if (context.Time is not null)
+                {
+                    @(TimeSpan.FromSeconds(context.Time.Value).ToString("g"))
+                }
+                else
+                {
+                    <span>N/A</span>
+                }
+            </Cell>
+        </ColumnTemplate>
+    </TemplatedGrid>
             
     @if (Category.ExcludedRiders.Any())
     {
@@ -17,7 +55,39 @@
             Excluded Results
         </h2>
 
-        <DataGrid HideToolbar Items="Category.ExcludedRiders" Columns="_categoryColumns"/>
+        @* <DataGrid HideToolbar Items="Category.ExcludedRiders" Columns="_categoryColumns"/> *@
+        
+        <TemplatedGrid Items="Category.ExcludedRiders">
+            <ColumnTemplate>
+                <Header>Place</Header>
+                <Cell>@context.Place</Cell>
+            </ColumnTemplate>
+            <ColumnTemplate>
+                <Header>Points</Header>
+                <Cell>@context.Points</Cell>
+            </ColumnTemplate>
+            <ColumnTemplate>
+                <Header>Rider</Header>
+                <Cell>@context.RiderName</Cell>
+            </ColumnTemplate>
+            <ColumnTemplate>
+                <Header>Team</Header>
+                <Cell>@context.TeamName</Cell>
+            </ColumnTemplate>
+            <ColumnTemplate>
+                <Header>Time</Header>
+                <Cell>
+                    @if (context.Time is not null)
+                    {
+                        @(TimeSpan.FromSeconds(context.Time.Value).ToString("g"))
+                    }
+                    else
+                    {
+                        <span>N/A</span>
+                    }
+                </Cell>
+            </ColumnTemplate>
+        </TemplatedGrid>
     }
 </div>
 
@@ -59,6 +129,8 @@
     private CategoryResultViewModel _editContext = new();
     private bool _isEditCategoryVisible = false;
     private string _errorMessage = string.Empty;
+
+    private bool _isDropVisible = false;
     
     private IEnumerable<Column<RiderResultViewModel>> _categoryColumns =
     [
@@ -93,6 +165,46 @@
         _isEditCategoryVisible = false;
         
         StateHasChanged();
+    }
+
+    private void OnBeginDrag(RiderResultViewModel rider)
+    {
+        Console.WriteLine("Rider.DragStart");
+        DragProvider.DraggedObject = rider;
+        // DragProvider.DragSource = this;
+        // StateHasChanged();
+    }
+
+    private void OnEndDrag(RiderResultViewModel rider)
+    {
+        Console.WriteLine("Rider.DragEnd");
+        DragProvider.DraggedObject = null;
+        //DragProvider.DragSource = null;
+    }
+
+    public Task CompleteDrag(object draggedObject)
+    {
+        Console.WriteLine("CompleteDrag (Source)");
+        
+        if (draggedObject is RiderResultViewModel viewModel)
+        {
+            Category.Riders = Category.Riders.Where(m => m.Id != viewModel.Id).ToArray();
+            StateHasChanged();
+        }
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnRiderDropped(object draggedObject)
+    {
+        if (draggedObject is RiderResultViewModel viewModel)
+        {
+            Category.Riders = Category.Riders.Union([viewModel]).ToArray();
+            StateHasChanged();
+        }
+
+        Console.WriteLine("OnRiderDropped");
+        return Task.CompletedTask;
     }
 
 }

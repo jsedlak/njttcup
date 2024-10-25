@@ -1,0 +1,76 @@
+﻿@page "/leaderboards/{leaderboardId:guid}"
+@using OrleansCodeGen.Orleans.Runtime
+@inject LeaderboardService LeaderboardService
+<PageTitle>Leaderboard @_leaderboard.Year - Cup Keeper</PageTitle>
+
+<div class="mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <Toolbar Title=@($"Leaderboard: {_leaderboard.Year}") Subtitle="Do some leaderboard things here.">
+        @* <Buttons> *@
+        @*     <Button Type="ButtonType.DefaultOutline" Clicked=@RefreshAsync> *@
+        @*         <span>@HeroIcons.ArrowPathRoundedSquare()</span> *@
+        @*     </Button> *@
+        @* </Buttons> *@
+    </Toolbar>
+
+    @foreach (var category in _leaderboard.Categories)
+    {
+        <div class="my-6 rounded bg-gray-800 p-6 shadow-lg">
+            <Toolbar Title="@category.Name" />
+            
+            <TemplatedGrid Items="@category.Riders.OrderByDescending(m => m.Total)">
+                <ColumnTemplate>
+                    <Header>Rider</Header>
+                    <Cell>@context.Name</Cell>
+                </ColumnTemplate>
+                <ColumnTemplate>
+                    <Header>Team</Header>
+                    <Cell>@context.Team</Cell>
+                </ColumnTemplate>
+                @for (var pIndex = 0; pIndex < _leaderboard.Events.Length; pIndex++)
+                {
+                    <ColumnTemplate>
+                        <Header>Race @pIndex</Header>
+                        <Cell>
+                            @if (pIndex >= context.Points.Length)
+                            {
+                                <span>E</span>
+                            }
+                            else
+                            {
+                                @(context.Points[pIndex])
+                            }
+                        </Cell>
+                    </ColumnTemplate>
+                }
+                <ColumnTemplate>
+                    <Header>Subtotal</Header>
+                    <Cell>@context.RawTotal</Cell>
+                </ColumnTemplate>
+                <ColumnTemplate>
+                    <Header>Total</Header>
+                    <Cell>@context.Total</Cell>
+                </ColumnTemplate>
+            </TemplatedGrid>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public Guid LeaderboardId { get; set; }
+
+    private LeaderboardViewModel _leaderboard = new();
+
+    private async Task RefreshAsync()
+    {
+        _leaderboard = (await LeaderboardService.GetLeaderboards())
+            .FirstOrDefault(m => m.Id == LeaderboardId) ?? new();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await RefreshAsync();
+        await base.OnInitializedAsync();
+    }
+
+}
+

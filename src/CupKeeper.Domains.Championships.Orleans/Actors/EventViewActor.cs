@@ -126,6 +126,15 @@ public class EventViewActor : Grain, IEventSearchViewModelActor,
     }
     #endregion
 
+    #region View Model: Publishing
+    private async Task Handle(EventResultsPublishedEvent ev)
+    {
+        var existing = await _viewRepository.GetAsync(ev.AggregateId) ?? new();
+        existing.IsPublished = true;
+        await _viewRepository.UpsertAsync(existing);
+    }
+    #endregion
+
     #region View Model: Results Loading
     private async Task Handle(EventResultsLoadedEvent ev)
     {

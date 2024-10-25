@@ -39,6 +39,12 @@ public sealed class EventService : ApiServiceBase
         }) ?? new();
     }
 
+    public async Task<CommandResult> Publish(Guid eventId)
+    {
+        return await PostAsync<CommandResult>($"api/events/{eventId}/results/publish",
+            new PublishEventResultsCommand(eventId)) ?? new();
+    }
+
     #region Results Management
 
     public async Task<CommandResult> SetCategoryName(Guid eventId, Guid categoryId, string name, int order)
@@ -83,6 +89,7 @@ public sealed class EventService : ApiServiceBase
             courseName
             id
             isDeleted
+            isPublished
             name
             registrationLink
             scheduledDate

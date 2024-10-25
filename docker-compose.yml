@@ -14,7 +14,7 @@
     restart: always
     deploy:
       mode: replicated
-      replicas: 2
+      replicas: 1
     depends_on:
       - njttcup-mongo
     env_file:

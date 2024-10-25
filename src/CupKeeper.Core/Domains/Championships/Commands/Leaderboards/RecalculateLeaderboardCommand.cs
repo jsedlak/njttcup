@@ -7,6 +7,7 @@ public sealed class RecalculateLeaderboardCommand : ExistingLeaderboardCommandBa
         : base(leaderboardId)
     {
     }
-    
+
+    [Id(0)]
     public int Year { get; set; }
 }

@@ -41,6 +41,7 @@ await Host.CreateDefaultBuilder(args)
                 services.AddScoped<IRiderLocatorService, MongoRiderRepository>();
                 services.AddScoped<IEventViewRepository, MongoEventViewRepository>();
                 services.AddScoped<IVenueViewRepository, MongoVenueViewRepository>();
+                services.AddScoped<ILeaderboardViewRepository, MongoLeaderboardViewRepository>();
                 services.AddScoped<IResultsLoader, UsaCyclingWebResultsLoader>();
                 services.AddScoped<IPubClient, AzurePubClient>();
                 

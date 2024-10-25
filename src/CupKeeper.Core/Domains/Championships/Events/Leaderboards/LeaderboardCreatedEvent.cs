@@ -3,7 +3,7 @@ using CupKeeper.Cqrs;
 namespace CupKeeper.Domains.Championships.Events.Leaderboards;
 
 [GenerateSerializer]
-public sealed class LeaderboardCreatedEvent : AggregateEvent
+public sealed class LeaderboardCreatedEvent : LeaderboardBaseEvent
 {
     public LeaderboardCreatedEvent(Guid leaderboardId)
         : base(leaderboardId)
@@ -13,7 +13,4 @@ public sealed class LeaderboardCreatedEvent : AggregateEvent
     
     [Id(0)]
     public int Year { get; set; }
-
-    [Id(1)]
-    public IEnumerable<Guid> EventResultIds { get; set; }
 }

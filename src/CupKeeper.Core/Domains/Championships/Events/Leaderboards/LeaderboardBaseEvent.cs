@@ -3,9 +3,9 @@ using CupKeeper.Cqrs;
 namespace CupKeeper.Domains.Championships.Events.Leaderboards;
 
 [GenerateSerializer]
-public sealed class LeaderboardDeletedEvent : LeaderboardBaseEvent
+public class LeaderboardBaseEvent : AggregateEvent
 {
-    public LeaderboardDeletedEvent(Guid leaderboardId)
+    public LeaderboardBaseEvent(Guid leaderboardId)
         : base(leaderboardId)
     {
         

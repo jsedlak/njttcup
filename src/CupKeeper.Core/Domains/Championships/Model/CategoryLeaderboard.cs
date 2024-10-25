@@ -28,5 +28,5 @@ public sealed class CategoryLeaderboard
     /// Gets or Sets the rider leaderboard placings
     /// </summary>
     [Id(3)]
-    public IEnumerable<RiderLeaderboardPlacing> Riders { get; set; } = [];
+    public RiderLeaderboardPlacing[] Riders { get; set; } = Array.Empty<RiderLeaderboardPlacing>();
 }

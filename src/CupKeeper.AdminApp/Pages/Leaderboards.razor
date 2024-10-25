@@ -1,0 +1,73 @@
+﻿@page "/leaderboards"
+@using CupKeeper.AdminApp.Components
+@using CupKeeper.AdminApp.Services
+@using CupKeeper.Domains.Locations.Commands
+@using CupKeeper.Domains.Locations.ViewModel
+@inject LeaderboardService LeaderboardService
+<PageTitle>Leaderboards - Cup Keeper</PageTitle>
+
+<div class="mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <Toolbar Title="Leaderboards" Subtitle="Do some leaderboard things here.">
+        <Buttons>
+            <Button Type="ButtonType.DefaultOutline" Clicked=@RefreshAsync>
+                <span>@HeroIcons.ArrowPathRoundedSquare()</span>
+            </Button>
+        </Buttons>
+    </Toolbar>
+    
+    <TemplatedGrid Items="_leaderboards">
+        <ColumnTemplate>
+            <Header>ID</Header>
+            <Cell>
+                <a class="underline decoration-wavy decoration-indigo-500 decoration-1"
+                   href="/leaderboards/@context.Id">@(context.Id.ToString().Split("-").First())</a>
+            </Cell>
+        </ColumnTemplate>
+        <ColumnTemplate>
+            <Header>Year</Header>
+            <Cell>@context.Year</Cell>
+        </ColumnTemplate>
+        <ColumnTemplate>
+            <Header>Events</Header>
+            <Cell>@context.Events.Length</Cell>
+        </ColumnTemplate>
+        <ColumnTemplate>
+            <Header>Categories</Header>
+            <Cell>@context.Categories.Length</Cell>
+        </ColumnTemplate>
+        <ColumnTemplate>
+            <Header>Deleted</Header>
+            <Cell>
+                @if (context.IsDeleted)
+                {
+                    @HeroIcons.Check("text-red-400")
+                }
+            </Cell>
+        </ColumnTemplate>
+        <ColumnTemplate>
+            <Header>Published</Header>
+            <Cell>
+                @if (context.IsPublished)
+                {
+                    @HeroIcons.Check("text-green-400")
+                }
+            </Cell>
+        </ColumnTemplate>
+    </TemplatedGrid>
+</div>
+
+@code {
+   
+    private IEnumerable<LeaderboardViewModel> _leaderboards = [];
+    
+    private async Task RefreshAsync()
+    {
+        _leaderboards = await LeaderboardService.GetLeaderboards();
+    }
+    
+    protected override async Task OnInitializedAsync()
+    {
+        await RefreshAsync();
+        await base.OnInitializedAsync();
+    }
+}
