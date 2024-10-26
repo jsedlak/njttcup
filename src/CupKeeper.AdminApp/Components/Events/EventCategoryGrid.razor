@@ -1,5 +1,6 @@
 @implements IDragSource
 @inject EventService EventService
+@inject CategoryAliasService CategoryAliasService
 @inject IDragProvider DragProvider
 <div class="my-6 rounded bg-gray-800 p-6 shadow-lg">
     <Toolbar Title=@Category.Name>
@@ -101,6 +102,15 @@
         }
         <div class="mb-3">
             <Label>Name</Label>
+            @if (!string.IsNullOrWhiteSpace(_categoryNameAlias))
+            {
+                <SubLabel>
+                    Found alias: 
+                    <a class="cursor-pointer text-indigo-500 underline" @onclick="@(() => { _editContext.Name = _categoryNameAlias; StateHasChanged(); })">
+                        @_categoryNameAlias
+                    </a>
+                </SubLabel>
+            }
             <TextBox @bind-Value=@_editContext.Name/>
         </div>
 
@@ -127,7 +137,9 @@
     [Parameter] public CategoryResultViewModel Category { get; set; } = null!;
 
     private CategoryResultViewModel _editContext = new();
+    
     private bool _isEditCategoryVisible = false;
+    private string _categoryNameAlias = "";
     private string _errorMessage = string.Empty;
 
     private bool _isDropVisible = false;
@@ -141,8 +153,15 @@
         new() { Title = "Time", Field = m => m.Time, Component = typeof(RiderTimeColumn) }
     ];
 
-    private void OnBeginEditCategory()
+    private async Task OnBeginEditCategory()
     {
+        var aliases = await CategoryAliasService.GetCategoryAliases();
+
+        _categoryNameAlias = aliases
+            .FirstOrDefault(m => 
+                m.Aliases.Any(a => a.Equals(Category.Name, StringComparison.OrdinalIgnoreCase))
+            )?.Name ?? "";
+        
         _editContext.Name = Category.Name;
         _editContext.Order = Category.Order;
         _isEditCategoryVisible = true;

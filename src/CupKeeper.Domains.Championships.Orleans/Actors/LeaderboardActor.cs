@@ -85,8 +85,10 @@ public class LeaderboardActor : EventSourcedGrain<Leaderboard, LeaderboardBaseEv
         var publishedEvents = (await _eventViewRepository.QueryAsync())
             .Where(m => m.ChampionshipYear == command.Year && m.IsPublished)
             .OrderBy(m => m.ActualDate);
+        
+        _logger.LogInformation($"Found {publishedEvents.Count()} events for year {command.Year}");
 
-        var eventCount = 1;
+        var eventCount = 0;
         var categoryLeaderboards = new List<CategoryLeaderboard>();
         var riderRefShortcut = new List<RiderLeaderboardPlacing>();
 
@@ -127,6 +129,8 @@ public class LeaderboardActor : EventSourcedGrain<Leaderboard, LeaderboardBaseEv
         // now we calculate the drops
         foreach (var riderLeaderboard in riderRefShortcut)
         {
+            _logger.LogInformation($"Rider {riderLeaderboard.RiderId} has {riderLeaderboard.Points.Length} races of {eventCount} total.");
+            
             // ensure the rider completes the total number of events
             // attributing 0 to any event missing at the end
             var riderPointsCount = riderLeaderboard.Points.Length;

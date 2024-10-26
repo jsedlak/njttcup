@@ -79,6 +79,13 @@ public class EventActor : EventSourcedGrain<ScheduledEvent, ScheduledEventBaseEv
 
         return CommandResult.Success();
     }
+
+    public async Task<CommandResult> Undelete(UndeleteScheduledEventCommand command)
+    {
+        await Raise(new ScheduledEventRestoredEvent(command.ScheduledEventId));
+        
+        return CommandResult.Success();
+    }
     
     public async Task<CommandResult> SetName(SetEventNameCommand command)
     {
@@ -215,6 +222,26 @@ public class EventActor : EventSourcedGrain<ScheduledEvent, ScheduledEventBaseEv
         await Raise(new EventResultsPublishedEvent(command.ScheduledEventId));
         await WaitForConfirmation();
 
+        // calculate the year into a grain identifier
+        var year = ConfirmedState.ActualDate?.Year ?? ConfirmedState.ScheduledDate?.Year ?? DateTimeOffset.Now.Year;
+        var yearAsGrainId = year.ToString().ToGuid();
+        
+        _logger.LogInformation($"Publishing results and recalculating leaderboard. [Leaderboard ID]=>[{year}, {yearAsGrainId}]");
+        
+        // recalculate that year's leaderboard
+        var proxy = _grainFactory.GetGrain<ILeaderboardActor>(yearAsGrainId);
+        await proxy.Recalculate(new RecalculateLeaderboardCommand(yearAsGrainId)
+        {
+            Year = year
+        });
+        
+        return CommandResult.Success();
+    }
+
+    public async Task<CommandResult> UnpublishResults(UnpublishEventResultsCommand command)
+    {
+        await Raise(new EventResultsUnpublishedEvent(command.ScheduledEventId));
+        
         // calculate the year into a grain identifier
         var year = ConfirmedState.ActualDate?.Year ?? ConfirmedState.ScheduledDate?.Year ?? DateTimeOffset.Now.Year;
         var yearAsGrainId = year.ToString().ToGuid();

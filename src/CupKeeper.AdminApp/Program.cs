@@ -24,6 +24,7 @@ builder.Services.AddSingleton<VenueService>();
 builder.Services.AddSingleton<EventService>();
 builder.Services.AddSingleton<RiderService>();
 builder.Services.AddSingleton<LeaderboardService>();
+builder.Services.AddSingleton<CategoryAliasService>();
 builder.Services.AddSingleton<PubSubServiceFactory>();
 builder.Services.AddSingleton<DataContextService>();
 

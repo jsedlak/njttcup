@@ -67,6 +67,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CupKeeper.AdminApi.ApiModel
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CupKeeper.PubSub.Azure", "src\CupKeeper.PubSub.Azure\CupKeeper.PubSub.Azure.csproj", "{D89BA113-453F-4DFA-8A39-805D0B1A0292}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CupKeeper.Domains.Championships", "src\CupKeeper.Domains.Championships\CupKeeper.Domains.Championships.csproj", "{B7676C55-C7E0-4E81-9BFC-AE1F538E185F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -165,6 +167,10 @@ Global
 		{D89BA113-453F-4DFA-8A39-805D0B1A0292}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D89BA113-453F-4DFA-8A39-805D0B1A0292}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D89BA113-453F-4DFA-8A39-805D0B1A0292}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7676C55-C7E0-4E81-9BFC-AE1F538E185F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7676C55-C7E0-4E81-9BFC-AE1F538E185F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7676C55-C7E0-4E81-9BFC-AE1F538E185F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7676C55-C7E0-4E81-9BFC-AE1F538E185F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -193,6 +199,7 @@ Global
 		{D77372B5-5EE9-48CF-BBD0-859434D4D578} = {3B37C7EA-1289-4E95-A9A3-FB7AA9AD2C40}
 		{59B605CD-6DC3-42DD-9862-2907E223A442} = {4EC54C70-7C2C-44D1-B2B3-EAE0697BD0B2}
 		{D89BA113-453F-4DFA-8A39-805D0B1A0292} = {3B37C7EA-1289-4E95-A9A3-FB7AA9AD2C40}
+		{B7676C55-C7E0-4E81-9BFC-AE1F538E185F} = {EC2AF208-E123-489A-AD93-DAC11AA4ADC2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BECA1B91-2140-483C-B02F-018C20755A89}

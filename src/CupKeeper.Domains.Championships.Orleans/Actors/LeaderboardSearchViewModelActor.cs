@@ -162,7 +162,7 @@ public class LeaderboardSearchViewModelActor :
                     Name = riders.First(m => m.Id == r.RiderId).Name,
                     Team = riders.First(m => m.Id == r.RiderId).TeamName ?? "",
                     Id = r.Id,
-                    Points = r.Points,
+                    Points = new List<int>(r.Points).ToArray(),
                     RawTotal = r.RawTotal,
                     Total = r.Total
                 }).ToArray()

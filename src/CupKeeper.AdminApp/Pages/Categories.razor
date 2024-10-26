@@ -1,0 +1,72 @@
+@page "/Categories"
+<PageTitle>Category Aliases - Cup Keeper</PageTitle>
+
+<div class="mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <Toolbar Title="Category Aliases" Subtitle="Manage how categories names can be quickly fixed.">
+        <Buttons>
+            <Button Type="ButtonType.DefaultOutline" Clicked=@RefreshAsync>
+                <span>@HeroIcons.ArrowPathRoundedSquare()</span>
+            </Button>
+            <Button Type="ButtonType.Primary" Clicked="@(() => _createContext.Open(new()))">
+                Create
+            </Button>
+        </Buttons>
+    </Toolbar>
+
+    <TemplatedGrid Items="@_categoryAliases">
+        <ColumnTemplate>
+            <Header>ID</Header>
+            <Cell>@context.Id</Cell>
+        </ColumnTemplate>
+        <ColumnTemplate>
+            <Header>Name</Header>
+            <Cell>@context.Name</Cell>
+        </ColumnTemplate>
+        <ColumnTemplate>
+            <Header>Aliases</Header>
+            <Cell>@(string.Join(", ", context.Aliases))</Cell>
+        </ColumnTemplate>
+        <ColumnTemplate>
+            <Header>Actions</Header>
+            <Cell>
+                <div class="flex gap-2 items-center">
+                <a class="cursor-pointer text-indigo-500" @onclick="@(async () => await _editContext.Open(context))">
+                    @HeroIcons.PencilSquare("inline-block")
+                </a>
+                </div>
+            </Cell>
+        </ColumnTemplate>
+    </TemplatedGrid>
+</div>
+
+<Dialog @bind-IsVisible="@_createContext.IsVisible" Title="Create Category Alias" WindowClass="w-1/2">
+    <Content>
+        <div class="mb-4">
+            <Label>Name</Label>
+            <TextBox @bind-Value="_createContext.TentativeModel.Name" />
+        </div>
+        <div class="mb-4">
+            <StringArrayEditor @bind-Items="@_createContext.TentativeModel.Aliases"></StringArrayEditor>
+        </div>
+    </Content>
+    <Footer>
+        <Button Clicked="@(() => _createContext.Cancel())">Cancel</Button>
+        <Button Type="ButtonType.Success" Clicked="@(() => _createContext.Confirm(UpsertCategoryAliasCallback))">Create</Button>
+    </Footer>
+</Dialog>
+
+<Dialog @bind-IsVisible="@_editContext.IsVisible" Title="Edit Category Alias" WindowClass="w-1/2">
+    <Content>
+        <div class="mb-4">
+            <Label>Name</Label>
+            <TextBox @bind-Value="_editContext.TentativeModel.Name" />
+        </div>
+        <div class="mb-4">
+            <StringArrayEditor @bind-Items="@_editContext.TentativeModel.Aliases"></StringArrayEditor>
+        </div>
+    </Content>
+    <Footer>
+        <Button Clicked="@(() => _editContext.Cancel())">Cancel</Button>
+        <Button Type="ButtonType.Success" Clicked="@(() => _editContext.Confirm(UpsertCategoryAliasCallback))">Save</Button>
+    </Footer>
+</Dialog>

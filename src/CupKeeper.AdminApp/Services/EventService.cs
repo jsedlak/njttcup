@@ -22,13 +22,29 @@ public sealed class EventService : ApiServiceBase
 
     public Task<CommandResult> Delete(Guid eventId)
     {
-        return DeleteAsync<CommandResult>($"api/events/{eventId}");
+        return DeleteWithResultAsync($"api/events/{eventId}");
+    }
+
+    public async Task<CommandResult> Undelete(Guid eventId)
+    {
+        return await ExecuteAsync(
+            $"api/events/{eventId}/undelete", 
+            new UndeleteScheduledEventCommand(eventId)
+        );
+    }
+
+    public async Task<CommandResult> Unpublish(Guid eventId)
+    {
+        return await ExecuteAsync(
+            $"api/events/{eventId}/results/unpublish", 
+            new UnpublishEventResultsCommand(eventId)
+        );
     }
 
     public async Task<CommandResult> SetScheduledDate(Guid eventId, DateTimeOffset? scheduledDate,
         DateTimeOffset? actualDate)
     {
-        return await PostAsync<CommandResult>($"api/events/{eventId}/dates", new SetEventDatesCommand(eventId)
+        return await PostAsJsonAsync<CommandResult>($"api/events/{eventId}/dates", new SetEventDatesCommand(eventId)
         {
             ScheduledDate = scheduledDate,
             ActualDate = actualDate
@@ -37,7 +53,7 @@ public sealed class EventService : ApiServiceBase
 
     public async Task<CommandResult> SetCourse(Guid eventId, Guid venueId, Guid courseId)
     {
-        return await PostAsync<CommandResult>($"api/events/{eventId}/course", new SetEventCourseCommand(eventId)
+        return await PostAsJsonAsync<CommandResult>($"api/events/{eventId}/course", new SetEventCourseCommand(eventId)
         {
             VenueId = venueId,
             CourseId = courseId
@@ -46,7 +62,7 @@ public sealed class EventService : ApiServiceBase
 
     public async Task<CommandResult> Publish(Guid eventId)
     {
-        return await PostAsync<CommandResult>($"api/events/{eventId}/results/publish",
+        return await PostAsJsonAsync<CommandResult>($"api/events/{eventId}/results/publish",
             new PublishEventResultsCommand(eventId)) ?? new();
     }
 
@@ -54,7 +70,7 @@ public sealed class EventService : ApiServiceBase
 
     public async Task<CommandResult> SetCategoryName(Guid eventId, Guid categoryId, string name, int order)
     {
-        return await PostAsync<CommandResult>(
+        return await PostAsJsonAsync<CommandResult>(
             $"api/events/{eventId}/results/categories/{categoryId}/name",
             new SetCategoryResultNameCommand(eventId)
             {
@@ -71,7 +87,7 @@ public sealed class EventService : ApiServiceBase
 
     public async Task<bool> StartLoad(Guid eventId)
     {
-        return await PostAsync<bool?>($"api/events/{eventId}/results/load", (object)(new { eventId })) ?? false;
+        return await PostAsJsonAsync<bool?>($"api/events/{eventId}/results/load", (object)(new { eventId })) ?? false;
     }
 
     public Task<bool> CheckLoadStatus(Guid eventId)

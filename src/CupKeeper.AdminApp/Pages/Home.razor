@@ -18,13 +18,19 @@
     </Toolbar>
 
     @* <CourseSelector /> *@
-    <p class="text-sm mb-2">Found @DataContext.EventCount events.</p>
+    <p class="mb-2">Showing @DisplayedEvents.Count() of @DataContext.EventCount events.</p>
 
-    <TemplatedGrid Items="@DataContext.Events.Where(m => !_hideDeletedEvents || !m.IsDeleted)" RowClassCallback="@RowClassHandler">
+    <TemplatedGrid Items="@DisplayedEvents" RowClassCallback="@RowClassHandler">
         <ColumnTemplate>
             <Header>ID</Header>
             <Cell>
                 <a class="underline decoration-wavy decoration-indigo-500 decoration-1" href=@($"/events/{context.Id}")>@(context.Id.ToString().Split("-").First())...</a>
+            </Cell>
+        </ColumnTemplate>
+        <ColumnTemplate>
+            <Header>Date</Header>
+            <Cell>
+                @context.ActualDate?.ToString("yyyy MMMM dd")
             </Cell>
         </ColumnTemplate>
         <ColumnTemplate>
@@ -119,6 +125,8 @@
 
 @code {
     [CascadingParameter(Name = "Theme")] public ITheme Theme { get; set; } = null!;
+
+    private IEnumerable<EventViewModel> DisplayedEvents => DataContext.Events.Where(m => !_hideDeletedEvents || !m.IsDeleted).OrderBy(m => m.ActualDate);
 
     private bool _hideDeletedEvents = true;
     

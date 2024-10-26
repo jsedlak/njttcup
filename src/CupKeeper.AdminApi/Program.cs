@@ -34,6 +34,9 @@ builder.Services.AddScoped<IEventViewRepository, MongoEventViewRepository>();
 builder.Services.AddScoped<IVenueViewRepository, MongoVenueViewRepository>();
 builder.Services.AddScoped<IRiderRepository, MongoRiderRepository>();
 builder.Services.AddScoped<ILeaderboardViewRepository, MongoLeaderboardViewRepository>();
+builder.Services.AddScoped<ICategoryAliasRepository, MongoCategoryAliasRepository>(sp => 
+    new MongoCategoryAliasRepository(sp.GetRequiredService<IMongoClient>(), "njttcup", "category_aliases")
+);
 
 // infrastructure bits
 builder.Services.AddScoped<WebPubSubServiceClient>(_ => new WebPubSubServiceClient(
@@ -49,7 +52,8 @@ builder.Services
     .AddType<EventQueries>()
     .AddType<VenueQueries>()
     .AddType<RiderQueries>()
-    .AddType<LeaderboardQueries>();
+    .AddType<LeaderboardQueries>()
+    .AddType<CategoryAliasQueries>();
 
 // Add Orleans Client
 builder.UseOrleansClient(clientBuilder =>

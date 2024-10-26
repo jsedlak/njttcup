@@ -18,10 +18,16 @@ public abstract class ApiServiceBase
         return response ?? throw new InvalidOperationException();
     }
     
-    protected async Task<TResult?> PostAsync<TResult>(string path, object input)
+    protected async Task<TResult?> PostAsJsonAsync<TResult>(string path, object input)
     {
         var response = await _apiClient.PostAsJsonAsync(path, input);
         return await response.Content.ReadFromJsonAsync<TResult>();
+    }
+    
+    protected async Task<HttpResponseMessage> PostAsync(string path, object input)
+    {
+        var response = await _apiClient.PostAsJsonAsync(path, input);
+        return response;
     }
 
     protected async Task<CommandResult> ExecuteAsync<TCommand>(string path, TCommand command)
@@ -37,7 +43,12 @@ public abstract class ApiServiceBase
                CommandResult<TResult>.Failure("Server error");
     }
     
-    protected async Task<CommandResult> DeleteAsync<TCommand>(string path)
+    protected async Task<HttpResponseMessage> DeleteAsync(string path)
+    {
+        return await _apiClient.DeleteAsync(path);
+    }
+    
+    protected async Task<CommandResult> DeleteWithResultAsync(string path)
     {
         var response = await _apiClient.DeleteAsync(path);
         return (await response.Content.ReadFromJsonAsync<CommandResult>()) ?? CommandResult.Failure("Server error");

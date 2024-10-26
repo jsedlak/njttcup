@@ -11,7 +11,7 @@
                 }
                 
                 var localPath = new Uri(Navigation.Uri).LocalPath;
-                var listItemClass = "hover:bg-gray-900 px-3 py-2 text-center rounded flex items-center";
+                var listItemClass = "hover:bg-gray-900 text-center rounded flex items-center";
                 
                 if ((localPath.Equals("/") && item.Href.Equals("/")) || 
                     (!item.Href.Equals("/") && localPath.ToLower().Contains(item.Href.ToLower())))
@@ -20,7 +20,7 @@
                 }
 
                 <li class=@listItemClass>
-                    <a href=@item.Href class="flex items-center space-x-2">
+                    <a href=@item.Href class="flex items-center space-x-2 px-3 py-2">
                         @(item.LeftIcon)
                         <span>@item.Text</span>
                     </a>
@@ -37,7 +37,8 @@
         new NavItem("home", "Events") { Href = "/", LeftIcon = HeroIcons.Calendar("inline-block", "w-4 h-4") },
         new NavItem("leaderboards", "Leaderboards") { Href = "/leaderboards", LeftIcon = HeroIcons.Trophy("inline-block", "w-4 h-4") },
         new NavItem("venues", "Venues") { Href = "/venues", LeftIcon = HeroIcons.MapPin("inline-block", "w-4 h-4") },
-        new NavItem("riders", "Riders") { Href = "/riders", LeftIcon = HeroIcons.UserGroup("inline-block", "w-4 h-4") }
+        new NavItem("riders", "Riders") { Href = "/riders", LeftIcon = HeroIcons.UserGroup("inline-block", "w-4 h-4") },
+        new NavItem("categories", "Categories") { Href = "/categories", LeftIcon = HeroIcons.UserGroup("inline-block", "w-4 h-4") }
     ];
 
     protected override Task OnInitializedAsync()

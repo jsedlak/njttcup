@@ -1,0 +1,20 @@
+<div>
+    <div class="flex gap-1 items-center">
+        <TextBox @bind-Value="@_currentValue" />
+        <Button Clicked="@(async () => await Add())">
+            @HeroIcons.PlusCircle()
+        </Button>
+    </div>
+    <ListView Items="@Items">
+        <ItemTemplate>
+            <div class="flex items-center justify-between w-full">
+                <div>@context</div>
+                <div>
+                    <a @onclick=@(async () => await Remove(context))>
+                        @HeroIcons.Trash("inline-block text-red-400")
+                    </a>
+                </div>
+            </div>
+        </ItemTemplate>
+    </ListView>
+</div>

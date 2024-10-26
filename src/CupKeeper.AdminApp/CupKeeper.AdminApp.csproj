@@ -29,6 +29,7 @@
       <ProjectReference Include="..\..\tazor\src\Tazor.Wasm\Tazor.Wasm.csproj" />
       <ProjectReference Include="..\CupKeeper.AdminApi.ApiModel\CupKeeper.AdminApi.ApiModel.csproj" />
       <ProjectReference Include="..\CupKeeper.Core\CupKeeper.Core.csproj" />
+      <ProjectReference Include="..\CupKeeper.Domains.Championships\CupKeeper.Domains.Championships.csproj" />
       <ProjectReference Include="..\CupKeeper.PubSub.Azure\CupKeeper.PubSub.Azure.csproj" />
     </ItemGroup>
 

@@ -1,36 +1,60 @@
 ﻿@page "/events/{eventId:guid}"
 @inherits CupKeeperComponentBase
-@inject EventService EventService
-@inject IDragProvider DragProvider
 <PageTitle>@_event.ChampionshipYear @_event.Name - Event Details - Cup Keeper</PageTitle>
 
 <div class="bg-indigo-900 px-4 sm:px-6 lg:px-8 py-6 shadow-lg">
     <Toolbar Title=@($"{_event.ChampionshipYear} {_event.Name}") Subtitle="We do some eventing here.">
         <Buttons>
-            <Button Type="ButtonType.ErrorOutline" Clicked="@OnBeginDelete">
-                @HeroIcons.Trash("inline-block")
-                <span>Delete</span>
-            </Button>
-            <Button Type="ButtonType.DefaultOutline" Clicked="@OnBeginEdit">
-                @HeroIcons.Pencil("inline-block")
-                <span>Edit</span>
-            </Button>
-            <Button Type="ButtonType.Primary" Clicked=@LoadResultsFromUsac Disabled=@_isLoadingResults>
-                @if (_isLoadingResults)
+            @if (!_event.IsPublished)
+            {
+                if (_event.IsDeleted)
                 {
-                    <Spinner/>
+                    <Button Type="ButtonType.ErrorOutline" Clicked="@(() => _undeleteDialogContext.Open())">
+                        @HeroIcons.ArrowUturnUp("inline-block")
+                        <span>Restore</span>
+                    </Button>
                 }
                 else
                 {
-                    @HeroIcons.ArrowRightOnRectangle("inline-block")
+                    <Button Type="ButtonType.ErrorOutline" Clicked="@(() => _deleteDialogContext.Open())">
+                        @HeroIcons.Trash("inline-block")
+                        <span>Delete</span>
+                    </Button>
                 }
-                <span>Load Results</span>
-            </Button>
+                
+                <Button Type="ButtonType.DefaultOutline" Clicked="@(() => _editDialogContext.Open(_event))">
+                    @HeroIcons.Pencil("inline-block")
+                    <span>Edit</span>
+                </Button>
+                <Button Type="ButtonType.Primary" Clicked=@LoadResultsFromUsac Disabled="@_isLoadingResults">
+                    @if (_isLoadingResults)
+                    {
+                        <Spinner/>
+                    }
+                    else
+                    {
+                        @HeroIcons.ArrowRightOnRectangle("inline-block")
+                    }
+                    <span>Load Results</span>
+                </Button>
+            }
+            
             @if (!_event.IsPublished && _event.Results.Any())
             {
-                <Button Type="ButtonType.Primary" Clicked="HandlePublishClicked">
+                <Button Type="ButtonType.Primary" Clicked="HandlePublishClicked" Disabled="@_isPublishing">
                     @HeroIcons.BarsArrowUp("inline-block")
                     <span>Publish</span>
+                    @if (_isPublishing)
+                    {
+                        <Spinner/>
+                    }
+                </Button>
+            }
+            else if (_event.IsPublished)
+            {
+                <Button Type="ButtonType.Primary" Clicked="@(() => _unpublishDialogContext.Open())">
+                    @HeroIcons.ArrowUturnDown("inline-block")
+                    <span>Unpublish</span>
                 </Button>
             }
         </Buttons>
@@ -92,201 +116,74 @@
         </StatCard>
 
     </div>
-    
+
     @foreach (var category in _event.Results.OrderBy(m => m.Order).ThenBy(m => m.Name))
     {
-        <EventCategoryGrid Category="category" EventId="EventId" />
+        <EventCategoryGrid Category="category" EventId="EventId"/>
     }
 </div>
 
-<Dialog @bind-IsVisible=@_isEditDialogVisible Title="Edit Event" WindowClass="w-1/2">
+<Dialog @bind-IsVisible="@_editDialogContext.IsVisible" Title="Edit Event" WindowClass="w-1/2">
     <Content>
         <div class="grid grid-cols-2 gap-4">
             <div>
                 <div class="mb-2">
                     <Label>Scheduled Date</Label>
-                    <input class=@Theme.Forms.TextBox type="date" @bind=@_editContext.ScheduledDate onblur=@OnEditContextScheduledDateChanged/>
+                    <input class=@Theme.Forms.TextBox type="date" @bind=@_editDialogContext.TentativeModel.ScheduledDate onblur=@OnEditContextScheduledDateChanged/>
                 </div>
-            </div>    
+
+                <div class="mb-2">
+                    <Label>Actual Date</Label>
+                    <input class=@Theme.Forms.TextBox type="date" @bind=@_editDialogContext.TentativeModel.ActualDate onblur=@OnEditContextScheduledDateChanged/>
+                </div>
+            </div>
             <div>
-                <CourseSelector 
-                    CourseId=@_editContext.CourseId 
-                    VenueId=@_editContext.VenueId 
-                    VenueIdChanged=@((Guid venueId) => { _editContext.VenueId = venueId; })
-                    CourseIdChanged=@OnEditContextCourseChanged />
+                <CourseSelector
+                    CourseId=@_editDialogContext.TentativeModel.CourseId
+                    VenueId=@_editDialogContext.TentativeModel.VenueId
+                    VenueIdChanged=@((Guid venueId) => { _editDialogContext.TentativeModel.VenueId = venueId; })
+                    CourseIdChanged=@OnEditContextCourseChanged/>
             </div>
         </div>
     </Content>
+    <Footer>
+        <Button Clicked="@(() => _editDialogContext.Cancel())">Cancel</Button>
+        <Button Type="ButtonType.Success" Clicked="@(() => _editDialogContext.Confirm(SaveEventCallback))">Save</Button>
+    </Footer>
 </Dialog>
 
-<Dialog @bind-IsVisible="@_isDeleteDialogVisible" Title="Delete Event">
+<Dialog @bind-IsVisible="@_unpublishDialogContext.IsVisible" Title="Delete Event">
+    <Content>
+        <p>Are you sure you want to unpublish this event? Doing so will remove it from the leaderboard calculation.</p>
+    </Content>
+    <Footer>
+        <Button Clicked="@(() => _unpublishDialogContext.Cancel())">Cancel</Button>
+        <Button Clicked="@(() => _unpublishDialogContext.Confirm(UnpublishEventCallback))" Type="ButtonType.Primary">Confirm Unpublish</Button>
+    </Footer>
+</Dialog>
+
+<Dialog @bind-IsVisible="@_deleteDialogContext.IsVisible" Title="Delete Event">
     <Content>
         <p>Are you sure you want to mark this event as deleted?</p>
     </Content>
     <Footer>
-        <Button Clicked="@OnCancelDelete">Cancel</Button>
-        <Button Clicked="@OnConfirmDelete" Type="ButtonType.Error">Confirm Delete</Button>
+        <Button Clicked="@(() => _deleteDialogContext.Cancel())">Cancel</Button>
+        <Button Clicked="@(() => _deleteDialogContext.Confirm(DeleteEventCallback))" Type="ButtonType.Error">Confirm Delete</Button>
     </Footer>
 </Dialog>
 
-@code {
-    [Parameter] public Guid EventId { get; set; }
-
-    [CascadingParameter(Name = "Theme")] public ITheme Theme { get; set; } = null!;
-
-    private EventViewModel _event = new();
-    private EventViewModel _editContext = new();
-    private bool _isLoadingResults = false;
-    private bool _isPublishing = false;
-
-    private bool _isDeleteDialogVisible = false;
-    private bool _isEditDialogVisible = false;
-
-    private Timer? _loadTimer;
-
-    private void OnBeginEdit()
-    {
-        CopyToEditContext();
-        _isEditDialogVisible = true;
-        StateHasChanged();
-    }
-
-    private void OnBeginDelete()
-    {
-        CopyToEditContext();
-        _isDeleteDialogVisible = true;
-        StateHasChanged();
-    }
-
-    private void OnCancelDelete()
-    {
-        _isDeleteDialogVisible = false;
-        StateHasChanged();
-    }
-
-    private async Task OnConfirmDelete()
-    {
-        var result = await EventService.Delete(EventId);
-        
-        // TODO: Do something with the result ^^
-        if (result.IsSuccess)
+<Dialog @bind-IsVisible="@_undeleteDialogContext.IsVisible" Title="Restore Event">
+    <Content>
+        @if (_undeleteDialogContext.IsWaiting)
         {
-            _isDeleteDialogVisible = false;
-            StateHasChanged();
-
-            _event = (await EventService.GetEvents()).First(m => m.Id == EventId);
+            <div class="flex items-center justify-center p-3">
+                <Spinner/>
+            </div>
         }
-    }
-
-    private async Task HandlePublishClicked()
-    {
-        _isPublishing = true;
-        StateHasChanged();
-
-        var response = await EventService.Publish(EventId);
-
-        _isPublishing = false;
-        _event = (await EventService.GetEvents()).First(m => m.Id == EventId);
-        StateHasChanged();
-    }
-
-    private async Task LoadResultsFromUsac()
-    {
-        _isLoadingResults = true;
-
-        var response = await EventService.StartLoad(EventId);
-
-        if (response)
-        {
-            _loadTimer = new Timer(CheckResultsAsync, new { }, TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(1));
-
-            StateHasChanged();
-        }
-    }
-
-    private async void CheckResultsAsync(object? state)
-    {
-        var isFinished = await EventService.CheckLoadStatus(EventId);
-
-        if (!isFinished)
-        {
-            return;
-        }
-        
-
-        _event = (await EventService.GetEvents()).First(m => m.Id == EventId);
-        _isLoadingResults = false;
-
-        if (_loadTimer is not null)
-        {
-            await _loadTimer.DisposeAsync();
-            _loadTimer = null;
-        }
-            
-        StateHasChanged();
-    }
-
-    protected override async Task OnInitializedAsync()
-    {
-        await base.OnInitializedAsync();
-
-        _event = (await EventService.GetEvents()).First(m => m.Id == EventId);
-    }
-
-    private async Task OnEditContextScheduledDateChanged(FocusEventArgs args)
-    {
-        if (_editContext.ScheduledDate == _event.ScheduledDate)
-        {
-            // nothing to submit
-            return;
-        }
-
-        // submit to the server!
-        var response = await EventService.SetScheduledDate(
-            _event.Id, 
-            _editContext.ScheduledDate,
-            _editContext.ScheduledDate
-        );
-
-        // we probably want to reload this from the server, or provide a loopback
-        if (response.IsSuccess)
-        {
-            _event.ScheduledDate = _editContext.ScheduledDate;
-            _event.ActualDate = _editContext.ScheduledDate;
-            StateHasChanged();
-        }
-    }
-
-    private async Task OnEditContextCourseChanged(Guid courseId)
-    {
-        if (courseId == _editContext.CourseId)
-        {
-            return;
-        }
-
-        _editContext.CourseId = courseId;
-
-        var response = await EventService.SetCourse(
-            _event.Id,
-            _editContext.VenueId,
-            _editContext.CourseId
-        );
-
-        if (response.IsSuccess)
-        {
-            var reloadedEvent = (await EventService.GetEvents()).First(m => m.Id == EventId);
-            _event.VenueId = reloadedEvent.VenueId;
-            _event.VenueName = reloadedEvent.VenueName;
-            _event.CourseId = reloadedEvent.CourseId;
-            _event.CourseName = reloadedEvent.CourseName;
-            
-            StateHasChanged();
-        }
-    }
-
-    private void CopyToEditContext()
-    {
-        _editContext.Name = _event.Name;
-        _editContext.ScheduledDate = _event.ScheduledDate;
-    }
-}
+        <p>Are you sure you want to restore this event from being deleted?</p>
+    </Content>
+    <Footer>
+        <Button Clicked="@(async () => await _undeleteDialogContext.Cancel())">Cancel</Button>
+        <Button Clicked="@(async () => await _undeleteDialogContext.Confirm(UndeleteEventCallback))" Type="ButtonType.Error">Confirm Restore</Button>
+    </Footer>
+</Dialog>

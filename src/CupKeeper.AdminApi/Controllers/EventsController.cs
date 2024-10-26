@@ -32,6 +32,13 @@ public class EventsController : Controller
         var actor = _clusterClient.GetGrain<IEventActor>(eventId);
         return await actor.Delete(new DeleteScheduledEventCommand(eventId));
     }
+
+    [HttpPost("{eventId}/undelete")]
+    public async Task<CommandResult> UndeleteEventAsync([FromRoute] Guid eventId, [FromBody]UndeleteScheduledEventCommand command)
+    {
+        var actor = _clusterClient.GetGrain<IEventActor>(eventId);
+        return await actor.Undelete(command);
+    }
     
     [HttpPost("{eventId}/name")]
     public async Task<CommandResult> SetNameAsync([FromRoute]Guid eventId, [FromBody]SetEventNameCommand command)
@@ -131,6 +138,13 @@ public class EventsController : Controller
         var actor = _clusterClient.GetGrain<IEventActor>(eventId);
 
         return await actor.PublishResults(command);
+    }
+
+    [HttpPost("{eventId}/results/unpublish")]
+    public async Task<CommandResult> UnpublishResultsAsync([FromRoute] Guid eventId, [FromBody]UnpublishEventResultsCommand command)
+    {
+        var actor = _clusterClient.GetGrain<IEventActor>(eventId);
+        return await actor.UnpublishResults(command);
     }
     #endregion
     

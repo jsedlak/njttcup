@@ -1,15 +1,22 @@
 ﻿@page "/leaderboards/{leaderboardId:guid}"
-@using OrleansCodeGen.Orleans.Runtime
-@inject LeaderboardService LeaderboardService
+@inherits CupKeeperComponentBase
 <PageTitle>Leaderboard @_leaderboard.Year - Cup Keeper</PageTitle>
 
 <div class="mx-auto px-4 sm:px-6 lg:px-8 py-6">
     <Toolbar Title=@($"Leaderboard: {_leaderboard.Year}") Subtitle="Do some leaderboard things here.">
-        @* <Buttons> *@
-        @*     <Button Type="ButtonType.DefaultOutline" Clicked=@RefreshAsync> *@
-        @*         <span>@HeroIcons.ArrowPathRoundedSquare()</span> *@
-        @*     </Button> *@
-        @* </Buttons> *@
+        <Buttons>
+            <Button Type="ButtonType.DefaultOutline" Clicked=@RefreshAsync>
+                <span>@HeroIcons.ArrowPathRoundedSquare()</span>
+            </Button>
+            <Button Type="ButtonType.DefaultOutline" Clicked=@Recalculate>
+                @HeroIcons.Calculator("inline-block")
+                <span>Recalculate</span>
+                @if (_isCalculating)
+                {
+                    <Spinner />
+                }
+            </Button>
+        </Buttons>
     </Toolbar>
 
     @foreach (var category in _leaderboard.Categories)
@@ -56,23 +63,3 @@
         </div>
     }
 </div>
-
-@code {
-    [Parameter] public Guid LeaderboardId { get; set; }
-
-    private LeaderboardViewModel _leaderboard = new();
-
-    private async Task RefreshAsync()
-    {
-        _leaderboard = (await LeaderboardService.GetLeaderboards())
-            .FirstOrDefault(m => m.Id == LeaderboardId) ?? new();
-    }
-
-    protected override async Task OnInitializedAsync()
-    {
-        await RefreshAsync();
-        await base.OnInitializedAsync();
-    }
-
-}
-

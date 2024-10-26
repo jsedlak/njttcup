@@ -98,6 +98,11 @@ public sealed class ScheduledEvent : IAggregateRoot
         IsDeleted = true;
     }
 
+    public void Apply(ScheduledEventRestoredEvent @event)
+    {
+        IsDeleted = false;
+    }
+
     public void Apply(EventCourseSetEvent @event)
     {
         VenueId = @event.VenueId;
@@ -136,6 +141,11 @@ public sealed class ScheduledEvent : IAggregateRoot
     public void Apply(EventResultsPublishedEvent @event)
     {
         IsPublished = true;
+    }
+
+    public void Apply(EventResultsUnpublishedEvent @event)
+    {
+        IsPublished = false;
     }
 
     public void Apply(RiderResultAddedEvent @event)

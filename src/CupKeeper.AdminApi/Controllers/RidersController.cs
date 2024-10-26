@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CupKeeper.AdminApi.Controllers;
 
+// TODO: Break this out into its own project (MICRO SERVICES!!)
 [ApiController]
 [Route("/api/riders")]
 public class RidersController : Controller

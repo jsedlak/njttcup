@@ -9,6 +9,8 @@ public interface IEventActor : IGrainWithGuidKey
     Task<CommandResult> Create(CreateScheduledEventCommand command);
 
     Task<CommandResult> Delete(DeleteScheduledEventCommand command);
+    
+    Task<CommandResult> Undelete(UndeleteScheduledEventCommand command);
 
     Task<CommandResult> SetName(SetEventNameCommand command);
 
@@ -35,6 +37,8 @@ public interface IEventActor : IGrainWithGuidKey
     Task<CommandResult> RemoveRider(RemoveRiderResultCommand command);
 
     Task<CommandResult> PublishResults(PublishEventResultsCommand command);
+    
+    Task<CommandResult> UnpublishResults(UnpublishEventResultsCommand command);
 
     #endregion
 
