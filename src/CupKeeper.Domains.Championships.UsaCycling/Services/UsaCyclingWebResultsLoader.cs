@@ -52,6 +52,11 @@ public sealed class UsaCyclingWebResultsLoader : IResultsLoader
         var categoryApiResult = await _client.GetFromJsonAsync<UsacApiResult>(
             $"https://legacy.usacycling.org/results/index.php?ajax=1&act=infoid&info_id={masterId}&label=");
 
+        if (categoryApiResult is null)
+        {
+            return [];
+        }
+
         using var context = BrowsingContext.New(
             Configuration.Default
                 .WithJs()
@@ -63,7 +68,7 @@ public sealed class UsaCyclingWebResultsLoader : IResultsLoader
         await categoryDocument.WaitUntilAvailable();
 
         return categoryDocument.DocumentElement.QuerySelectorAll("#results_list li").Select(m => new UsacCategoryResult
-            { Id = m.GetAttribute("id").Replace("race_", ""), Name = m.QuerySelector("a").GetInnerText() });
+            { Id = m.GetAttribute("id")!.Replace("race_", ""), Name = m.QuerySelector("a").GetInnerText() });
     }
 
     /// <summary>

@@ -29,7 +29,12 @@
         </ColumnTemplate>
         <ColumnTemplate>
             <Header>Rider</Header>
-            <Cell>@context.RiderName</Cell>
+            <Cell>
+                <div>
+                    @context.RiderName
+                </div>
+                <div class="text-sm opacity-50 font-mono">@context.RiderId</div>
+            </Cell>
         </ColumnTemplate>
         <ColumnTemplate>
             <Header>Team</Header>

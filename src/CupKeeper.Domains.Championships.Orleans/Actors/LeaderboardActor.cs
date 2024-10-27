@@ -90,7 +90,7 @@ public class LeaderboardActor : EventSourcedGrain<Leaderboard, LeaderboardBaseEv
 
         var eventCount = 0;
         var categoryLeaderboards = new List<CategoryLeaderboard>();
-        var riderRefShortcut = new List<RiderLeaderboardPlacing>();
+        //var riderRefShortcut = new List<RiderLeaderboardPlacing>();
 
         // load up every riders' points for every result
         foreach (var eventResult in publishedEvents)
@@ -104,7 +104,7 @@ public class LeaderboardActor : EventSourcedGrain<Leaderboard, LeaderboardBaseEv
                 {
                     // create/get the rider
                     var riderLeaderboard = categoryLeaderboard.GetOrSet(riderResult.RiderId);
-                    riderRefShortcut.Add(riderLeaderboard);
+                    //riderRefShortcut.Add(riderLeaderboard);
 
                     // add zeros to bring this rider up to the current event count
                     // e.g. if it's the 5th event and the rider has 2 scores, 5-1-2=2 zeros will be added (#-#-0-0-CURRENT)
@@ -127,7 +127,7 @@ public class LeaderboardActor : EventSourcedGrain<Leaderboard, LeaderboardBaseEv
         }
 
         // now we calculate the drops
-        foreach (var riderLeaderboard in riderRefShortcut)
+        foreach (var riderLeaderboard in categoryLeaderboards.SelectMany(category => category.Riders))
         {
             _logger.LogInformation($"Rider {riderLeaderboard.RiderId} has {riderLeaderboard.Points.Length} races of {eventCount} total.");
             
@@ -136,10 +136,16 @@ public class LeaderboardActor : EventSourcedGrain<Leaderboard, LeaderboardBaseEv
             var riderPointsCount = riderLeaderboard.Points.Length;
             if (riderPointsCount < eventCount)
             {
-                riderLeaderboard.Points = riderLeaderboard.Points.Union(
-                    Enumerable.Range(1, eventCount - riderPointsCount).Select(x => 0)
-                ).ToArray();
+                IEnumerable<int> newPoints =
+                [
+                    ..riderLeaderboard.Points.ToArray(), 
+                    ..Enumerable.Range(1, eventCount - riderPointsCount).Select(x => 0).ToArray()
+                ];
+                
+                riderLeaderboard.Points = newPoints.ToArray();
             }
+            
+            _logger.LogInformation($"Rider {riderLeaderboard.RiderId} now has {riderLeaderboard.Points.Length} races of {eventCount} total.");
             
             // if we've got less than 7 races, there are no drops
             if (eventCount < 7)

@@ -21,7 +21,7 @@ public static class LeaderboardExtensions
 
     public static RiderLeaderboardPlacing GetOrSet(this CategoryLeaderboard category, Guid riderId)
     {
-        var rider = category.Riders.FirstOrDefault(x => x.Id == riderId);
+        var rider = category.Riders.FirstOrDefault(x => x.RiderId == riderId);
 
         if (rider == null)
         {

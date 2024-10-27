@@ -158,7 +158,7 @@ public class LeaderboardSearchViewModelActor :
                 Order = c.Order,
                 Riders = c.Riders.Select(r => new RiderLeaderboardPlacingViewModel
                 {
-                    RiderId = r.Id,
+                    RiderId = r.RiderId,
                     Name = riders.First(m => m.Id == r.RiderId).Name,
                     Team = riders.First(m => m.Id == r.RiderId).TeamName ?? "",
                     Id = r.Id,

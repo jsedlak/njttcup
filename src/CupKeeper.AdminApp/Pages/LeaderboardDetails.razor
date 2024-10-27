@@ -27,7 +27,10 @@
             <TemplatedGrid Items="@category.Riders.OrderByDescending(m => m.Total)">
                 <ColumnTemplate>
                     <Header>Rider</Header>
-                    <Cell>@context.Name</Cell>
+                    <Cell>
+                        <div>@context.Name</div>
+                        <div class="text-sm opacity-50 font-mono">@context.RiderId</div>
+                    </Cell>
                 </ColumnTemplate>
                 <ColumnTemplate>
                     <Header>Team</Header>
