@@ -21,24 +21,34 @@
                         <span>Delete</span>
                     </Button>
                 }
-                
+
                 <Button Type="ButtonType.DefaultOutline" Clicked="@(() => _editDialogContext.Open(_event))">
                     @HeroIcons.Pencil("inline-block")
                     <span>Edit</span>
                 </Button>
-                <Button Type="ButtonType.Primary" Clicked=@LoadResultsFromUsac Disabled="@_isLoadingResults">
-                    @if (_isLoadingResults)
-                    {
-                        <Spinner/>
-                    }
-                    else
-                    {
-                        @HeroIcons.ArrowRightOnRectangle("inline-block")
-                    }
-                    <span>Load Results</span>
+
+                if (!string.IsNullOrWhiteSpace(_event.UsacPermitNumber))
+                {
+                    <Button Type="ButtonType.Primary" Clicked=@LoadResultsFromUsac Disabled="@_isLoadingResults">
+                        @if (_isLoadingResults)
+                        {
+                            <Spinner/>
+                        }
+                        else
+                        {
+                            @HeroIcons.ArrowRightOnRectangle("inline-block")
+                        }
+                        <span>Load Results</span>
+                    </Button>
+                }
+
+
+                <Button Type="ButtonType.Primary" Clicked="@(async () => await _uploadDialogContext.Open(new()))" Disabled="_isLoadingResults">
+                    @HeroIcons.ArrowUpTray("inline-block")
+                    <span>Upload JSON</span>
                 </Button>
             }
-            
+
             @if (!_event.IsPublished && _event.Results.Any())
             {
                 <Button Type="ButtonType.Primary" Clicked="HandlePublishClicked" Disabled="@_isPublishing">
@@ -114,7 +124,27 @@
                 @(_event.ActualDate is null ? "Not Set" : _event.ActualDate.Value.ToString("D"))
             </Statistic>
         </StatCard>
-
+        <StatCard>
+            <Title>USAC Permit</Title>
+            <Statistic>
+                @if (string.IsNullOrWhiteSpace(_event.UsacPermitNumber))
+                {
+                    <span>Not Set</span>
+                }
+                else
+                {
+                    <span>@_event.UsacPermitNumber</span>
+                }
+            </Statistic>
+            <AdditionalData>
+                @if (!string.IsNullOrWhiteSpace(_event.UsacResultsLink))
+                {
+                    <a href="@_event.UsacResultsLink">
+                        @HeroIconsMini.Link()
+                    </a>
+                }
+            </AdditionalData>
+        </StatCard>
     </div>
 
     @foreach (var category in _event.Results.OrderBy(m => m.Order).ThenBy(m => m.Name))
@@ -185,5 +215,18 @@
     <Footer>
         <Button Clicked="@(async () => await _undeleteDialogContext.Cancel())">Cancel</Button>
         <Button Clicked="@(async () => await _undeleteDialogContext.Confirm(UndeleteEventCallback))" Type="ButtonType.Error">Confirm Restore</Button>
+    </Footer>
+</Dialog>
+
+<Dialog @bind-IsVisible="@_uploadDialogContext.IsVisible" Title="Upload JSON" WindowClass="w-1/2">
+    <Content>
+        <div class="mb-4">
+            <Label>JSON</Label>
+            <textarea @bind="@_uploadDialogContext.TentativeModel.Json" class="w-full @Theme.Forms.TextBox" rows="5"></textarea>
+        </div>
+    </Content>
+    <Footer>
+        <Button Clicked="@(async () => await _uploadDialogContext.Cancel())">Cancel</Button>
+        <Button Clicked="@(async () => await _uploadDialogContext.Confirm(UploadJsonCallback))" Type="ButtonType.Success">Upload</Button>
     </Footer>
 </Dialog>

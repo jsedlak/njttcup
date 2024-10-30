@@ -82,11 +82,19 @@ public class LeaderboardActor : EventSourcedGrain<Leaderboard, LeaderboardBaseEv
         _logger.LogInformation($"Initiating recalculation of the leaderboard for year {command.Year}");
         
         // TODO: Move this to a long execution method
+        // NOTE: Before I added the ToArray calls, the order was not coming back correctly
         var publishedEvents = (await _eventViewRepository.QueryAsync())
             .Where(m => m.ChampionshipYear == command.Year && m.IsPublished)
-            .OrderBy(m => m.ActualDate);
+            .ToArray()
+            .OrderBy(m => m.ActualDate)
+            .ToArray();
         
         _logger.LogInformation($"Found {publishedEvents.Count()} events for year {command.Year}");
+
+        foreach (var ev in publishedEvents)
+        {
+            _logger.LogInformation($"Event - {ev.Name}");
+        }
 
         var eventCount = 0;
         var categoryLeaderboards = new List<CategoryLeaderboard>();
@@ -102,13 +110,15 @@ public class LeaderboardActor : EventSourcedGrain<Leaderboard, LeaderboardBaseEv
                 
                 foreach (var riderResult in categoryResult.Riders)
                 {
+                    _logger.LogInformation($"Working on {eventResult.Name} -> {categoryResult.Name} -> {riderResult.RiderName}");
+                    
                     // create/get the rider
                     var riderLeaderboard = categoryLeaderboard.GetOrSet(riderResult.RiderId);
                     //riderRefShortcut.Add(riderLeaderboard);
 
                     // add zeros to bring this rider up to the current event count
                     // e.g. if it's the 5th event and the rider has 2 scores, 5-1-2=2 zeros will be added (#-#-0-0-CURRENT)
-                    var missingCount = eventCount - 1 - riderLeaderboard.Points.Length;
+                    var missingCount = eventCount - riderLeaderboard.Points.Length;
                     if (missingCount > 0)
                     {
                         riderLeaderboard.Points = riderLeaderboard.Points.Union(

@@ -16,6 +16,13 @@ public partial class LeaderboardDetails : CupKeeperComponentBase
             .FirstOrDefault(m => m.Id == LeaderboardId) ?? new();
     }
 
+    private IEnumerable<object> GetEvents() 
+    {
+        return DataContext.Events
+            .Where(m => _leaderboard.Events.Contains(m.Id))
+            .OrderBy(m => m.ActualDate);
+    }
+
     private async Task Recalculate()
     {
         _isCalculating = true;

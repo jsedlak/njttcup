@@ -24,11 +24,17 @@
         <ColumnTemplate>
             <Header>ID</Header>
             <Cell>
-                <a class="underline decoration-wavy decoration-indigo-500 decoration-1" href=@($"/events/{context.Id}")>@(context.Id.ToString().Split("-").First())...</a>
+                <IdLink Href="@($"/events/{context.Id}")" Text="@context.Id.ToString()" />
             </Cell>
         </ColumnTemplate>
         <ColumnTemplate>
-            <Header>Date</Header>
+            <Header>Scheduled Date</Header>
+            <Cell>
+                @context.ScheduledDate?.ToString("yyyy MMMM dd")
+            </Cell>
+        </ColumnTemplate>
+        <ColumnTemplate>
+            <Header>Actual Date</Header>
             <Cell>
                 @context.ActualDate?.ToString("yyyy MMMM dd")
             </Cell>
@@ -46,6 +52,18 @@
             <Cell>
                 <div>@context.VenueName</div>
                 <div class="opacity-75 text-sm">@context.CourseName</div>
+            </Cell>
+        </ColumnTemplate>
+        <ColumnTemplate>
+            <Header>USAC</Header>
+            <Cell>
+                <div>
+                    @context.UsacPermitNumber
+                </div>
+                @if (!string.IsNullOrWhiteSpace(context.UsacResultsLink))
+                {
+                    <div class="opacity-75 text-sm"><a href="@context.UsacResultsLink">USAC Results</a></div>
+                }
             </Cell>
         </ColumnTemplate>
         <ColumnTemplate>

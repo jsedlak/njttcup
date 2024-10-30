@@ -4,8 +4,8 @@ using CupKeeper.Domains.Championships.Commands.EventResults;
 using CupKeeper.Domains.Championships.Events.ScheduledEvents;
 using CupKeeper.Domains.Championships.Messages;
 using CupKeeper.Domains.Championships.Model;
+using CupKeeper.Domains.Championships.Model.Parsing;
 using CupKeeper.Domains.Championships.ServiceModel;
-using Jint.Parser;
 using Microsoft.Extensions.Logging;
 using Orleans.Runtime;
 using Orleans.Streams;
@@ -15,6 +15,7 @@ namespace CupKeeper.Domains.Championships.Actors;
 
 public class EventActor : EventSourcedGrain<ScheduledEvent, ScheduledEventBaseEvent>, IEventActor
 {
+    private readonly ILegacyResultsLoader _legacyResultsLoader;
     private readonly IGrainFactory _grainFactory;
     private readonly IRiderLocatorService _riderLocatorService;
     private readonly ILogger<EventActor> _logger;
@@ -22,11 +23,12 @@ public class EventActor : EventSourcedGrain<ScheduledEvent, ScheduledEventBaseEv
     private IDisposable? _resultsLoadTimer;
     private IAsyncStream<ScheduledEventBaseEvent>? _eventStream;
     
-    public EventActor(IGrainFactory grainFactory, IRiderLocatorService riderLocatorService, ILogger<EventActor> logger)
+    public EventActor(IGrainFactory grainFactory, IRiderLocatorService riderLocatorService, ILogger<EventActor> logger, ILegacyResultsLoader legacyResultsLoader)
     {
         _grainFactory = grainFactory;
         _riderLocatorService = riderLocatorService;
         _logger = logger;
+        _legacyResultsLoader = legacyResultsLoader;
     }
 
     public override async Task OnActivateAsync(CancellationToken cancellationToken)
@@ -260,6 +262,16 @@ public class EventActor : EventSourcedGrain<ScheduledEvent, ScheduledEventBaseEv
     #endregion
     
     #region Ingestion / Parsing
+
+    public async Task<CommandResult> UploadJsonResults(UploadJsonResultsCommand command)
+    {
+        var results = await _legacyResultsLoader.GetResults(command.Json);
+
+        await HandleParsedResults(results);
+        
+        return CommandResult.Success();
+    }
+    
     public async ValueTask<bool> StartResultsLoad()
     {
         if (TentativeState.UsacPermitNumber is null)
@@ -328,6 +340,17 @@ public class EventActor : EventSourcedGrain<ScheduledEvent, ScheduledEventBaseEv
             return;
         }
 
+        await HandleParsedResults(results);
+
+        if (_resultsLoadTimer is not null)
+        {
+            _resultsLoadTimer.Dispose();
+            _resultsLoadTimer = null;
+        }
+    }
+
+    private async Task HandleParsedResults(ParsedEventResult results)
+    {
         var categories = new List<CategoryResult>();
         foreach (var parsedCategory in results.Categories)
         {
@@ -373,12 +396,6 @@ public class EventActor : EventSourcedGrain<ScheduledEvent, ScheduledEventBaseEv
         {
             Categories = categories
         });
-
-        if (_resultsLoadTimer is not null)
-        {
-            _resultsLoadTimer.Dispose();
-            _resultsLoadTimer = null;
-        }
     }
     #endregion
     

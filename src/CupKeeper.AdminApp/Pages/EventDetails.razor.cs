@@ -16,6 +16,7 @@ public partial class EventDetails : CupKeeperComponentBase
     private readonly DialogContext<EventViewModel> _deleteDialogContext;
     private readonly DialogContext<EventViewModel> _editDialogContext;
     private readonly DialogContext<EventViewModel> _unpublishDialogContext;
+    private readonly DialogContext<JsonUploadCtx> _uploadDialogContext;
 
     private bool _isLoadingResults = false;
     private bool _isPublishing = false;
@@ -28,6 +29,7 @@ public partial class EventDetails : CupKeeperComponentBase
         _deleteDialogContext = new(StateHasChanged);
         _editDialogContext = new(StateHasChanged);
         _unpublishDialogContext = new(StateHasChanged);
+        _uploadDialogContext = new(StateHasChanged);
     }
     
     protected override async Task OnInitializedAsync()
@@ -40,6 +42,17 @@ public partial class EventDetails : CupKeeperComponentBase
         {
             _event = DataContext.Events.First(m => m.Id == EventId);
         };
+    }
+
+    private async Task<(bool, IEnumerable<string>)> UploadJsonCallback(JsonUploadCtx? uploadCtx)
+    {
+        if (uploadCtx == null || string.IsNullOrWhiteSpace(uploadCtx.Json))
+        {
+            return (false, [ "Model is null." ]);
+        }
+
+        var result = await EventService.UploadJsonResults(EventId, uploadCtx.Json);
+        return (result.IsSuccess, result.Messages);
     }
 
     private async Task<(bool, IEnumerable<string>)> UndeleteEventCallback(EventViewModel? confirmedModel)
@@ -163,4 +176,9 @@ public partial class EventDetails : CupKeeperComponentBase
     [Parameter] public Guid EventId { get; set; }
 
     [CascadingParameter(Name = "Theme")] public ITheme Theme { get; set; } = null!;
+
+    private class JsonUploadCtx
+    {
+        public string Json { get; set; } = "";
+    }
 }

@@ -36,24 +36,32 @@
                     <Header>Team</Header>
                     <Cell>@context.Team</Cell>
                 </ColumnTemplate>
-                <ColumnTemplate>
-                    <Header>Races</Header>
-                    <Cell>
-                        <div class="flex gap-1 items-center">
-                            @for (var pIndex = 0; pIndex < _leaderboard.Events.Length; pIndex++)
-                            {
-                                if (pIndex >= context.Points.Length)
-                                {
-                                    <div>E</div>
-                                }
-                                else
-                                {
-                                    <div>@(context.Points[pIndex])</div>
-                                }
-                            }
-                        </div>
-                    </Cell>
-                </ColumnTemplate>
+                <RangeColumnTemplate GetRange="@(() => GetEvents())">
+                    <IndexedHeader>
+                        @((GetEvents().ElementAt(context.Index) as EventViewModel)?.Name ?? "E")
+                    </IndexedHeader>
+                    <IndexedCell>
+                        @((context.Item as RiderLeaderboardPlacingViewModel)?.Points[context.Index])
+                    </IndexedCell>
+                </RangeColumnTemplate>
+                @* <ColumnTemplate> *@
+                @*     <Header>Races</Header> *@
+                @*     <Cell> *@
+                @*         <div class="flex gap-1 items-center"> *@
+                @*             @for (var pIndex = 0; pIndex < _leaderboard.Events.Length; pIndex++) *@
+                @*             { *@
+                @*                 if (pIndex >= context.Points.Length) *@
+                @*                 { *@
+                @*                     <div>E</div> *@
+                @*                 } *@
+                @*                 else *@
+                @*                 { *@
+                @*                     <div>@(context.Points[pIndex])</div> *@
+                @*                 } *@
+                @*             } *@
+                @*         </div> *@
+                @*     </Cell> *@
+                @* </ColumnTemplate> *@
                 <ColumnTemplate>
                     <Header>Subtotal</Header>
                     <Cell>@context.RawTotal</Cell>

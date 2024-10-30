@@ -33,8 +33,10 @@
       <ProjectReference Include="..\..\petl\src\Petl.EventSourcing.Providers.MongoDb\Petl.EventSourcing.Providers.MongoDb.csproj" />
       <ProjectReference Include="..\..\petl\src\Petl.EventSourcing\Petl.EventSourcing.csproj" />
       <ProjectReference Include="..\CupKeeper.Core\CupKeeper.Core.csproj" />
+      <ProjectReference Include="..\CupKeeper.Domains.Championships.LegacyLoader\CupKeeper.Domains.Championships.LegacyLoader.csproj" />
       <ProjectReference Include="..\CupKeeper.Domains.Championships.Orleans\CupKeeper.Domains.Championships.Orleans.csproj" />
       <ProjectReference Include="..\CupKeeper.Domains.Championships.Services.Mongo\CupKeeper.Domains.Championships.Services.Mongo.csproj" />
+      <ProjectReference Include="..\CupKeeper.Domains.Championships.UsaCycling\CupKeeper.Domains.Championships.UsaCycling.csproj" />
       <ProjectReference Include="..\CupKeeper.Domains.Locations.Orleans\CupKeeper.Domains.Locations.Orleans.csproj" />
       <ProjectReference Include="..\CupKeeper.Domains.Locations.Services.Mongo\CupKeeper.Domains.Locations.Services.Mongo.csproj" />
       <ProjectReference Include="..\CupKeeper.PubSub.Azure\CupKeeper.PubSub.Azure.csproj" />

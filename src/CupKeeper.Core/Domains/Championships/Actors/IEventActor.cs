@@ -1,5 +1,6 @@
 using CupKeeper.Cqrs;
 using CupKeeper.Domains.Championships.Commands;
+using CupKeeper.Domains.Championships.Commands.EventResults;
 
 namespace CupKeeper.Domains.Championships.Actors;
 
@@ -43,6 +44,8 @@ public interface IEventActor : IGrainWithGuidKey
     #endregion
 
     #region Ingestion / Parsing
+
+    Task<CommandResult> UploadJsonResults(UploadJsonResultsCommand command);
 
     ValueTask<bool> StartResultsLoad();
 

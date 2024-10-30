@@ -1,6 +1,7 @@
 using System.Net.Http.Json;
 using CupKeeper.Cqrs;
 using CupKeeper.Domains.Championships.Commands;
+using CupKeeper.Domains.Championships.Commands.EventResults;
 using CupKeeper.Domains.Championships.ViewModel;
 
 namespace CupKeeper.AdminApp.Services;
@@ -84,6 +85,12 @@ public sealed class EventService : ApiServiceBase
     #endregion
 
     #region Results Processing
+
+    public async Task<CommandResult> UploadJsonResults(Guid eventId, string jsonResults)
+    {
+        return await ExecuteAsync($"api/events/{eventId}/results/uploadJson",
+            new UploadJsonResultsCommand(eventId) { Json = jsonResults });
+    }
 
     public async Task<bool> StartLoad(Guid eventId)
     {

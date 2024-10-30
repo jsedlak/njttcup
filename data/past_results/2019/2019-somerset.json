@@ -1,0 +1,1192 @@
+{
+  "_id": {
+    "$binary": {
+      "base64": "BcRuLfgegUeBatQX7c2D9Q==",
+      "subType": "03"
+    }
+  },
+  "Name": "2019 Somerset Circuit TT",
+  "Year": 2019,
+  "Source": null,
+  "Course": "somerset-circuit",
+  "SubCourse": "",
+  "DayOfEvent": {
+    "$date": "2019-05-18T04:00:00.000Z"
+  },
+  "UsacPermit": "2019-1119",
+  "Categories": [
+    {
+      "Name": "Men TT Cat 4/5",
+      "Results": [
+        {
+          "Place": 1,
+          "Points": 20,
+          "Name": "Daniel Iachetta",
+          "License": "493740",
+          "Team": "Team B3 Bicycles",
+          "Time": 1457
+        },
+        {
+          "Place": 2,
+          "Points": 19,
+          "Name": "David Bleakley",
+          "License": "495687",
+          "Team": "Cycles 54 / Thrive Spine & Sport Cycling Team",
+          "Time": 1467.4
+        },
+        {
+          "Place": 3,
+          "Points": 18,
+          "Name": "Jeff Lamb",
+          "License": "223048",
+          "Team": "Team ProPower/Cycle Solutions",
+          "Time": 1519.6
+        },
+        {
+          "Place": 4,
+          "Points": 0,
+          "Name": "Kc Kulp",
+          "License": "509269",
+          "Team": "Wooden Wheels Racing",
+          "Time": 1566.3
+        },
+        {
+          "Place": 5,
+          "Points": 0,
+          "Name": "Dan Dalfonzo",
+          "License": "575712",
+          "Team": "",
+          "Time": 1590.7
+        },
+        {
+          "Place": 6,
+          "Points": 15,
+          "Name": "Troy Doll",
+          "License": "447791",
+          "Team": "Team Hb Hilltop",
+          "Time": 1599.6
+        },
+        {
+          "Place": 7,
+          "Points": 14,
+          "Name": "Pete Joachim",
+          "License": "0",
+          "Team": "Paramount Multisport",
+          "Time": 1614.3
+        },
+        {
+          "Place": 8,
+          "Points": 13,
+          "Name": "Timothy Arnold",
+          "License": "0",
+          "Team": "Paramount Multisport",
+          "Time": 1641
+        },
+        {
+          "Place": 9,
+          "Points": 0,
+          "Name": "Marc Macnaughton",
+          "License": "0",
+          "Team": "TTK ELITE",
+          "Time": 1747.4
+        },
+        {
+          "Place": 10,
+          "Points": 11,
+          "Name": "David Desimone",
+          "License": "0",
+          "Team": "Paramount Multisport",
+          "Time": 1747.7
+        },
+        {
+          "Place": 11,
+          "Points": 0,
+          "Name": "Josh Licata",
+          "License": "0",
+          "Team": "",
+          "Time": 1760.3
+        },
+        {
+          "Place": 12,
+          "Points": 9,
+          "Name": "Kevin Elmore",
+          "License": "308097",
+          "Team": "Redlined Racing",
+          "Time": 1806.2
+        },
+        {
+          "Place": 13,
+          "Points": 0,
+          "Name": "Stephen Schenkel",
+          "License": "496380",
+          "Team": "",
+          "Time": 1901.3
+        }
+      ]
+    },
+    {
+      "Name": "Men Non-TT Open",
+      "Results": [
+        {
+          "Place": 1,
+          "Points": 0,
+          "Name": "Michael Boardman",
+          "License": "241308",
+          "Team": "CRCA / Rockstar Games",
+          "Time": 1425.4
+        },
+        {
+          "Place": 2,
+          "Points": 0,
+          "Name": "Tim Ward",
+          "License": "355802",
+          "Team": "Rivertowns Racing",
+          "Time": 1438.7
+        },
+        {
+          "Place": 3,
+          "Points": 0,
+          "Name": "Christopher Dudko",
+          "License": "424213",
+          "Team": "Rivertowns Racing",
+          "Time": 1453.6
+        },
+        {
+          "Place": 4,
+          "Points": 17,
+          "Name": "Michael Rosenhaus",
+          "License": "45870",
+          "Team": "Central Jersey Cycling Team",
+          "Time": 1455.2
+        },
+        {
+          "Place": 5,
+          "Points": 16,
+          "Name": "David Brown",
+          "License": "429053",
+          "Team": "Century Road Club of America",
+          "Time": 1461.4
+        },
+        {
+          "Place": 6,
+          "Points": 15,
+          "Name": "Alexander Pavlotskiy",
+          "License": "502122",
+          "Team": "Death Row Velo",
+          "Time": 1467.9
+        },
+        {
+          "Place": 7,
+          "Points": 0,
+          "Name": "Don Schatz",
+          "License": "433025",
+          "Team": "Colavita/Whole Foods",
+          "Time": 1468.4
+        },
+        {
+          "Place": 8,
+          "Points": 13,
+          "Name": "Leonard Vellucci",
+          "License": "492884",
+          "Team": "Team B3 Bicycles",
+          "Time": 1480.8
+        },
+        {
+          "Place": 9,
+          "Points": 0,
+          "Name": "Brian Barringer",
+          "License": "370713",
+          "Team": "",
+          "Time": 1481.7
+        },
+        {
+          "Place": 10,
+          "Points": 11,
+          "Name": "Daniel Iachetta",
+          "License": "493740",
+          "Team": "Team B3 Bicycles",
+          "Time": 1490.8
+        },
+        {
+          "Place": 11,
+          "Points": 10,
+          "Name": "Pj Bottoms",
+          "License": "396025",
+          "Team": "Skylands Cycling",
+          "Time": 1494.2
+        },
+        {
+          "Place": 12,
+          "Points": 9,
+          "Name": "Brandy Boyle",
+          "License": "374874",
+          "Team": "Team ProPower/Cycle Solutions",
+          "Time": 1590
+        },
+        {
+          "Place": 13,
+          "Points": 8,
+          "Name": "John Scully",
+          "License": "365557",
+          "Team": "Team ProPower/Cycle Solutions",
+          "Time": 1688.5
+        },
+        {
+          "Place": 14,
+          "Points": 0,
+          "Name": "Michael Smith",
+          "License": "0",
+          "Team": "",
+          "Time": 1727.8
+        },
+        {
+          "Place": 15,
+          "Points": 6,
+          "Name": "Arthur Noland",
+          "License": "525439",
+          "Team": "Colavita Racing",
+          "Time": 1730.9
+        }
+      ]
+    },
+    {
+      "Name": "Men Non-TT Cat 5",
+      "Results": [
+        {
+          "Place": 1,
+          "Points": 20,
+          "Name": "Rick Perez",
+          "License": "531982",
+          "Team": "Team B3 Bicycles",
+          "Time": 1393.8
+        },
+        {
+          "Place": 2,
+          "Points": 19,
+          "Name": "Mike Miller",
+          "License": "547395",
+          "Team": "FIF Cycling",
+          "Time": 1424.5
+        },
+        {
+          "Place": 3,
+          "Points": 18,
+          "Name": "Daryl Southwood",
+          "License": "551844",
+          "Team": "Team Stages",
+          "Time": 1510.1
+        },
+        {
+          "Place": 4,
+          "Points": 17,
+          "Name": "Edward Ickowski",
+          "License": "573067",
+          "Team": "Nin.jacycling",
+          "Time": 1528.6
+        },
+        {
+          "Place": 5,
+          "Points": 16,
+          "Name": "Eric Model",
+          "License": "308868",
+          "Team": "Team ProPower/Cycle Solutions",
+          "Time": 1539.6
+        },
+        {
+          "Place": 6,
+          "Points": 15,
+          "Name": "Nicholas Chaya",
+          "License": "464428",
+          "Team": "Team ProPower/Cycle Solutions",
+          "Time": 1571.9
+        },
+        {
+          "Place": 7,
+          "Points": 14,
+          "Name": "Joe Emde",
+          "License": "529734",
+          "Team": "Team B3 Bicycles",
+          "Time": 1590.3
+        },
+        {
+          "Place": 8,
+          "Points": 0,
+          "Name": "Dan Wang",
+          "License": "575160",
+          "Team": "",
+          "Time": 1605.8
+        },
+        {
+          "Place": 9,
+          "Points": 0,
+          "Name": "Matthew Budofsky",
+          "License": "567899",
+          "Team": "Kissena Cycling Club",
+          "Time": 1640
+        },
+        {
+          "Place": 10,
+          "Points": 0,
+          "Name": "Joel Kelly",
+          "License": "295",
+          "Team": "Trestle Bridge Racing",
+          "Time": 1663.7
+        },
+        {
+          "Place": 11,
+          "Points": 0,
+          "Name": "Joseph Famularo",
+          "License": "570794",
+          "Team": "",
+          "Time": 1754.9
+        },
+        {
+          "Place": 12,
+          "Points": 0,
+          "Name": "Rick Gelmetti",
+          "License": "575081",
+          "Team": "",
+          "Time": 1817
+        },
+        {
+          "Place": 13,
+          "Points": 0,
+          "Name": "Alfred Meyer",
+          "License": "0",
+          "Team": "",
+          "Time": 2052.5
+        }
+      ]
+    },
+    {
+      "Name": "Senior Men",
+      "Results": [
+        {
+          "Place": 1,
+          "Points": 20,
+          "Name": "Chris Yura",
+          "License": "482035",
+          "Team": "Honey Stinger Hive",
+          "Time": 1284.8
+        },
+        {
+          "Place": 2,
+          "Points": 19,
+          "Name": "William Gerboth",
+          "License": "433737",
+          "Team": "Skylands Cycling",
+          "Time": 1297.4
+        },
+        {
+          "Place": 3,
+          "Points": 0,
+          "Name": "Allen Carr",
+          "License": "354200",
+          "Team": "CRCA / E2Value p/b Verge Sport",
+          "Time": 1299.4
+        },
+        {
+          "Place": 4,
+          "Points": 0,
+          "Name": "Jeffrey Watts",
+          "License": "428864",
+          "Team": "Blue Bell Wealth Management p/b",
+          "Time": 1305.3
+        },
+        {
+          "Place": 5,
+          "Points": 16,
+          "Name": "Richard Lavigne",
+          "License": "459421",
+          "Team": "Crank Addicts p/b Hilltop",
+          "Time": 1321.6
+        },
+        {
+          "Place": 6,
+          "Points": 0,
+          "Name": "Evan Paull",
+          "License": "125808",
+          "Team": "",
+          "Time": 1362.1
+        },
+        {
+          "Place": 7,
+          "Points": 14,
+          "Name": "Toby Hanna",
+          "License": "248847",
+          "Team": "Knapps Cyclery Racing P/B Enduroworx",
+          "Time": 1364.3
+        },
+        {
+          "Place": 8,
+          "Points": 0,
+          "Name": "Robert Rakowitz",
+          "License": "231403",
+          "Team": "CRCA/RBNY Racing - Verge Sport",
+          "Time": 1388.6
+        },
+        {
+          "Place": 9,
+          "Points": 0,
+          "Name": "Joseph Laochaloenvanich",
+          "License": "339446",
+          "Team": "Voodoo Racing",
+          "Time": 1508.9
+        }
+      ]
+    },
+    {
+      "Name": "Junior Men 13-14",
+      "Results": [
+        {
+          "Place": 1,
+          "Points": 20,
+          "Name": "Joe Klosinski",
+          "License": "547052",
+          "Team": "The Performance Lab p/b Caffeinated Cyclist",
+          "Time": 1603.2
+        },
+        {
+          "Place": 2,
+          "Points": 19,
+          "Name": "Frank Villani",
+          "License": "494054",
+          "Team": "Team Somerset",
+          "Time": 1695.7
+        },
+        {
+          "Place": 3,
+          "Points": 18,
+          "Name": "Thomas Byrne",
+          "License": "504757",
+          "Team": "BYRNE Racing LLC",
+          "Time": 2144.3
+        },
+        {
+          "Place": 4,
+          "Points": 17,
+          "Name": "Luke Vanteyens",
+          "License": "543374",
+          "Team": "BYRNE Racing LLC",
+          "Time": 2183.3
+        }
+      ]
+    },
+    {
+      "Name": "Junior Men 15-16",
+      "Results": [
+        {
+          "Place": 1,
+          "Points": 20,
+          "Name": "Timmy Downs",
+          "License": "521422",
+          "Team": "Team Somerset",
+          "Time": 1477.2
+        },
+        {
+          "Place": 2,
+          "Points": 19,
+          "Name": "Harrison Redmond",
+          "License": "499568",
+          "Team": "Team Somerset",
+          "Time": 1928.9
+        },
+        {
+          "Place": 3,
+          "Points": 18,
+          "Name": "Benjamin Jerris",
+          "License": "496350",
+          "Team": "Team Somerset",
+          "Time": 1996.9
+        }
+      ]
+    },
+    {
+      "Name": "Junior Men 17-18",
+      "Results": [
+        {
+          "Place": 1,
+          "Points": 20,
+          "Name": "Andrew Melville",
+          "License": "548527",
+          "Team": "",
+          "Time": 1766.4
+        }
+      ]
+    },
+    {
+      "Name": "Masters Men 45+",
+      "Results": [
+        {
+          "Place": 1,
+          "Points": 20,
+          "Name": "Patrick Walter",
+          "License": "132630",
+          "Team": "Aistriu Cycling",
+          "Time": 1272.9
+        },
+        {
+          "Place": 2,
+          "Points": 19,
+          "Name": "Andreas Runggatscher",
+          "License": "189842",
+          "Team": "FinKraft Cycling Team",
+          "Time": 1300.8
+        },
+        {
+          "Place": 3,
+          "Points": 18,
+          "Name": "Fred Tanjutco",
+          "License": "361411",
+          "Team": "Team B3 Bicycles",
+          "Time": 1361
+        },
+        {
+          "Place": 4,
+          "Points": 0,
+          "Name": "Gregory Sherrick",
+          "License": "396264",
+          "Team": "Blue Bell Wealth Management p/b",
+          "Time": 1390.7
+        },
+        {
+          "Place": 5,
+          "Points": 0,
+          "Name": "Greg Kaplan",
+          "License": "343490",
+          "Team": "QCW Cycling P/B Cadence Cycling",
+          "Time": 1446.2
+        },
+        {
+          "Place": 6,
+          "Points": 15,
+          "Name": "Dan Antonelli",
+          "License": "237044",
+          "Team": "KickCharge Creative",
+          "Time": 1474.5
+        },
+        {
+          "Place": 7,
+          "Points": 14,
+          "Name": "Joe Lanza",
+          "License": "73550",
+          "Team": "Guy's Racing Club",
+          "Time": 1496.6
+        },
+        {
+          "Place": 8,
+          "Points": 0,
+          "Name": "Jim O'bosky",
+          "License": "553078",
+          "Team": "Lone Wolf Cycling",
+          "Time": 1698.3
+        },
+        {
+          "Place": 9,
+          "Points": 12,
+          "Name": "Christopher Byrne",
+          "License": "64565",
+          "Team": "BYRNE Racing LLC",
+          "Time": 2389.7
+        }
+      ]
+    },
+    {
+      "Name": "Masters Men 50+",
+      "Results": [
+        {
+          "Place": 1,
+          "Points": 20,
+          "Name": "Glenn Babikian",
+          "License": "242851",
+          "Team": "FinKraft Cycling Team",
+          "Time": 1349.3
+        },
+        {
+          "Place": 2,
+          "Points": 19,
+          "Name": "Terrence Chioffi",
+          "License": "298400",
+          "Team": "CRCA/42x21ATQ",
+          "Time": 1400.2
+        },
+        {
+          "Place": 3,
+          "Points": 0,
+          "Name": "Rich Carolan",
+          "License": "98343",
+          "Team": "Team Type 1 Foundation",
+          "Time": 1452.7
+        },
+        {
+          "Place": 4,
+          "Points": 17,
+          "Name": "Greg Danielewicz",
+          "License": "55557",
+          "Team": "Guy's Racing Club",
+          "Time": 1479.1
+        },
+        {
+          "Place": 5,
+          "Points": 16,
+          "Name": "Steve Sambrano",
+          "License": "141829",
+          "Team": "Guy's Racing Club",
+          "Time": 1488.9
+        },
+        {
+          "Place": 6,
+          "Points": 15,
+          "Name": "Mark Light",
+          "License": "112548",
+          "Team": "Team ProPower/Cycle Solutions",
+          "Time": 1497.7
+        },
+        {
+          "Place": 7,
+          "Points": 14,
+          "Name": "Nicholas Tsapatsaris",
+          "License": "395654",
+          "Team": "ORIGIN Performance",
+          "Time": 1528
+        },
+        {
+          "Place": 8,
+          "Points": 13,
+          "Name": "Dan Ciano",
+          "License": "55908",
+          "Team": "Colavita Racing",
+          "Time": 1582
+        },
+        {
+          "Place": 9,
+          "Points": 12,
+          "Name": "T.J. Ditullio",
+          "License": "279350",
+          "Team": "Action Wheels Bike Shop",
+          "Time": 1762
+        },
+        {
+          "Place": 10,
+          "Points": 0,
+          "Name": "Anthony Nash",
+          "License": "575212",
+          "Team": "",
+          "Time": 1857.7
+        }
+      ]
+    },
+    {
+      "Name": "Masters Men 55+",
+      "Results": [
+        {
+          "Place": 1,
+          "Points": 20,
+          "Name": "Rick Anderson",
+          "License": "1620",
+          "Team": "Team Somerset",
+          "Time": 1367.1
+        },
+        {
+          "Place": 2,
+          "Points": 0,
+          "Name": "Ralf Warmuth",
+          "License": "231788",
+          "Team": "Team SRG",
+          "Time": 1385.9
+        },
+        {
+          "Place": 3,
+          "Points": 0,
+          "Name": "Jeff Overstreet",
+          "License": "366677",
+          "Team": "ActiveYards / Chester County Ve",
+          "Time": 1397.6
+        },
+        {
+          "Place": 4,
+          "Points": 17,
+          "Name": "Dave Kavanaugh",
+          "License": "557622",
+          "Team": "Team ProPower/Cycle Solutions",
+          "Time": 1403.4
+        },
+        {
+          "Place": 5,
+          "Points": 16,
+          "Name": "Clay Allen",
+          "License": "110675",
+          "Team": "Pro Pedals Bike Shop",
+          "Time": 1431.2
+        },
+        {
+          "Place": 6,
+          "Points": 15,
+          "Name": "Doug Hover",
+          "License": "170709",
+          "Team": "Cycles 54 / Thrive Spine & Sport Cycling Team",
+          "Time": 1455.6
+        },
+        {
+          "Place": 7,
+          "Points": 14,
+          "Name": "Chuck Crocco",
+          "License": "196092",
+          "Team": "Team Somerset",
+          "Time": 1459
+        },
+        {
+          "Place": 8,
+          "Points": 13,
+          "Name": "Juantxo Royo",
+          "License": "328218",
+          "Team": "FinKraft Cycling Team",
+          "Time": 1485.8
+        },
+        {
+          "Place": 9,
+          "Points": 12,
+          "Name": "Chris Dawson",
+          "License": "308257",
+          "Team": "Redlined Racing",
+          "Time": 1490.9
+        },
+        {
+          "Place": 10,
+          "Points": 11,
+          "Name": "Walter C Kowalski",
+          "License": "60450",
+          "Team": "Jaeger Wheelmen",
+          "Time": 1593.6
+        },
+        {
+          "Place": 11,
+          "Points": 10,
+          "Name": "Thaddeus Newnam",
+          "License": "252871",
+          "Team": "PA Masters RC p/b Piscitello Law",
+          "Time": 1625.2
+        }
+      ]
+    },
+    {
+      "Name": "Masters Men 60+",
+      "Results": [
+        {
+          "Place": 1,
+          "Points": 20,
+          "Name": "Timothy Saxon",
+          "License": "241588",
+          "Team": "Team ProPower/Cycle Solutions",
+          "Time": 1428.7
+        },
+        {
+          "Place": 2,
+          "Points": 19,
+          "Name": "Andrew Buchanan",
+          "License": "248803",
+          "Team": "Team ProPower/Cycle Solutions",
+          "Time": 1443.6
+        },
+        {
+          "Place": 3,
+          "Points": 18,
+          "Name": "Dana Fallon",
+          "License": "50966",
+          "Team": "Team ProPower/Cycle Solutions",
+          "Time": 1461.5
+        },
+        {
+          "Place": 4,
+          "Points": 17,
+          "Name": "John Dalzell",
+          "License": "188836",
+          "Team": "PA Masters RC p/b Piscitello Law",
+          "Time": 1467.1
+        },
+        {
+          "Place": 5,
+          "Points": 16,
+          "Name": "Lawrence Towner",
+          "License": "35822",
+          "Team": "Team ProPower/Cycle Solutions",
+          "Time": 1517.6
+        },
+        {
+          "Place": 6,
+          "Points": 15,
+          "Name": "Richard Wolf",
+          "License": "201669",
+          "Team": "CRCA/Foundation",
+          "Time": 1521.5
+        },
+        {
+          "Place": 7,
+          "Points": 14,
+          "Name": "Dan Marion",
+          "License": "423797",
+          "Team": "Watts Up Cycling",
+          "Time": 1562.9
+        },
+        {
+          "Place": 8,
+          "Points": 13,
+          "Name": "Albert Sayers",
+          "License": "514179",
+          "Team": "Team ProPower/Cycle Solutions",
+          "Time": 1596
+        },
+        {
+          "Place": 9,
+          "Points": 12,
+          "Name": "Doug Landon",
+          "License": "20275",
+          "Team": "KickCharge Creative",
+          "Time": 1600.5
+        },
+        {
+          "Place": 10,
+          "Points": 0,
+          "Name": "Grant Parker",
+          "License": "554868",
+          "Team": "",
+          "Time": 1656.5
+        },
+        {
+          "Place": 11,
+          "Points": 10,
+          "Name": "Steve Barnes",
+          "License": "173333",
+          "Team": "Guy's Racing Club",
+          "Time": 2106.1
+        },
+        {
+          "Place": 12,
+          "Points": 9,
+          "Name": "Christopher Byrne",
+          "License": "64565",
+          "Team": "BYRNE Racing LLC",
+          "Time": 2495.7
+        }
+      ]
+    },
+    {
+      "Name": "Masters Men 65+",
+      "Results": [
+        {
+          "Place": 1,
+          "Points": 20,
+          "Name": "Paul Zucker",
+          "License": "550196",
+          "Team": "Death Row Velo",
+          "Time": 1448.7
+        },
+        {
+          "Place": 2,
+          "Points": 19,
+          "Name": "Steven Petouvis",
+          "License": "59096",
+          "Team": "Liberty Cycle",
+          "Time": 1472.3
+        },
+        {
+          "Place": 3,
+          "Points": 18,
+          "Name": "Michael Maclaga",
+          "License": "181340",
+          "Team": "Colavita Racing",
+          "Time": 1503.5
+        },
+        {
+          "Place": 4,
+          "Points": 17,
+          "Name": "Don Clapp",
+          "License": "110108",
+          "Team": "Team ProPower/Cycle Solutions",
+          "Time": 1535.3
+        },
+        {
+          "Place": 5,
+          "Points": 0,
+          "Name": "Mark Mccarthy",
+          "License": "211211",
+          "Team": "PITTSFORD PAINTING/TREK/TOWPATH",
+          "Time": 1552.5
+        },
+        {
+          "Place": 6,
+          "Points": 0,
+          "Name": "Jim Hartnett",
+          "License": "46664",
+          "Team": "South Mountain Velo Club",
+          "Time": 1585.7
+        },
+        {
+          "Place": 7,
+          "Points": 14,
+          "Name": "Jim Kaeli",
+          "License": "18404",
+          "Team": "Colavita - Whole Foods Market R",
+          "Time": 1593.8
+        },
+        {
+          "Place": 8,
+          "Points": 0,
+          "Name": "Lew Fischman",
+          "License": "406537",
+          "Team": "",
+          "Time": 1864.6
+        },
+        {
+          "Place": 9,
+          "Points": 0,
+          "Name": "Gerry Grayce",
+          "License": "306584",
+          "Team": "",
+          "Time": 1950.8
+        },
+        {
+          "Place": 10,
+          "Points": 11,
+          "Name": "Jeremy Melville",
+          "License": "484449",
+          "Team": "GS Park Ridge",
+          "Time": 2137.9
+        }
+      ]
+    },
+    {
+      "Name": "Junior Men 9-12",
+      "Results": [
+        {
+          "Place": 1,
+          "Points": 20,
+          "Name": "Lukas Donnelly",
+          "License": "546567",
+          "Team": "BYRNE Racing LLC",
+          "Time": 1897.5
+        },
+        {
+          "Place": 2,
+          "Points": 19,
+          "Name": "Seiji Yoshihira",
+          "License": "576355",
+          "Team": "Team B3 Bicycles",
+          "Time": 2129.1
+        }
+      ]
+    },
+    {
+      "Name": "Women TT Cat 4/5",
+      "Results": [
+        {
+          "Place": 1,
+          "Points": 0,
+          "Name": "Monika Lukens",
+          "License": "429495",
+          "Team": "Team ETA",
+          "Time": 1604.5
+        },
+        {
+          "Place": 2,
+          "Points": 19,
+          "Name": "Julia Franco",
+          "License": "459436",
+          "Team": "Liberty Cycle",
+          "Time": 1614.2
+        },
+        {
+          "Place": 3,
+          "Points": 0,
+          "Name": "Shanna Lesico",
+          "License": "482097",
+          "Team": "Active Yards / Chester County V",
+          "Time": 1735.2
+        },
+        {
+          "Place": 4,
+          "Points": 17,
+          "Name": "Diane Elmore",
+          "License": "395708",
+          "Team": "Team EPS/M3 p/b Brielle Cyclery",
+          "Time": 1754.5
+        }
+      ]
+    },
+    {
+      "Name": "Women Non-TT Open",
+      "Results": [
+        {
+          "Place": 1,
+          "Points": 20,
+          "Name": "Patricia Sonn",
+          "License": "551563",
+          "Team": "Watts Up Cycling",
+          "Time": 1633.1
+        },
+        {
+          "Place": 2,
+          "Points": 19,
+          "Name": "Denise Matheny",
+          "License": "468138",
+          "Team": "Team EPS/M3 p/b Brielle Cyclery",
+          "Time": 1669
+        },
+        {
+          "Place": 3,
+          "Points": 18,
+          "Name": "Maryanne Caruso",
+          "License": "337810",
+          "Team": "Montclair Bikery Racing",
+          "Time": 1732
+        },
+        {
+          "Place": 4,
+          "Points": 17,
+          "Name": "Candace Kennedy-Hess",
+          "License": "277608",
+          "Team": "Sturdy  Girl / Vanderkitten",
+          "Time": 1735.4
+        },
+        {
+          "Place": 5,
+          "Points": 16,
+          "Name": "Jody Twer",
+          "License": "209826",
+          "Team": "Sturdy Girl Cycling",
+          "Time": 1831.3
+        },
+        {
+          "Place": 6,
+          "Points": 15,
+          "Name": "Marianna Cutler",
+          "License": "259400",
+          "Team": "Sturdy Girl Cycling",
+          "Time": 2177.4
+        },
+        {
+          "Place": 7,
+          "Points": 14,
+          "Name": "Karen Clark",
+          "License": "470339",
+          "Team": "Watts Up Cycling",
+          "Time": 2212.5
+        }
+      ]
+    },
+    {
+      "Name": "Women Non-TT Cat 5",
+      "Results": [
+        {
+          "Place": 1,
+          "Points": 20,
+          "Name": "Nancy Toolan",
+          "License": "554037",
+          "Team": "Team ProPower/Cycle Solutions",
+          "Time": 1729.1
+        },
+        {
+          "Place": 2,
+          "Points": 19,
+          "Name": "Kristine Tanjutco",
+          "License": "546540",
+          "Team": "Team B3 Bicycles",
+          "Time": 1777.8
+        },
+        {
+          "Place": 3,
+          "Points": 0,
+          "Name": "Olga Grishina",
+          "License": "516293",
+          "Team": "Westwood velo",
+          "Time": 1789.3
+        },
+        {
+          "Place": 4,
+          "Points": 17,
+          "Name": "Rebecca Feldman",
+          "License": "501105",
+          "Team": "Team Marty's",
+          "Time": 1824.3
+        },
+        {
+          "Place": 5,
+          "Points": 16,
+          "Name": "Lynn Mueller",
+          "License": "530451",
+          "Team": "Cycle Craft/Bulldogs",
+          "Time": 1983.2
+        }
+      ]
+    },
+    {
+      "Name": "Senior Women",
+      "Results": [
+        {
+          "Place": 1,
+          "Points": 0,
+          "Name": "Shannon Kaplan",
+          "License": "371335",
+          "Team": "JL Velo Ambassadors",
+          "Time": 1483.4
+        },
+        {
+          "Place": 2,
+          "Points": 0,
+          "Name": "Ann Marie Miller",
+          "License": "127444",
+          "Team": "CRCA/NY Vision Group-Fuoriclass",
+          "Time": 1541.7
+        },
+        {
+          "Place": 3,
+          "Points": 18,
+          "Name": "Taylor Armstrong",
+          "License": "476348",
+          "Team": "Team EPS/M3 p/b Brielle Cyclery",
+          "Time": 1553
+        },
+        {
+          "Place": 4,
+          "Points": 17,
+          "Name": "Kate Tormey",
+          "License": "499862",
+          "Team": "FinKraft Cycling Team",
+          "Time": 1556
+        },
+        {
+          "Place": 5,
+          "Points": 16,
+          "Name": "Pamela Wahl",
+          "License": "223018",
+          "Team": "Aistriu Cycling",
+          "Time": 1572.6
+        },
+        {
+          "Place": 6,
+          "Points": 15,
+          "Name": "Nicole Ragonese",
+          "License": "382163",
+          "Team": "Watts Up Cycling",
+          "Time": 1580.8
+        },
+        {
+          "Place": 7,
+          "Points": 0,
+          "Name": "Alisha Shutler",
+          "License": "386880",
+          "Team": "Tulsa Wheelmen",
+          "Time": 1661.3
+        },
+        {
+          "Place": 8,
+          "Points": 13,
+          "Name": "Elizabeth Tyrell",
+          "License": "49047",
+          "Team": "sturdy girls",
+          "Time": 1795.6
+        }
+      ]
+    }
+  ]
+}

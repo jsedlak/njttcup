@@ -1,6 +1,7 @@
 using CupKeeper.Cqrs;
 using CupKeeper.Domains.Championships.Actors;
 using CupKeeper.Domains.Championships.Commands;
+using CupKeeper.Domains.Championships.Commands.EventResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CupKeeper.AdminApi.Controllers;
@@ -149,6 +150,15 @@ public class EventsController : Controller
     #endregion
     
     #region Ingestion
+
+    [HttpPost("{eventId}/results/uploadJson")]
+    public async Task<CommandResult> UploadJsonResults([FromRoute] Guid eventId,
+        [FromBody] UploadJsonResultsCommand command)
+    {
+        var actor = _clusterClient.GetGrain<IEventActor>(eventId);
+        return await actor.UploadJsonResults(command);
+    }
+    
     [HttpPost("{eventId}/results/load")]
     public async Task<bool> StartLoadAsync([FromRoute]Guid eventId)
     {

@@ -43,6 +43,7 @@ await Host.CreateDefaultBuilder(args)
                 services.AddScoped<IVenueViewRepository, MongoVenueViewRepository>();
                 services.AddScoped<ILeaderboardViewRepository, MongoLeaderboardViewRepository>();
                 services.AddScoped<IResultsLoader, UsaCyclingWebResultsLoader>();
+                services.AddScoped<ILegacyResultsLoader, LegacyResultsLoader>();
                 services.AddScoped<IPubClient, AzurePubClient>();
                 
                 // Adds support for the EventSourcedGrain, using mongodb

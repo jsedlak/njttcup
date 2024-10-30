@@ -17,7 +17,6 @@
     <ItemGroup>
       <ProjectReference Include="..\..\petl\src\Petl.EventSourcing.Orleans\Petl.EventSourcing.Orleans.csproj" />
       <ProjectReference Include="..\CupKeeper.Core\CupKeeper.Core.csproj" />
-      <ProjectReference Include="..\CupKeeper.Domains.Championships.UsaCycling\CupKeeper.Domains.Championships.UsaCycling.csproj" />
     </ItemGroup>
 
 </Project>
